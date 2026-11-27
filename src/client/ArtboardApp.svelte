@@ -694,8 +694,7 @@
             sidebarTab = 'comments';
           }}
         >
-          Comments{#if openCommentCount > 0}
-            ({openCommentCount}){/if}
+          {openCommentCount > 0 ? `Comments (${openCommentCount})` : 'Comments'}
         </button>
       </div>
 

@@ -1,8 +1,10 @@
 # sveltekit-artboard
 
-A dev-only Figma-like **Artboard UI Review Studio** Vite plugin for **Svelte 5** and **SvelteKit**.
+An infinite-canvas **Artboard UI Review Studio** Vite plugin for **Svelte 5** and **SvelteKit**.
 
 Author your entire artboard catalog in a single `artboard/Artboard.svelte` file using Svelte 5 `{#snippet}`s and reusable `ArtboardViewport` objects. View Atomic Design components, dialogs, and full page templates side-by-side on an infinite pan/zoom canvas at `/__artboard` during `vite dev` — with **0 bytes** of plugin code, CSS, or routes shipped in `vite build`.
+
+https://github.com/user-attachments/assets/136df6d5-b5d1-467c-b961-3956a80b44a5
 
 ## Features
 

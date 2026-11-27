@@ -3048,7 +3048,7 @@ var root_1 = $.from_html(`<span></span>`);
 var root_2 = $.from_html(`<span class="ab-row-pin-badge svelte-eeo971"> </span>`);
 var root_3 = $.from_html(`<button type="button"><div class="ab-board-row-left svelte-eeo971"><!> <div class="ab-board-row-meta svelte-eeo971"><p class="ab-board-row-title svelte-eeo971"> </p> <p class="ab-board-row-dim svelte-eeo971"> </p></div></div> <!></button>`);
 var root_4 = $.from_html(`<div class="ab-sidebar-filters svelte-eeo971"><div class="ab-search-wrap svelte-eeo971"><span class="ab-search-icon svelte-eeo971"><!></span> <input type="search" placeholder="Jump to artboard..." class="ab-search-input svelte-eeo971"/></div> <div class="ab-cat-row svelte-eeo971"></div></div> <div class="ab-board-list svelte-eeo971"></div>`, 1);
-var root_5 = $.from_html(`<aside class="ab-sidebar svelte-eeo971"><div class="ab-sidebar-head svelte-eeo971"><div class="ab-brand svelte-eeo971"><div class="ab-brand-icon svelte-eeo971"><!></div> <div><h1 class="ab-brand-title svelte-eeo971">Artboard Studio</h1> <p class="ab-brand-badge svelte-eeo971">DEV-ONLY PLUGIN</p></div></div> <button type="button" title="Collapse sidebar" class="ab-icon-btn svelte-eeo971"><!></button></div> <div class="ab-side-tabs svelte-eeo971"><button type="button"> </button> <button type="button">Comments<!></button></div> <!> <div class="ab-sidebar-foot svelte-eeo971"><a class="ab-back-link svelte-eeo971"><!> Back to Live App</a></div></aside>`);
+var root_5 = $.from_html(`<aside class="ab-sidebar svelte-eeo971"><div class="ab-sidebar-head svelte-eeo971"><div class="ab-brand svelte-eeo971"><div class="ab-brand-icon svelte-eeo971"><!></div> <div><h1 class="ab-brand-title svelte-eeo971">Artboard Studio</h1> <p class="ab-brand-badge svelte-eeo971">DEV-ONLY PLUGIN</p></div></div> <button type="button" title="Collapse sidebar" class="ab-icon-btn svelte-eeo971"><!></button></div> <div class="ab-side-tabs svelte-eeo971"><button type="button"> </button> <button type="button"> </button></div> <!> <div class="ab-sidebar-foot svelte-eeo971"><a class="ab-back-link svelte-eeo971"><!> Back to Live App</a></div></aside>`);
 var root_6 = $.from_html(`<button type="button" title="Open sidebar" class="ab-pill-group ab-icon-pad svelte-eeo971"><!></button>`);
 var root_7 = $.from_html(`<span class="ab-spin svelte-eeo971"><!></span> <span>Agent running…</span>`, 1);
 var root_8 = $.from_html(`<!> <span>Agent paused</span>`, 1);
@@ -3502,7 +3502,7 @@ function ArtboardApp($$anchor, $$props) {
 	}
 	var div = root_15();
 	var node = $.child(div);
-	var consequent_4 = ($$anchor) => {
+	var consequent_3 = ($$anchor) => {
 		var aside = root_5();
 		var div_1 = $.child(aside);
 		var div_2 = $.child(div_1);
@@ -3521,21 +3521,12 @@ function ArtboardApp($$anchor, $$props) {
 		var text_1 = $.only_child(button_1);
 		var button_2 = $.sibling(button_1, 2);
 		let classes_1;
-		var node_3 = $.sibling($.child(button_2));
-		var consequent = ($$anchor) => {
-			var text_2 = $.text();
-			$.template_effect(() => $.set_text(text_2, `(${$.get(openCommentCount) ?? ""})`));
-			$.append($$anchor, text_2);
-		};
-		$.if(node_3, ($$render) => {
-			if ($.get(openCommentCount) > 0) $$render(consequent);
-		});
-		$.reset(button_2);
+		var text_2 = $.only_child(button_2, true);
 		$.reset(div_4);
-		var node_4 = $.sibling(div_4, 2);
-		var consequent_3 = ($$anchor) => {
-			var fragment_1 = root_4();
-			var div_5 = $.first_child(fragment_1);
+		var node_3 = $.sibling(div_4, 2);
+		var consequent_2 = ($$anchor) => {
+			var fragment = root_4();
+			var div_5 = $.first_child(fragment);
 			var div_6 = $.child(div_5);
 			var span = $.child(div_6);
 			Search($.child(span), { size: 14 });
@@ -3568,32 +3559,32 @@ function ArtboardApp($$anchor, $$props) {
 				var button_4 = root_3();
 				let classes_3;
 				var div_9 = $.child(button_4);
-				var node_6 = $.child(div_9);
-				var consequent_1 = ($$anchor) => {
+				var node_5 = $.child(div_9);
+				var consequent = ($$anchor) => {
 					var span_1 = root_1();
 					let classes_4;
 					$.template_effect(() => classes_4 = $.set_class(span_1, 1, "ab-row-dot svelte-eeo971", null, classes_4, { "ab-row-dot-live": $.get(isLive) }));
 					$.append($$anchor, span_1);
 				};
-				$.if(node_6, ($$render) => {
-					if ($.get(showDebug)) $$render(consequent_1);
+				$.if(node_5, ($$render) => {
+					if ($.get(showDebug)) $$render(consequent);
 				});
-				var div_10 = $.sibling(node_6, 2);
+				var div_10 = $.sibling(node_5, 2);
 				var p = $.child(div_10);
 				var text_4 = $.only_child(p, true);
 				var p_1 = $.sibling(p, 2);
 				var text_5 = $.only_child(p_1, true);
 				$.reset(div_10);
 				$.reset(div_9);
-				var node_7 = $.sibling(div_9, 2);
-				var consequent_2 = ($$anchor) => {
+				var node_6 = $.sibling(div_9, 2);
+				var consequent_1 = ($$anchor) => {
 					var span_2 = root_2();
 					var text_6 = $.only_child(span_2, true);
 					$.template_effect(() => $.set_text(text_6, $.get(pinCount)));
 					$.append($$anchor, span_2);
 				};
-				$.if(node_7, ($$render) => {
-					if ($.get(pinCount) > 0) $$render(consequent_2);
+				$.if(node_6, ($$render) => {
+					if ($.get(pinCount) > 0) $$render(consequent_1);
 				});
 				$.reset(button_4);
 				$.template_effect(() => {
@@ -3608,7 +3599,7 @@ function ArtboardApp($$anchor, $$props) {
 			});
 			$.reset(div_8);
 			$.bind_value(input_1, () => $.get(searchQuery), ($$value) => $.set(searchQuery, $$value));
-			$.append($$anchor, fragment_1);
+			$.append($$anchor, fragment);
 		};
 		var alternate = ($$anchor) => {
 			CommentsPanel($$anchor, {
@@ -3630,11 +3621,11 @@ function ArtboardApp($$anchor, $$props) {
 				}
 			});
 		};
-		$.if(node_4, ($$render) => {
-			if ($.get(sidebarTab) === "boards") $$render(consequent_3);
+		$.if(node_3, ($$render) => {
+			if ($.get(sidebarTab) === "boards") $$render(consequent_2);
 			else $$render(alternate, -1);
 		});
-		var div_11 = $.sibling(node_4, 2);
+		var div_11 = $.sibling(node_3, 2);
 		var a = $.child(div_11);
 		Arrow_left($.child(a), { size: 14 });
 		$.next();
@@ -3645,6 +3636,7 @@ function ArtboardApp($$anchor, $$props) {
 			classes = $.set_class(button_1, 1, "ab-side-tab svelte-eeo971", null, classes, { "ab-side-tab-active": $.get(sidebarTab) === "boards" });
 			$.set_text(text_1, `Boards (${$.get(layout).boards.length ?? ""})`);
 			classes_1 = $.set_class(button_2, 1, "ab-side-tab svelte-eeo971", null, classes_1, { "ab-side-tab-active": $.get(sidebarTab) === "comments" });
+			$.set_text(text_2, $.get(openCommentCount) > 0 ? `Comments (${$.get(openCommentCount)})` : "Comments");
 			$.set_attribute(a, "href", appUrl());
 		});
 		$.delegated("click", button, () => {
@@ -3659,13 +3651,13 @@ function ArtboardApp($$anchor, $$props) {
 		$.append($$anchor, aside);
 	};
 	$.if(node, ($$render) => {
-		if ($.get(sidebarOpen)) $$render(consequent_4);
+		if ($.get(sidebarOpen)) $$render(consequent_3);
 	});
 	var div_12 = $.sibling(node, 2);
 	var div_13 = $.child(div_12);
 	var div_14 = $.child(div_13);
-	var node_9 = $.child(div_14);
-	var consequent_5 = ($$anchor) => {
+	var node_8 = $.child(div_14);
+	var consequent_4 = ($$anchor) => {
 		var button_5 = root_6();
 		Panel_left_open($.child(button_5), { size: 16 });
 		$.reset(button_5);
@@ -3674,10 +3666,10 @@ function ArtboardApp($$anchor, $$props) {
 		});
 		$.append($$anchor, button_5);
 	};
-	$.if(node_9, ($$render) => {
-		if (!$.get(sidebarOpen)) $$render(consequent_5);
+	$.if(node_8, ($$render) => {
+		if (!$.get(sidebarOpen)) $$render(consequent_4);
 	});
-	var div_15 = $.sibling(node_9, 2);
+	var div_15 = $.sibling(node_8, 2);
 	var button_6 = $.child(div_15);
 	let classes_5;
 	Mouse_pointer_2($.child(button_6), { size: 14 });
@@ -3694,27 +3686,27 @@ function ArtboardApp($$anchor, $$props) {
 	$.next();
 	$.reset(button_8);
 	$.reset(div_15);
-	var node_14 = $.sibling(div_15, 2);
-	var consequent_7 = ($$anchor) => {
+	var node_13 = $.sibling(div_15, 2);
+	var consequent_6 = ($$anchor) => {
 		var button_9 = root_9();
 		let classes_8;
-		var node_15 = $.child(button_9);
-		var consequent_6 = ($$anchor) => {
-			var fragment_3 = root_7();
-			var span_3 = $.first_child(fragment_3);
+		var node_14 = $.child(button_9);
+		var consequent_5 = ($$anchor) => {
+			var fragment_2 = root_7();
+			var span_3 = $.first_child(fragment_2);
 			Loader_circle($.child(span_3), { size: 13 });
 			$.reset(span_3);
 			$.next(2);
-			$.append($$anchor, fragment_3);
+			$.append($$anchor, fragment_2);
 		};
 		var alternate_1 = ($$anchor) => {
-			var fragment_4 = root_8();
-			Bot($.first_child(fragment_4), { size: 13 });
+			var fragment_3 = root_8();
+			Bot($.first_child(fragment_3), { size: 13 });
 			$.next(2);
-			$.append($$anchor, fragment_4);
+			$.append($$anchor, fragment_3);
 		};
-		$.if(node_15, ($$render) => {
-			if ($.get(agentWorking)) $$render(consequent_6);
+		$.if(node_14, ($$render) => {
+			if ($.get(agentWorking)) $$render(consequent_5);
 			else $$render(alternate_1, -1);
 		});
 		$.reset(button_9);
@@ -3725,18 +3717,18 @@ function ArtboardApp($$anchor, $$props) {
 		});
 		$.append($$anchor, button_9);
 	};
-	$.if(node_14, ($$render) => {
-		if ($.get(agentWorking) || $.get(agentPaused)) $$render(consequent_7);
+	$.if(node_13, ($$render) => {
+		if ($.get(agentWorking) || $.get(agentPaused)) $$render(consequent_6);
 	});
 	$.reset(div_14);
 	var div_16 = $.sibling(div_14, 2);
-	var node_18 = $.child(div_16);
-	var consequent_8 = ($$anchor) => {
-		var fragment_5 = root_10();
-		var node_19 = $.first_child(fragment_5);
+	var node_17 = $.child(div_16);
+	var consequent_7 = ($$anchor) => {
+		var fragment_4 = root_10();
+		var node_18 = $.first_child(fragment_4);
 		{
 			let $0 = $.derived(() => $.get(activeGlobalThemeId) ?? "");
-			ThemeSelect(node_19, {
+			ThemeSelect(node_18, {
 				get themes() {
 					return themes();
 				},
@@ -3752,23 +3744,23 @@ function ArtboardApp($$anchor, $$props) {
 			});
 		}
 		$.next(2);
-		$.append($$anchor, fragment_5);
+		$.append($$anchor, fragment_4);
 	};
-	$.if(node_18, ($$render) => {
-		if (themes().length > 0) $$render(consequent_8);
+	$.if(node_17, ($$render) => {
+		if (themes().length > 0) $$render(consequent_7);
 	});
-	var button_10 = $.sibling(node_18, 2);
+	var button_10 = $.sibling(node_17, 2);
 	let classes_9;
 	Grid_3x3($.child(button_10), { size: 14 });
 	$.next(2);
 	$.reset(button_10);
-	var node_21 = $.sibling(button_10, 2);
-	var consequent_9 = ($$anchor) => {
+	var node_20 = $.sibling(button_10, 2);
+	var consequent_8 = ($$anchor) => {
 		var button_11 = root_11();
 		let classes_10;
-		var node_22 = $.child(button_11);
-		Flame(node_22, { size: 14 });
-		var span_4 = $.sibling(node_22, 2);
+		var node_21 = $.child(button_11);
+		Flame(node_21, { size: 14 });
+		var span_4 = $.sibling(node_21, 2);
 		var text_7 = $.only_child(span_4, true);
 		$.reset(button_11);
 		$.template_effect(() => {
@@ -3781,16 +3773,16 @@ function ArtboardApp($$anchor, $$props) {
 		});
 		$.append($$anchor, button_11);
 	};
-	$.if(node_21, ($$render) => {
-		if ($.get(showDebug)) $$render(consequent_9);
+	$.if(node_20, ($$render) => {
+		if ($.get(showDebug)) $$render(consequent_8);
 	});
-	var button_12 = $.sibling(node_21, 2);
+	var button_12 = $.sibling(node_20, 2);
 	let classes_11;
 	Bug($.child(button_12), { size: 14 });
 	$.reset(button_12);
 	var button_13 = $.sibling(button_12, 2);
-	var node_24 = $.child(button_13);
-	var consequent_10 = ($$anchor) => {
+	var node_23 = $.child(button_13);
+	var consequent_9 = ($$anchor) => {
 		Moon($$anchor, {
 			size: 14,
 			color: "#818cf8"
@@ -3802,8 +3794,8 @@ function ArtboardApp($$anchor, $$props) {
 			color: "#d97706"
 		});
 	};
-	$.if(node_24, ($$render) => {
-		if ($.get(resolvedStudioTheme) === "dark") $$render(consequent_10);
+	$.if(node_23, ($$render) => {
+		if ($.get(resolvedStudioTheme) === "dark") $$render(consequent_9);
 		else $$render(alternate_2, -1);
 	});
 	$.reset(button_13);
@@ -3823,20 +3815,20 @@ function ArtboardApp($$anchor, $$props) {
 	var div_17 = $.sibling(div_13, 2);
 	let classes_12;
 	var div_18 = $.child(div_17);
-	var node_28 = $.child(div_18);
-	$.each(node_28, 17, () => $.get(layout).sections, (section) => section.id, ($$anchor, section) => {
+	var node_27 = $.child(div_18);
+	$.each(node_27, 17, () => $.get(layout).sections, (section) => section.id, ($$anchor, section) => {
 		var div_19 = root_13();
 		var h2 = $.child(div_19);
 		var text_9 = $.only_child(h2, true);
-		var node_29 = $.sibling(h2, 2);
-		var consequent_11 = ($$anchor) => {
+		var node_28 = $.sibling(h2, 2);
+		var consequent_10 = ($$anchor) => {
 			var p_2 = root_12();
 			var text_10 = $.only_child(p_2, true);
 			$.template_effect(() => $.set_text(text_10, $.get(section).subtitle));
 			$.append($$anchor, p_2);
 		};
-		$.if(node_29, ($$render) => {
-			if ($.get(section).subtitle) $$render(consequent_11);
+		$.if(node_28, ($$render) => {
+			if ($.get(section).subtitle) $$render(consequent_10);
 		});
 		$.reset(div_19);
 		$.template_effect(() => {
@@ -3845,8 +3837,8 @@ function ArtboardApp($$anchor, $$props) {
 		});
 		$.append($$anchor, div_19);
 	});
-	var node_30 = $.sibling(node_28, 2);
-	$.each(node_30, 17, () => $.get(layout).boards, (board) => board.id, ($$anchor, board) => {
+	var node_29 = $.sibling(node_27, 2);
+	$.each(node_29, 17, () => $.get(layout).boards, (board) => board.id, ($$anchor, board) => {
 		{
 			let $0 = $.derived(() => $.get(comments).filter((c) => {
 				return c.artboard.boardId === $.get(board).id;
@@ -3905,8 +3897,8 @@ function ArtboardApp($$anchor, $$props) {
 	$.reset(div_18);
 	$.reset(div_17);
 	$.bind_this(div_17, ($$value) => $.set(viewportEl, $$value), () => $.get(viewportEl));
-	var node_31 = $.sibling(div_17, 2);
-	var consequent_12 = ($$anchor) => {
+	var node_30 = $.sibling(div_17, 2);
+	var consequent_11 = ($$anchor) => {
 		var div_20 = root_14();
 		var div_21 = $.child(div_20);
 		var div_22 = $.sibling($.child(div_21), 2);
@@ -3930,8 +3922,8 @@ function ArtboardApp($$anchor, $$props) {
 		});
 		$.append($$anchor, div_20);
 	};
-	$.if(node_31, ($$render) => {
-		if ($.get(showDebug)) $$render(consequent_12);
+	$.if(node_30, ($$render) => {
+		if ($.get(showDebug)) $$render(consequent_11);
 	});
 	$.reset(div_12);
 	AgentSettingsModal($.sibling(div_12, 2), {
