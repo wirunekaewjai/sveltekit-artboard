@@ -1,7 +1,8 @@
 <script lang="ts">
-  import { Bot, Check, ChevronDown, Loader2, X } from '@lucide/svelte';
+  import { Bot, Loader2, X } from '@lucide/svelte';
 
   import type { ModelOption } from '#src/client/api-client.ts';
+  import type { DropdownOption } from '#src/client/ui/SelectDropdown.svelte';
   import type {
     AgentInfo,
     AgentSettingsPatch,
@@ -9,6 +10,7 @@
     Provider,
   } from '#src/core/agent-state.ts';
 
+  import SelectDropdown from '#src/client/ui/SelectDropdown.svelte';
   import { EFFORT_LEVELS, hasEffortSuffix } from '#src/core/agent-state.ts';
 
   type Props = {
@@ -43,6 +45,29 @@
     });
     return found ?? { id, label: id };
   });
+
+  const modelDropdownOptions = $derived.by((): DropdownOption[] => {
+    const list: DropdownOption[] = [
+      { value: null, label: 'CLI default', subtitle: 'Use provider default' },
+    ];
+    for (const m of models ?? []) {
+      list.push({ value: m.id, label: m.label, subtitle: m.id });
+    }
+    list.push({
+      value: '__custom__',
+      label: 'Custom…',
+      subtitle: 'Enter any model ID manually',
+      separatorBefore: true,
+    });
+    return list;
+  });
+
+  const effortDropdownOptions: DropdownOption[] = [
+    { value: null, label: 'CLI default' },
+    ...EFFORT_LEVELS.map((lvl) => {
+      return { value: lvl, label: lvl };
+    }),
+  ];
 
   $effect(() => {
     if (!open || !settings) {
@@ -203,7 +228,6 @@
           </div>
         </div>
 
-        <!-- Blocking loader while fetching models so Model & Effort never flash/swap -->
         {#if loadingModels}
           <div class="ab-loading-block" aria-live="polite">
             <span class="ab-spin"><Loader2 size={15} color="#818cf8" /></span>
@@ -213,98 +237,21 @@
           <div class="ab-field">
             <span class="ab-field-label">Model</span>
             {#if models && !customModelMode}
-              <div class="ab-dd-wrap">
-                <button
-                  type="button"
-                  aria-label="Select model"
-                  aria-haspopup="listbox"
-                  aria-expanded={modelMenuOpen}
-                  disabled={saving}
-                  class="ab-dd-trigger"
-                  onclick={(e) => {
-                    e.stopPropagation();
-                    effortMenuOpen = false;
-                    modelMenuOpen = !modelMenuOpen;
-                  }}
-                >
-                  <div class="ab-dd-trigger-text">
-                    <span class="ab-dd-primary">
-                      {selectedModelOption ? selectedModelOption.label : 'CLI default'}
-                    </span>
-                    {#if selectedModelOption}
-                      <span class="ab-dd-sub">{selectedModelOption.id}</span>
-                    {/if}
-                  </div>
-                  <span class="ab-dd-chev" class:ab-dd-chev-open={modelMenuOpen}>
-                    <ChevronDown size={14} />
-                  </span>
-                </button>
-
-                {#if modelMenuOpen}
-                  <div role="listbox" aria-label="Models" class="ab-dd-menu">
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={!settings.model}
-                      class="ab-dd-opt"
-                      class:ab-dd-opt-active={!settings.model}
-                      onclick={(e) => {
-                        e.stopPropagation();
-                        handleSelectModel(null);
-                      }}
-                    >
-                      <div class="ab-dd-opt-lines">
-                        <span class="ab-dd-opt-label">CLI default</span>
-                        <span class="ab-dd-opt-id">Use provider default</span>
-                      </div>
-                      {#if !settings.model}
-                        <Check size={13} />
-                      {/if}
-                    </button>
-
-                    {#each models as m (m.id)}
-                      {@const active = settings.model === m.id}
-                      <button
-                        type="button"
-                        role="option"
-                        aria-selected={active}
-                        class="ab-dd-opt"
-                        class:ab-dd-opt-active={active}
-                        onclick={(e) => {
-                          e.stopPropagation();
-                          handleSelectModel(m.id);
-                        }}
-                      >
-                        <div class="ab-dd-opt-lines">
-                          <span class="ab-dd-opt-label">{m.label}</span>
-                          <span class="ab-dd-opt-id">{m.id}</span>
-                        </div>
-                        {#if active}
-                          <Check size={13} />
-                        {/if}
-                      </button>
-                    {/each}
-
-                    <div class="ab-dd-sep"></div>
-
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={false}
-                      class="ab-dd-opt"
-                      onclick={(e) => {
-                        e.stopPropagation();
-                        handleSelectModel('__custom__');
-                      }}
-                    >
-                      <div class="ab-dd-opt-lines">
-                        <span class="ab-dd-opt-label">Custom…</span>
-                        <span class="ab-dd-opt-id">Enter any model ID manually</span>
-                      </div>
-                    </button>
-                  </div>
-                {/if}
-              </div>
+              <SelectDropdown
+                ariaLabel="Select model"
+                menuLabel="Models"
+                value={settings.model}
+                displayLabel={selectedModelOption ? selectedModelOption.label : 'CLI default'}
+                displaySubtitle={selectedModelOption?.id}
+                options={modelDropdownOptions}
+                open={modelMenuOpen}
+                disabled={saving}
+                ontoggle={() => {
+                  effortMenuOpen = false;
+                  modelMenuOpen = !modelMenuOpen;
+                }}
+                onselect={handleSelectModel}
+              />
             {:else}
               <div class="ab-custom-row">
                 <input
@@ -349,69 +296,23 @@
           {#if showEffort}
             <div class="ab-field">
               <span class="ab-field-label">Effort</span>
-              <div class="ab-dd-wrap">
-                <button
-                  type="button"
-                  aria-label="Select effort"
-                  aria-haspopup="listbox"
-                  aria-expanded={effortMenuOpen}
-                  disabled={saving}
-                  class="ab-dd-trigger"
-                  onclick={(e) => {
-                    e.stopPropagation();
-                    modelMenuOpen = false;
-                    effortMenuOpen = !effortMenuOpen;
-                  }}
-                >
-                  <span class="ab-dd-primary">{settings.effort ?? 'CLI default'}</span>
-                  <span class="ab-dd-chev" class:ab-dd-chev-open={effortMenuOpen}>
-                    <ChevronDown size={14} />
-                  </span>
-                </button>
-
-                {#if effortMenuOpen}
-                  <div role="listbox" aria-label="Effort levels" class="ab-dd-menu">
-                    <button
-                      type="button"
-                      role="option"
-                      aria-selected={!settings.effort}
-                      class="ab-dd-opt"
-                      class:ab-dd-opt-active={!settings.effort}
-                      onclick={(e) => {
-                        e.stopPropagation();
-                        effortMenuOpen = false;
-                        void applyPatch({ effort: null });
-                      }}
-                    >
-                      <span class="ab-dd-opt-label">CLI default</span>
-                      {#if !settings.effort}
-                        <Check size={13} />
-                      {/if}
-                    </button>
-
-                    {#each EFFORT_LEVELS as lvl (lvl)}
-                      {@const active = settings.effort === lvl}
-                      <button
-                        type="button"
-                        role="option"
-                        aria-selected={active}
-                        class="ab-dd-opt"
-                        class:ab-dd-opt-active={active}
-                        onclick={(e) => {
-                          e.stopPropagation();
-                          effortMenuOpen = false;
-                          void applyPatch({ effort: lvl as EffortLevel });
-                        }}
-                      >
-                        <span class="ab-dd-opt-label">{lvl}</span>
-                        {#if active}
-                          <Check size={13} />
-                        {/if}
-                      </button>
-                    {/each}
-                  </div>
-                {/if}
-              </div>
+              <SelectDropdown
+                ariaLabel="Select effort"
+                menuLabel="Effort levels"
+                value={settings.effort}
+                displayLabel={settings.effort ?? 'CLI default'}
+                options={effortDropdownOptions}
+                open={effortMenuOpen}
+                disabled={saving}
+                ontoggle={() => {
+                  modelMenuOpen = false;
+                  effortMenuOpen = !effortMenuOpen;
+                }}
+                onselect={(lvl) => {
+                  effortMenuOpen = false;
+                  void applyPatch({ effort: lvl as EffortLevel | null });
+                }}
+              />
             </div>
           {/if}
         {/if}
@@ -569,138 +470,6 @@
     background: var(--ab-input-bg);
     font-size: 12px;
     color: var(--ab-text-muted);
-  }
-
-  .ab-dd-wrap {
-    position: relative;
-  }
-
-  .ab-dd-trigger {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 8px;
-    width: 100%;
-    min-height: 38px;
-    border: 1px solid var(--ab-border);
-    border-radius: 8px;
-    background: var(--ab-input-bg);
-    padding: 6px 10px;
-    text-align: left;
-    color: var(--ab-text);
-    cursor: pointer;
-  }
-
-  .ab-dd-trigger:hover {
-    border-color: #6366f1;
-  }
-
-  .ab-dd-trigger-text {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    min-width: 0;
-  }
-
-  .ab-dd-primary {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ab-text);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .ab-dd-sub {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 10px;
-    color: var(--ab-text-muted);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .ab-dd-chev {
-    display: inline-flex;
-    color: var(--ab-text-muted);
-    flex-shrink: 0;
-    transition: transform 0.15s ease;
-  }
-
-  .ab-dd-chev-open {
-    transform: rotate(180deg);
-  }
-
-  .ab-dd-menu {
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    right: 0;
-    z-index: 90;
-    max-height: 240px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    border-radius: 10px;
-    border: 1px solid var(--ab-border);
-    background: var(--ab-surface-solid);
-    padding: 4px;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
-  }
-
-  .ab-dd-opt {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    width: 100%;
-    border: none;
-    border-radius: 7px;
-    background: transparent;
-    padding: 7px 9px;
-    text-align: left;
-    color: var(--ab-text);
-    cursor: pointer;
-  }
-
-  .ab-dd-opt:hover {
-    background: var(--ab-hover);
-  }
-
-  .ab-dd-opt-active {
-    background: rgba(99, 102, 241, 0.16);
-    color: var(--ab-accent-text);
-  }
-
-  .ab-dd-opt-lines {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
-    min-width: 0;
-  }
-
-  .ab-dd-opt-label {
-    font-size: 12px;
-    font-weight: 600;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .ab-dd-opt-id {
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    font-size: 10px;
-    color: var(--ab-text-muted);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .ab-dd-sep {
-    height: 1px;
-    margin: 3px 4px;
-    background: var(--ab-border-subtle);
   }
 
   .ab-field-input {
