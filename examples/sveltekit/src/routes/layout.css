@@ -1,0 +1,15 @@
+@import 'tailwindcss';
+
+/* Exclude dev-only Artboard studio from production CSS scanning */
+@source not '../../artboard';
+
+/* Enable class-based dark mode so individual Artboard frames AND full pages can toggle light/dark independently */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  html {
+    font-family:
+      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+      sans-serif;
+  }
+}

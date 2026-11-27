@@ -1,0 +1,3 @@
+vp staged --allow-empty
+pnpm run build
+git add dist

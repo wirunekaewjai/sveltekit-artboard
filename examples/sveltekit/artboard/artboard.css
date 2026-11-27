@@ -1,0 +1,4 @@
+@import '../src/routes/layout.css';
+
+/* Scan dev-only Artboard snippets for Tailwind utilities without leaking into production CSS */
+@source '.';
