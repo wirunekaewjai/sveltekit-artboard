@@ -8,6 +8,7 @@
   import type { ArtboardComment, CommentInput } from '#src/core/schema.ts';
   import type { ArtboardSection, ArtboardTheme, StudioTheme } from '#src/registry.ts';
 
+  import AgentLogDrawer from '#src/client/agent/AgentLogDrawer.svelte';
   import AgentSettingsModal from '#src/client/agent/AgentSettingsModal.svelte';
   import { createApiClient } from '#src/client/api-client.ts';
   import {
@@ -69,6 +70,7 @@
   let sidebarOpen = $state(true);
   let sidebarTab = $state<'boards' | 'comments'>('boards');
   let agentModalOpen = $state(false);
+  let activeLog = $state<{ runId: string; title?: string } | null>(null);
   let selectedCommentId = $state<string | null>(null);
   let highlightedBoardId = $state<string | null>(null);
 
@@ -563,6 +565,9 @@
       onopenagentsettings={() => {
         agentModalOpen = true;
       }}
+      onopenlog={(runId, title) => {
+        activeLog = { runId, title };
+      }}
     />
   {/if}
 
@@ -671,9 +676,26 @@
     loadModels={(provider) => {
       return api.getAgentModels(provider);
     }}
+    loadMcpServers={(provider) => {
+      return api.getAgentMcpServers(provider);
+    }}
     onupdate={handleUpdateAgentSettings}
     onclose={() => {
       agentModalOpen = false;
+    }}
+  />
+
+  <AgentLogDrawer
+    runId={activeLog?.runId ?? null}
+    title={activeLog?.title}
+    loadLog={(runId) => {
+      return api.getAgentLog(runId);
+    }}
+    onclose={() => {
+      activeLog = null;
+    }}
+    onopensettings={() => {
+      agentModalOpen = true;
     }}
   />
 </div>

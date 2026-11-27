@@ -7,6 +7,7 @@
     Send,
     Settings,
     Square,
+    Terminal,
     Trash2,
   } from '@lucide/svelte';
   import { SvelteSet } from 'svelte/reactivity';
@@ -28,6 +29,7 @@
     oncancelagent: () => void;
     onresumeagent: () => void;
     onopenagentsettings: () => void;
+    onopenlog: (runId: string, title?: string) => void;
   };
 
   let {
@@ -41,6 +43,7 @@
     oncancelagent,
     onresumeagent,
     onopenagentsettings,
+    onopenlog,
   }: Props = $props();
 
   let activeTab = $state<'open' | 'resolved'>('open');
@@ -170,10 +173,26 @@
         <span class="ab-spin"><Loader2 size={13} /></span>
         <span>Agent resolving ({agentInfo?.state.activeCommentIds.length ?? 0})…</span>
       </div>
-      <button type="button" class="ab-cp-mini-btn ab-cp-mini-danger" onclick={oncancelagent}>
-        <Square size={11} />
-        Stop
-      </button>
+      <div class="ab-cp-banner-actions">
+        {#if agentInfo?.state.activeRunId}
+          <button
+            type="button"
+            class="ab-cp-mini-btn"
+            onclick={() => {
+              if (agentInfo?.state.activeRunId) {
+                onopenlog(agentInfo.state.activeRunId, 'Active Agent Run');
+              }
+            }}
+          >
+            <Terminal size={11} />
+            Log
+          </button>
+        {/if}
+        <button type="button" class="ab-cp-mini-btn ab-cp-mini-danger" onclick={oncancelagent}>
+          <Square size={11} />
+          Stop
+        </button>
+      </div>
     </div>
   {/if}
 
@@ -272,6 +291,9 @@
           }}
           oncanceldelete={() => {
             confirmingDeleteId = null;
+          }}
+          onopenlog={(runId) => {
+            onopenlog(runId, item.artboard.boardTitle);
           }}
         />
       {/each}

@@ -21,6 +21,7 @@ export type InvokeContext = {
   files: readonly string[];
   model: string | null;
   effort: string | null;
+  allowedMcp?: readonly string[];
   policy: AgentPolicy;
 };
 
@@ -95,6 +96,67 @@ export const resolveCommand = (provider: Provider, policy: AgentPolicy): string 
   return policy.commands[provider] ?? defaultCommand(provider);
 };
 
+const parseMcpRule = (
+  rule: string,
+): { wildcard: boolean; server: string; tool: string | null } | null => {
+  const trimmed = rule.trim();
+  if (!trimmed) {
+    return null;
+  }
+  if (trimmed === '*') {
+    return { wildcard: true, server: '*', tool: null };
+  }
+  const sepIndex = trimmed.search(/[:/]/);
+  if (sepIndex === -1) {
+    return { wildcard: false, server: trimmed, tool: null };
+  }
+  const server = trimmed.slice(0, sepIndex).trim();
+  const tool = trimmed.slice(sepIndex + 1).trim();
+  if (!server) {
+    return null;
+  }
+  if (!tool || tool === '*') {
+    return { wildcard: false, server, tool: null };
+  }
+  return { wildcard: false, server, tool };
+};
+
+export const claudeMcpRules = (allowedMcp: readonly string[] = []): string[] => {
+  const rules: string[] = [];
+  for (const raw of allowedMcp) {
+    const parsed = parseMcpRule(raw);
+    if (!parsed) {
+      continue;
+    }
+    if (parsed.wildcard) {
+      rules.push('mcp__*');
+    } else if (parsed.tool) {
+      rules.push(`mcp__${parsed.server}__${parsed.tool}`);
+    } else {
+      rules.push(`mcp__${parsed.server}__*`);
+    }
+  }
+  return [...new Set(rules)];
+};
+
+export const antigravityMcpRules = (allowedMcp: readonly string[] = []): string[] => {
+  const rules: string[] = [];
+  for (const raw of allowedMcp) {
+    const parsed = parseMcpRule(raw);
+    if (!parsed) {
+      continue;
+    }
+    if (parsed.wildcard) {
+      rules.push('mcp(*)');
+    } else if (parsed.tool) {
+      rules.push(`mcp(${parsed.server}/${parsed.tool})`);
+    } else {
+      rules.push(`mcp(${parsed.server})`, `mcp(${parsed.server}/*)`);
+    }
+  }
+  return [...new Set(rules)];
+};
+
 const claudeArgs = (context: InvokeContext): string[] => {
   const { policy } = context;
   const args = [
@@ -130,6 +192,7 @@ const claudeArgs = (context: InvokeContext): string[] => {
     ...policy.allowedCommands.map((cmd) => {
       return `Bash(${cmd})`;
     }),
+    ...claudeMcpRules(context.allowedMcp),
     '--disallowedTools',
     ...denied,
   );
@@ -141,19 +204,25 @@ const withCmdExtension = (command: string): string => {
   return command.replace(/^(\S+)/, '$1.cmd');
 };
 
-const antigravityAllowRules = (commands: readonly string[]): string[] => {
-  return commands
+const antigravityAllowRules = (
+  commands: readonly string[],
+  allowedMcp: readonly string[] = [],
+): string[] => {
+  const commandRules = commands
     .flatMap((command) => {
       return process.platform === 'win32' ? [command, withCmdExtension(command)] : [command];
     })
     .map((command) => {
       return `command(${command})`;
     });
+  return [...commandRules, ...antigravityMcpRules(allowedMcp)];
 };
 
 const antigravityArgs = (context: InvokeContext): string[] => {
   const settings = JSON.stringify({
-    permissions: { allow: antigravityAllowRules(context.policy.allowedCommands) },
+    permissions: {
+      allow: antigravityAllowRules(context.policy.allowedCommands, context.allowedMcp),
+    },
   });
   const args = [
     '-p',

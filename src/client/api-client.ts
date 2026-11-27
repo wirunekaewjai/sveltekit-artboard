@@ -1,7 +1,9 @@
+import type { AgentLogResponse } from '#src/core/agent-log.ts';
 import type {
   AgentInfo,
   AgentSettings,
   AgentSettingsPatch,
+  McpServerOption,
   Provider,
 } from '#src/core/agent-state.ts';
 import type { ArtboardComment, CommentInput, CommentPatch } from '#src/core/schema.ts';
@@ -19,6 +21,8 @@ export type ArtboardApiClient = {
   clearResolved: () => Promise<string[]>;
   getAgentInfo: () => Promise<AgentInfo>;
   getAgentModels: (provider: Provider) => Promise<ModelOption[] | null>;
+  getAgentMcpServers: (provider: Provider) => Promise<McpServerOption[]>;
+  getAgentLog: (runId: string) => Promise<AgentLogResponse>;
   updateAgentSettings: (patch: AgentSettingsPatch) => Promise<AgentSettings>;
   runAgent: (ids: string[]) => Promise<{ runId: string; accepted: string[] }>;
   cancelAgent: () => Promise<void>;
@@ -89,6 +93,15 @@ export const createApiClient = (apiBase: string): ArtboardApiClient => {
         `${base}/agent/models?provider=${encodeURIComponent(provider)}`,
       );
       return data.models;
+    },
+    getAgentMcpServers: async (provider: Provider): Promise<McpServerOption[]> => {
+      const data = await requestJson<{ servers: McpServerOption[] }>(
+        `${base}/agent/mcp-servers?provider=${encodeURIComponent(provider)}`,
+      );
+      return data.servers;
+    },
+    getAgentLog: async (runId: string): Promise<AgentLogResponse> => {
+      return requestJson<AgentLogResponse>(`${base}/agent/logs/${encodeURIComponent(runId)}`);
     },
     updateAgentSettings: async (patch: AgentSettingsPatch): Promise<AgentSettings> => {
       const data = await requestJson<{ settings: AgentSettings }>(`${base}/agent/settings`, {

@@ -35,6 +35,7 @@
     oncancelagent: () => void;
     onresumeagent: () => void;
     onopenagentsettings: () => void;
+    onopenlog: (runId: string, title?: string) => void;
   };
 
   let {
@@ -59,6 +60,7 @@
     oncancelagent,
     onresumeagent,
     onopenagentsettings,
+    onopenlog,
   }: Props = $props();
 </script>
 
@@ -123,6 +125,7 @@
       {oncancelagent}
       {onresumeagent}
       {onopenagentsettings}
+      {onopenlog}
     />
   {/if}
 

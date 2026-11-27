@@ -10,12 +10,14 @@ declare const AgentSettingsSchema: v.ObjectSchema<{
   readonly provider: v.PicklistSchema<readonly ["claude", "antigravity"], undefined>;
   readonly model: v.NullableSchema<v.SchemaWithPipe<readonly [v.StringSchema<undefined>, v.MaxLengthAction<string, 200, undefined>]>, undefined>;
   readonly effort: v.NullableSchema<v.PicklistSchema<readonly ["low", "medium", "high", "xhigh", "max"], undefined>, undefined>;
+  readonly allowedMcp: v.OptionalSchema<v.ArraySchema<v.SchemaWithPipe<readonly [v.StringSchema<undefined>, v.TrimAction, v.MinLengthAction<string, 1, undefined>, v.MaxLengthAction<string, 200, undefined>]>, undefined>, readonly []>;
 }, undefined>;
 declare const AgentSettingsPatchSchema: v.StrictObjectSchema<{
   readonly enabled: v.OptionalSchema<v.BooleanSchema<undefined>, undefined>;
   readonly provider: v.OptionalSchema<v.PicklistSchema<readonly ["claude", "antigravity"], undefined>, undefined>;
   readonly model: v.OptionalSchema<v.NullableSchema<v.SchemaWithPipe<readonly [v.StringSchema<undefined>, v.MaxLengthAction<string, 200, undefined>]>, undefined>, undefined>;
   readonly effort: v.OptionalSchema<v.NullableSchema<v.PicklistSchema<readonly ["low", "medium", "high", "xhigh", "max"], undefined>, undefined>, undefined>;
+  readonly allowedMcp: v.OptionalSchema<v.ArraySchema<v.SchemaWithPipe<readonly [v.StringSchema<undefined>, v.TrimAction, v.MinLengthAction<string, 1, undefined>, v.MaxLengthAction<string, 200, undefined>]>, undefined>, undefined>;
 }, undefined>;
 type AgentSettings = v.InferOutput<typeof AgentSettingsSchema>;
 type AgentSettingsPatch = v.InferOutput<typeof AgentSettingsPatchSchema>;

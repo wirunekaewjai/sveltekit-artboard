@@ -2,7 +2,7 @@ import "svelte/internal/init-operations";
 import "svelte/internal/disclose-version";
 import * as $ from "svelte/internal/client";
 import { SvelteMap, SvelteSet } from "svelte/reactivity";
-import { getContext } from "svelte";
+import { getContext, tick } from "svelte";
 import * as v from "valibot";
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/utils/defaultAttributes.js
 /**
@@ -140,7 +140,7 @@ const hasA11yProp = (props) => {
 const LucideContext = Symbol("lucide-context");
 const getLucideContext = () => getContext(LucideContext);
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/Icon.svelte
-var rest_excludes$34 = /* @__PURE__ */ new Set([
+var rest_excludes$39 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy",
@@ -156,7 +156,7 @@ var rest_excludes$34 = /* @__PURE__ */ new Set([
 	"class",
 	"children"
 ]);
-var root$15 = $.from_svg(`<svg><!><!></svg>`);
+var root$16 = $.from_svg(`<svg><!><!></svg>`);
 function Icon($$anchor, $$props) {
 	$.push($$props, true);
 	const globalProps = getLucideContext() ?? {};
@@ -164,7 +164,7 @@ function Icon($$anchor, $$props) {
 		node: iconNode(),
 		aliases: [],
 		size: 24
-	})), props = $.rest_props($$props, rest_excludes$34);
+	})), props = $.rest_props($$props, rest_excludes$39);
 	const hasAccessibleProp = $.derived(() => Boolean($$props.children) || hasA11yProp(props));
 	const $$d = $.derived(() => buildLucideIconNode(icon(), {
 		color: color(),
@@ -181,7 +181,7 @@ function Icon($$anchor, $$props) {
 		...$.get(svgAttributes),
 		class: [...$.get(svgAttributes).class.split(" "), $$props.class]
 	}));
-	var svg = root$15();
+	var svg = root$16();
 	$.attribute_effect(svg, () => ({ ...$.get(iconAttributes) }));
 	var node = $.child(svg);
 	$.each(node, 17, () => $.get(builtIconNode), $.index, ($$anchor, $$item) => {
@@ -202,25 +202,25 @@ function Icon($$anchor, $$props) {
 	$.pop();
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/arrow-left.svelte
-const __iconData$33 = {
+const __iconData$38 = {
 	"name": "arrow-left",
 	"size": 24,
 	"node": [["path", { "d": "m12 19-7-7 7-7" }], ["path", { "d": "M19 12H5" }]]
 };
-__iconData$33.node;
-var rest_excludes$33 = /* @__PURE__ */ new Set([
+__iconData$38.node;
+var rest_excludes$38 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Arrow_left($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$33);
+	let props = $.rest_props($$props, rest_excludes$38);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$33;
+		return __iconData$38;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/bot.svelte
-const __iconData$32 = {
+const __iconData$37 = {
 	"name": "bot",
 	"size": 24,
 	"node": [
@@ -238,20 +238,20 @@ const __iconData$32 = {
 		["path", { "d": "M9 13v2" }]
 	]
 };
-__iconData$32.node;
-var rest_excludes$32 = /* @__PURE__ */ new Set([
+__iconData$37.node;
+var rest_excludes$37 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Bot($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$32);
+	let props = $.rest_props($$props, rest_excludes$37);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$32;
+		return __iconData$37;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/bug.svelte
-const __iconData$31 = {
+const __iconData$36 = {
 	"name": "bug",
 	"size": 24,
 	"node": [
@@ -268,56 +268,74 @@ const __iconData$31 = {
 		["path", { "d": "M9 7.13V6a3 3 0 1 1 6 0v1.13" }]
 	]
 };
-__iconData$31.node;
-var rest_excludes$31 = /* @__PURE__ */ new Set([
+__iconData$36.node;
+var rest_excludes$36 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Bug($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$31);
+	let props = $.rest_props($$props, rest_excludes$36);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$31;
+		return __iconData$36;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/check.svelte
-const __iconData$30 = {
+const __iconData$35 = {
 	"name": "check",
 	"size": 24,
 	"node": [["path", { "d": "M20 6 9 17l-5-5" }]]
 };
-__iconData$30.node;
-var rest_excludes$30 = /* @__PURE__ */ new Set([
+__iconData$35.node;
+var rest_excludes$35 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Check($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$30);
+	let props = $.rest_props($$props, rest_excludes$35);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$30;
+		return __iconData$35;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/chevron-down.svelte
-const __iconData$29 = {
+const __iconData$34 = {
 	"name": "chevron-down",
 	"size": 24,
 	"node": [["path", { "d": "m6 9 6 6 6-6" }]]
 };
-__iconData$29.node;
-var rest_excludes$29 = /* @__PURE__ */ new Set([
+__iconData$34.node;
+var rest_excludes$34 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Chevron_down($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$29);
+	let props = $.rest_props($$props, rest_excludes$34);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$29;
+		return __iconData$34;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/chevron-right.svelte
+const __iconData$33 = {
+	"name": "chevron-right",
+	"size": 24,
+	"node": [["path", { "d": "m9 18 6-6-6-6" }]]
+};
+__iconData$33.node;
+var rest_excludes$33 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Chevron_right($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$33);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$33;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/circle-check.svelte
-const __iconData$28 = {
+const __iconData$32 = {
 	"name": "circle-check",
 	"size": 24,
 	"node": [["circle", {
@@ -327,20 +345,20 @@ const __iconData$28 = {
 	}], ["path", { "d": "m16 9-5.5 5.5L8 12" }]],
 	"aliases": ["check-circle-2"]
 };
-__iconData$28.node;
-var rest_excludes$28 = /* @__PURE__ */ new Set([
+__iconData$32.node;
+var rest_excludes$32 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Circle_check($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$28);
+	let props = $.rest_props($$props, rest_excludes$32);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$28;
+		return __iconData$32;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/circle-x.svelte
-const __iconData$27 = {
+const __iconData$31 = {
 	"name": "circle-x",
 	"size": 24,
 	"node": [
@@ -354,20 +372,20 @@ const __iconData$27 = {
 	],
 	"aliases": ["x-circle"]
 };
-__iconData$27.node;
-var rest_excludes$27 = /* @__PURE__ */ new Set([
+__iconData$31.node;
+var rest_excludes$31 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Circle_x($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$27);
+	let props = $.rest_props($$props, rest_excludes$31);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$27;
+		return __iconData$31;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/clock.svelte
-const __iconData$26 = {
+const __iconData$30 = {
 	"name": "clock",
 	"size": 24,
 	"node": [["circle", {
@@ -376,20 +394,45 @@ const __iconData$26 = {
 		"r": "10"
 	}], ["path", { "d": "M12 6v6l4 2" }]]
 };
-__iconData$26.node;
-var rest_excludes$26 = /* @__PURE__ */ new Set([
+__iconData$30.node;
+var rest_excludes$30 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Clock($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$26);
+	let props = $.rest_props($$props, rest_excludes$30);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$26;
+		return __iconData$30;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/copy.svelte
+const __iconData$29 = {
+	"name": "copy",
+	"size": 24,
+	"node": [["rect", {
+		"width": "14",
+		"height": "14",
+		"x": "8",
+		"y": "8",
+		"rx": "2",
+		"ry": "2"
+	}], ["path", { "d": "M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" }]]
+};
+__iconData$29.node;
+var rest_excludes$29 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Copy($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$29);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$29;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/crosshair.svelte
-const __iconData$25 = {
+const __iconData$28 = {
 	"name": "crosshair",
 	"size": 24,
 	"node": [
@@ -424,38 +467,38 @@ const __iconData$25 = {
 		}]
 	]
 };
-__iconData$25.node;
-var rest_excludes$25 = /* @__PURE__ */ new Set([
+__iconData$28.node;
+var rest_excludes$28 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Crosshair($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$25);
+	let props = $.rest_props($$props, rest_excludes$28);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$25;
+		return __iconData$28;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/flame.svelte
-const __iconData$24 = {
+const __iconData$27 = {
 	"name": "flame",
 	"size": 24,
 	"node": [["path", { "d": "M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" }]]
 };
-__iconData$24.node;
-var rest_excludes$24 = /* @__PURE__ */ new Set([
+__iconData$27.node;
+var rest_excludes$27 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Flame($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$24);
+	let props = $.rest_props($$props, rest_excludes$27);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$24;
+		return __iconData$27;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/grid-3x3.svelte
-const __iconData$23 = {
+const __iconData$26 = {
 	"name": "grid-3x3",
 	"size": 24,
 	"node": [
@@ -473,20 +516,20 @@ const __iconData$23 = {
 	],
 	"aliases": ["grid", "grid-3-x-3"]
 };
-__iconData$23.node;
-var rest_excludes$23 = /* @__PURE__ */ new Set([
+__iconData$26.node;
+var rest_excludes$26 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Grid_3x3($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$23);
+	let props = $.rest_props($$props, rest_excludes$26);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$23;
+		return __iconData$26;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/hand.svelte
-const __iconData$22 = {
+const __iconData$25 = {
 	"name": "hand",
 	"size": 24,
 	"node": [
@@ -496,20 +539,20 @@ const __iconData$22 = {
 		["path", { "d": "M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15" }]
 	]
 };
-__iconData$22.node;
-var rest_excludes$22 = /* @__PURE__ */ new Set([
+__iconData$25.node;
+var rest_excludes$25 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Hand($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$22);
+	let props = $.rest_props($$props, rest_excludes$25);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$22;
+		return __iconData$25;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/layers.svelte
-const __iconData$21 = {
+const __iconData$24 = {
 	"name": "layers",
 	"size": 24,
 	"node": [
@@ -519,39 +562,39 @@ const __iconData$21 = {
 	],
 	"aliases": ["layers-3"]
 };
-__iconData$21.node;
-var rest_excludes$21 = /* @__PURE__ */ new Set([
+__iconData$24.node;
+var rest_excludes$24 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Layers($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$21);
+	let props = $.rest_props($$props, rest_excludes$24);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$21;
+		return __iconData$24;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/loader-circle.svelte
-const __iconData$20 = {
+const __iconData$23 = {
 	"name": "loader-circle",
 	"size": 24,
 	"node": [["path", { "d": "M21 12a9 9 0 1 1-6.219-8.56" }]],
 	"aliases": ["loader-2"]
 };
-__iconData$20.node;
-var rest_excludes$20 = /* @__PURE__ */ new Set([
+__iconData$23.node;
+var rest_excludes$23 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Loader_circle($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$20);
+	let props = $.rest_props($$props, rest_excludes$23);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$20;
+		return __iconData$23;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/maximize-2.svelte
-const __iconData$19 = {
+const __iconData$22 = {
 	"name": "maximize-2",
 	"size": 24,
 	"node": [
@@ -561,20 +604,20 @@ const __iconData$19 = {
 		["path", { "d": "M9 21H3v-6" }]
 	]
 };
-__iconData$19.node;
-var rest_excludes$19 = /* @__PURE__ */ new Set([
+__iconData$22.node;
+var rest_excludes$22 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Maximize_2($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$19);
+	let props = $.rest_props($$props, rest_excludes$22);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$19;
+		return __iconData$22;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/message-square-plus.svelte
-const __iconData$18 = {
+const __iconData$21 = {
 	"name": "message-square-plus",
 	"size": 24,
 	"node": [
@@ -583,56 +626,56 @@ const __iconData$18 = {
 		["path", { "d": "M9 11h6" }]
 	]
 };
-__iconData$18.node;
-var rest_excludes$18 = /* @__PURE__ */ new Set([
+__iconData$21.node;
+var rest_excludes$21 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Message_square_plus($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$18);
+	let props = $.rest_props($$props, rest_excludes$21);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$18;
+		return __iconData$21;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/moon.svelte
-const __iconData$17 = {
+const __iconData$20 = {
 	"name": "moon",
 	"size": 24,
 	"node": [["path", { "d": "M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" }]]
 };
-__iconData$17.node;
-var rest_excludes$17 = /* @__PURE__ */ new Set([
+__iconData$20.node;
+var rest_excludes$20 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Moon($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$17);
+	let props = $.rest_props($$props, rest_excludes$20);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$17;
+		return __iconData$20;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/mouse-pointer-2.svelte
-const __iconData$16 = {
+const __iconData$19 = {
 	"name": "mouse-pointer-2",
 	"size": 24,
 	"node": [["path", { "d": "M4.037 4.688a.495.495 0 0 1 .651-.651l16 6.5a.5.5 0 0 1-.063.947l-6.124 1.58a2 2 0 0 0-1.438 1.435l-1.579 6.126a.5.5 0 0 1-.947.063z" }]]
 };
-__iconData$16.node;
-var rest_excludes$16 = /* @__PURE__ */ new Set([
+__iconData$19.node;
+var rest_excludes$19 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Mouse_pointer_2($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$16);
+	let props = $.rest_props($$props, rest_excludes$19);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$16;
+		return __iconData$19;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/palette.svelte
-const __iconData$15 = {
+const __iconData$18 = {
 	"name": "palette",
 	"size": 24,
 	"node": [
@@ -663,20 +706,20 @@ const __iconData$15 = {
 		}]
 	]
 };
-__iconData$15.node;
-var rest_excludes$15 = /* @__PURE__ */ new Set([
+__iconData$18.node;
+var rest_excludes$18 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Palette($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$15);
+	let props = $.rest_props($$props, rest_excludes$18);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$15;
+		return __iconData$18;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/panel-left-close.svelte
-const __iconData$14 = {
+const __iconData$17 = {
 	"name": "panel-left-close",
 	"size": 24,
 	"node": [
@@ -692,20 +735,20 @@ const __iconData$14 = {
 	],
 	"aliases": ["sidebar-close"]
 };
-__iconData$14.node;
-var rest_excludes$14 = /* @__PURE__ */ new Set([
+__iconData$17.node;
+var rest_excludes$17 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Panel_left_close($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$14);
+	let props = $.rest_props($$props, rest_excludes$17);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$14;
+		return __iconData$17;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/panel-left-open.svelte
-const __iconData$13 = {
+const __iconData$16 = {
 	"name": "panel-left-open",
 	"size": 24,
 	"node": [
@@ -721,23 +764,77 @@ const __iconData$13 = {
 	],
 	"aliases": ["sidebar-open"]
 };
+__iconData$16.node;
+var rest_excludes$16 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Panel_left_open($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$16);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$16;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/pencil.svelte
+const __iconData$15 = {
+	"name": "pencil",
+	"size": 24,
+	"node": [["path", { "d": "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" }], ["path", { "d": "m15 5 4 4" }]]
+};
+__iconData$15.node;
+var rest_excludes$15 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Pencil($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$15);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$15;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/play.svelte
+const __iconData$14 = {
+	"name": "play",
+	"size": 24,
+	"node": [["path", { "d": "M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" }]]
+};
+__iconData$14.node;
+var rest_excludes$14 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Play($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$14);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$14;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/plus.svelte
+const __iconData$13 = {
+	"name": "plus",
+	"size": 24,
+	"node": [["path", { "d": "M5 12h14" }], ["path", { "d": "M12 5v14" }]]
+};
 __iconData$13.node;
 var rest_excludes$13 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
-function Panel_left_open($$anchor, $$props) {
+function Plus($$anchor, $$props) {
 	let props = $.rest_props($$props, rest_excludes$13);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
 		return __iconData$13;
 	} }));
 }
-// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/pencil.svelte
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/rotate-ccw.svelte
 const __iconData$12 = {
-	"name": "pencil",
+	"name": "rotate-ccw",
 	"size": 24,
-	"node": [["path", { "d": "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" }], ["path", { "d": "m15 5 4 4" }]]
+	"node": [["path", { "d": "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }], ["path", { "d": "M3 3v5h5" }]]
 };
 __iconData$12.node;
 var rest_excludes$12 = /* @__PURE__ */ new Set([
@@ -745,50 +842,14 @@ var rest_excludes$12 = /* @__PURE__ */ new Set([
 	"$$events",
 	"$$legacy"
 ]);
-function Pencil($$anchor, $$props) {
+function Rotate_ccw($$anchor, $$props) {
 	let props = $.rest_props($$props, rest_excludes$12);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
 		return __iconData$12;
 	} }));
 }
-// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/play.svelte
-const __iconData$11 = {
-	"name": "play",
-	"size": 24,
-	"node": [["path", { "d": "M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z" }]]
-};
-__iconData$11.node;
-var rest_excludes$11 = /* @__PURE__ */ new Set([
-	"$$slots",
-	"$$events",
-	"$$legacy"
-]);
-function Play($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$11);
-	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$11;
-	} }));
-}
-// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/rotate-ccw.svelte
-const __iconData$10 = {
-	"name": "rotate-ccw",
-	"size": 24,
-	"node": [["path", { "d": "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" }], ["path", { "d": "M3 3v5h5" }]]
-};
-__iconData$10.node;
-var rest_excludes$10 = /* @__PURE__ */ new Set([
-	"$$slots",
-	"$$events",
-	"$$legacy"
-]);
-function Rotate_ccw($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$10);
-	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$10;
-	} }));
-}
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/search.svelte
-const __iconData$9 = {
+const __iconData$11 = {
 	"name": "search",
 	"size": 24,
 	"node": [["path", { "d": "m21 21-4.34-4.34" }], ["circle", {
@@ -797,38 +858,38 @@ const __iconData$9 = {
 		"r": "8"
 	}]]
 };
-__iconData$9.node;
-var rest_excludes$9 = /* @__PURE__ */ new Set([
+__iconData$11.node;
+var rest_excludes$11 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Search($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$9);
+	let props = $.rest_props($$props, rest_excludes$11);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$9;
+		return __iconData$11;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/send.svelte
-const __iconData$8 = {
+const __iconData$10 = {
 	"name": "send",
 	"size": 24,
 	"node": [["path", { "d": "M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" }], ["path", { "d": "m21.854 2.147-10.94 10.939" }]]
 };
-__iconData$8.node;
-var rest_excludes$8 = /* @__PURE__ */ new Set([
+__iconData$10.node;
+var rest_excludes$10 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Send($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$8);
+	let props = $.rest_props($$props, rest_excludes$10);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$8;
+		return __iconData$10;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/settings.svelte
-const __iconData$7 = {
+const __iconData$9 = {
 	"name": "settings",
 	"size": 24,
 	"node": [["path", { "d": "M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" }], ["circle", {
@@ -837,20 +898,20 @@ const __iconData$7 = {
 		"r": "3"
 	}]]
 };
-__iconData$7.node;
-var rest_excludes$7 = /* @__PURE__ */ new Set([
+__iconData$9.node;
+var rest_excludes$9 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Settings($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$7);
+	let props = $.rest_props($$props, rest_excludes$9);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$7;
+		return __iconData$9;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/square.svelte
-const __iconData$6 = {
+const __iconData$8 = {
 	"name": "square",
 	"size": 24,
 	"node": [["rect", {
@@ -861,20 +922,20 @@ const __iconData$6 = {
 		"rx": "2"
 	}]]
 };
-__iconData$6.node;
-var rest_excludes$6 = /* @__PURE__ */ new Set([
+__iconData$8.node;
+var rest_excludes$8 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Square($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$6);
+	let props = $.rest_props($$props, rest_excludes$8);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$6;
+		return __iconData$8;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/sun.svelte
-const __iconData$5 = {
+const __iconData$7 = {
 	"name": "sun",
 	"size": 24,
 	"node": [
@@ -893,20 +954,38 @@ const __iconData$5 = {
 		["path", { "d": "m19.07 4.93-1.41 1.41" }]
 	]
 };
-__iconData$5.node;
-var rest_excludes$5 = /* @__PURE__ */ new Set([
+__iconData$7.node;
+var rest_excludes$7 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Sun($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$5);
+	let props = $.rest_props($$props, rest_excludes$7);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$5;
+		return __iconData$7;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/terminal.svelte
+const __iconData$6 = {
+	"name": "terminal",
+	"size": 24,
+	"node": [["path", { "d": "M12 19h8" }], ["path", { "d": "m4 17 6-6-6-6" }]]
+};
+__iconData$6.node;
+var rest_excludes$6 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Terminal($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$6);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$6;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/trash.svelte
-const __iconData$4 = {
+const __iconData$5 = {
 	"name": "trash",
 	"size": 24,
 	"node": [
@@ -918,20 +997,20 @@ const __iconData$4 = {
 	],
 	"aliases": ["trash-2"]
 };
-__iconData$4.node;
-var rest_excludes$4 = /* @__PURE__ */ new Set([
+__iconData$5.node;
+var rest_excludes$5 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
 function Trash($$anchor, $$props) {
-	let props = $.rest_props($$props, rest_excludes$4);
+	let props = $.rest_props($$props, rest_excludes$5);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
-		return __iconData$4;
+		return __iconData$5;
 	} }));
 }
 // node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/triangle-exclamation-point.svelte
-const __iconData$3 = {
+const __iconData$4 = {
 	"name": "triangle-exclamation-point",
 	"size": 24,
 	"node": [
@@ -941,13 +1020,31 @@ const __iconData$3 = {
 	],
 	"aliases": ["alert-triangle", "triangle-alert"]
 };
+__iconData$4.node;
+var rest_excludes$4 = /* @__PURE__ */ new Set([
+	"$$slots",
+	"$$events",
+	"$$legacy"
+]);
+function Triangle_exclamation_point($$anchor, $$props) {
+	let props = $.rest_props($$props, rest_excludes$4);
+	Icon($$anchor, $.spread_props(() => props, { get icon() {
+		return __iconData$4;
+	} }));
+}
+// node_modules/.pnpm/@lucide+svelte@1.80.0_svelte@5.59.2/node_modules/@lucide/svelte/dist/icons/wrench.svelte
+const __iconData$3 = {
+	"name": "wrench",
+	"size": 24,
+	"node": [["path", { "d": "M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" }]]
+};
 __iconData$3.node;
 var rest_excludes$3 = /* @__PURE__ */ new Set([
 	"$$slots",
 	"$$events",
 	"$$legacy"
 ]);
-function Triangle_exclamation_point($$anchor, $$props) {
+function Wrench($$anchor, $$props) {
 	let props = $.rest_props($$props, rest_excludes$3);
 	Icon($$anchor, $.spread_props(() => props, { get icon() {
 		return __iconData$3;
@@ -1049,6 +1146,876 @@ function Zoom_out($$anchor, $$props) {
 		return __iconData;
 	} }));
 }
+// src/core/agent-log.ts
+const asRecord = (value) => {
+	return value && typeof value === "object" && !Array.isArray(value) ? value : null;
+};
+const asString = (value) => {
+	return typeof value === "string" ? value : null;
+};
+const asNumber = (value) => {
+	return typeof value === "number" && Number.isFinite(value) ? value : null;
+};
+const formatToolResultContent = (content) => {
+	if (typeof content === "string") return content;
+	if (Array.isArray(content)) return content.map((part) => {
+		const record = asRecord(part);
+		if (record && typeof record.text === "string") return record.text;
+		return JSON.stringify(part);
+	}).join("\n");
+	if (content === null || content === void 0) return "";
+	return JSON.stringify(content, null, 2);
+};
+const describeClaudeDenial = (denial) => {
+	const record = asRecord(denial);
+	const name = asString(record?.tool_name) ?? "tool";
+	const input = asRecord(record?.tool_input);
+	const target = asString(input?.file_path) ?? asString(input?.command);
+	return target ? `${name}: ${target}` : name;
+};
+const parseAgentLog = (raw) => {
+	const entries = [];
+	const agyToolsByStep = /* @__PURE__ */ new Map();
+	const claudeToolsById = /* @__PURE__ */ new Map();
+	let seq = 0;
+	const nextId = () => {
+		seq += 1;
+		return `log-${seq}`;
+	};
+	for (const rawLine of raw.split(/\r?\n/)) {
+		const line = rawLine.trim();
+		if (!line) continue;
+		if (!line.startsWith("{")) {
+			entries.push({
+				id: nextId(),
+				kind: "warning",
+				text: line,
+				isPermissionDenial: /permission|auto-denied|denied|mcp\(/i.test(line)
+			});
+			continue;
+		}
+		let parsed;
+		try {
+			parsed = asRecord(JSON.parse(line));
+		} catch {
+			entries.push({
+				id: nextId(),
+				kind: "warning",
+				text: line
+			});
+			continue;
+		}
+		if (!parsed) continue;
+		if (parsed.event === "init") {
+			const init = asRecord(parsed.init);
+			entries.push({
+				id: nextId(),
+				kind: "init",
+				provider: "agy",
+				model: asString(init?.model),
+				cwd: asString(init?.cwd)
+			});
+			continue;
+		}
+		if (parsed.event === "step_update") {
+			const step = asRecord(parsed.step_update);
+			if (!step) continue;
+			const stepType = asString(step.step_type);
+			const stepIndex = asNumber(step.step_index);
+			const state = asString(step.state);
+			const durationSeconds = asNumber(step.duration_seconds) ?? void 0;
+			if (stepType === "tool") {
+				const info = asRecord(step.tool_info);
+				const name = asString(step.tool_name) ?? asString(info?.name) ?? "tool";
+				const params = info?.parameters;
+				const output = asString(info?.output) ?? void 0;
+				const existing = stepIndex !== null ? agyToolsByStep.get(stepIndex) : void 0;
+				let status = "running";
+				if (state === "ERROR" || state === "FAILED") status = "error";
+				else if (state === "DONE") status = "done";
+				if (existing) {
+					existing.status = status;
+					if (params !== void 0) existing.parameters = params;
+					if (output !== void 0) existing.output = output;
+					if (durationSeconds !== void 0) existing.durationSeconds = durationSeconds;
+				} else {
+					const entry = {
+						id: nextId(),
+						kind: "tool",
+						name,
+						status,
+						parameters: params,
+						output,
+						durationSeconds
+					};
+					entries.push(entry);
+					if (stepIndex !== null) agyToolsByStep.set(stepIndex, entry);
+				}
+				continue;
+			}
+			if (stepType === "agent_response") {
+				const text = asString(step.text) ?? asString(step.response) ?? asString(asRecord(step.agent_response)?.text) ?? "";
+				const usage = asRecord(step.usage);
+				const tokens = asNumber(usage?.total_tokens) ?? void 0;
+				if (text || durationSeconds !== void 0 || tokens !== void 0) entries.push({
+					id: nextId(),
+					kind: "message",
+					role: "assistant",
+					text: text || "Thinking & planning next action…",
+					durationSeconds,
+					tokens
+				});
+			}
+			continue;
+		}
+		if (parsed.event === "result") {
+			const result = asRecord(parsed.result);
+			const denied = (Array.isArray(result?.denied_actions) ? result.denied_actions : []).map((item) => {
+				const record = asRecord(item);
+				return asString(record?.display_name) ?? asString(record?.action) ?? "action";
+			});
+			const usage = asRecord(result?.usage);
+			entries.push({
+				id: nextId(),
+				kind: "result",
+				ok: result?.status === "SUCCESS",
+				text: asString(result?.response) ?? "",
+				denied,
+				durationSeconds: asNumber(result?.duration_seconds) ?? void 0,
+				tokens: asNumber(usage?.total_tokens) ?? void 0
+			});
+			continue;
+		}
+		if (parsed.type === "system" && parsed.subtype === "init") {
+			entries.push({
+				id: nextId(),
+				kind: "init",
+				provider: "claude",
+				model: asString(parsed.model),
+				cwd: asString(parsed.cwd)
+			});
+			continue;
+		}
+		if (parsed.type === "assistant") {
+			const message = asRecord(parsed.message);
+			const content = Array.isArray(message?.content) ? message.content : [];
+			for (const block of content) {
+				const rec = asRecord(block);
+				if (!rec) continue;
+				if (rec.type === "text") {
+					const text = asString(rec.text)?.trim();
+					if (text) entries.push({
+						id: nextId(),
+						kind: "message",
+						role: "assistant",
+						text
+					});
+				} else if (rec.type === "tool_use") {
+					const toolId = asString(rec.id);
+					const entry = {
+						id: nextId(),
+						kind: "tool",
+						name: asString(rec.name) ?? "tool",
+						status: "running",
+						parameters: rec.input
+					};
+					entries.push(entry);
+					if (toolId) claudeToolsById.set(toolId, entry);
+				}
+			}
+			continue;
+		}
+		if (parsed.type === "user") {
+			const message = asRecord(parsed.message);
+			const content = Array.isArray(message?.content) ? message.content : [];
+			for (const block of content) {
+				const rec = asRecord(block);
+				if (!rec || rec.type !== "tool_result") continue;
+				const toolUseId = asString(rec.tool_use_id);
+				const output = formatToolResultContent(rec.content);
+				const isError = rec.is_error === true;
+				const existing = toolUseId ? claudeToolsById.get(toolUseId) : void 0;
+				if (existing) {
+					existing.status = isError ? "error" : "done";
+					if (output) existing.output = output;
+				}
+			}
+			continue;
+		}
+		if (parsed.type === "rate_limit_event") {
+			const info = asRecord(parsed.rate_limit_info);
+			const status = asString(info?.status) ?? "rate_limited";
+			entries.push({
+				id: nextId(),
+				kind: "warning",
+				text: `Rate limit event: ${status}`
+			});
+			continue;
+		}
+		if (parsed.type === "result") {
+			const denials = Array.isArray(parsed.permission_denials) ? parsed.permission_denials : [];
+			const durationMs = asNumber(parsed.duration_ms);
+			const usage = asRecord(parsed.usage);
+			const inputTokens = asNumber(usage?.input_tokens) ?? 0;
+			const outputTokens = asNumber(usage?.output_tokens) ?? 0;
+			const totalTokens = inputTokens + outputTokens > 0 ? inputTokens + outputTokens : void 0;
+			entries.push({
+				id: nextId(),
+				kind: "result",
+				ok: parsed.is_error !== true && parsed.subtype === "success",
+				text: asString(parsed.result) ?? "",
+				denied: denials.map(describeClaudeDenial),
+				durationSeconds: durationMs !== null ? durationMs / 1e3 : void 0,
+				tokens: totalTokens
+			});
+		}
+	}
+	return entries;
+};
+// src/client/agent/AgentLogDrawer.svelte
+var root$15 = $.from_html(`<span class="ab-log-live-pill svelte-2fanu9"><span class="ab-log-live-dot svelte-2fanu9"></span> Live</span>`);
+var root_1$12 = $.from_html(`<div class="ab-log-empty svelte-2fanu9"><span class="ab-spin svelte-2fanu9"><!></span> <span class="svelte-2fanu9">Loading agent log…</span></div>`);
+var root_2$11 = $.from_html(`<div class="ab-log-warning ab-log-warning-err svelte-2fanu9"><!> <span class="svelte-2fanu9"> </span></div>`);
+var root_3$9 = $.from_html(`<span class="ab-spin svelte-2fanu9"><!></span> <span class="svelte-2fanu9">Waiting for agent output…</span>`, 1);
+var root_4$8 = $.from_html(`<span class="svelte-2fanu9">No log output recorded for this run.</span>`);
+var root_5$7 = $.from_html(`<div class="ab-log-empty svelte-2fanu9"><!></div>`);
+var root_6$7 = $.from_html(`<pre class="ab-log-raw svelte-2fanu9"> </pre>`);
+var root_7$4 = $.from_html(`<span class="ab-log-meta-code svelte-2fanu9"> </span>`);
+var root_8$3 = $.from_html(`<span class="ab-log-meta-muted svelte-2fanu9"> </span>`);
+var root_9$2 = $.from_html(`<div class="ab-log-init svelte-2fanu9"><span class="ab-log-badge svelte-2fanu9"> </span> <!> <!></div>`);
+var root_10$2 = $.from_html(`<span class="ab-log-pill svelte-2fanu9"> </span>`);
+var root_11$2 = $.from_html(`<div class="ab-log-msg svelte-2fanu9"><div class="ab-log-msg-head svelte-2fanu9"><!> <span class="svelte-2fanu9">Agent</span> <!> <!></div> <p class="ab-log-msg-text svelte-2fanu9"> </p></div>`);
+var root_12$1 = $.from_html(`<span class="ab-spin svelte-2fanu9"><!></span>`);
+var root_13$1 = $.from_html(`<span class="ab-log-tool-summary svelte-2fanu9"> </span>`);
+var root_14 = $.from_html(`<span class="ab-log-pill ab-log-tool-dur svelte-2fanu9"> </span>`);
+var root_15 = $.from_html(`<div class="ab-log-detail-block svelte-2fanu9"><span class="ab-log-detail-label svelte-2fanu9">Parameters</span> <pre class="ab-log-code svelte-2fanu9"> </pre></div>`);
+var root_16 = $.from_html(`<div class="ab-log-detail-block svelte-2fanu9"><span class="ab-log-detail-label svelte-2fanu9">Output</span> <pre class="ab-log-code svelte-2fanu9"> </pre></div>`);
+var root_17 = $.from_html(`<div class="ab-log-tool-detail svelte-2fanu9"><!> <!></div>`);
+var root_18 = $.from_html(`<div class="ab-log-tool svelte-2fanu9"><button type="button" class="ab-log-tool-head svelte-2fanu9"><span class="ab-log-tool-chev svelte-2fanu9"><!></span> <!> <span class="ab-log-tool-name svelte-2fanu9"> </span> <!> <!></button> <!></div>`);
+var root_19 = $.from_html(`<button type="button" class="ab-log-settings-btn svelte-2fanu9"><!> Open Agent Settings (MCP)</button>`);
+var root_20 = $.from_html(`<div><!> <div class="ab-log-warn-body svelte-2fanu9"><p class="ab-log-warn-text svelte-2fanu9"> </p> <!></div></div>`);
+var root_21 = $.from_html(`<!> <span class="svelte-2fanu9">Completed</span>`, 1);
+var root_22 = $.from_html(`<!> <span class="svelte-2fanu9"> </span>`, 1);
+var root_23 = $.from_html(`<p class="ab-log-result-text svelte-2fanu9"> </p>`);
+var root_24 = $.from_html(`<div class="ab-log-denied-row svelte-2fanu9"><span class="ab-log-denied-label svelte-2fanu9"> </span> <button type="button" class="ab-log-settings-btn svelte-2fanu9"><!> Configure MCP</button></div>`);
+var root_25 = $.from_html(`<div><div class="ab-log-result-head svelte-2fanu9"><!> <!> <!></div> <!> <!></div>`);
+var root_26 = $.from_html(`<div class="ab-log-running-foot svelte-2fanu9"><span class="ab-spin svelte-2fanu9"><!></span> <span class="svelte-2fanu9">Agent is still running…</span></div>`);
+var root_27 = $.from_html(`<div class="ab-log-timeline svelte-2fanu9"><!> <!></div>`);
+var root_28 = $.from_html(`<div class="ab-log-backdrop svelte-2fanu9"><aside role="dialog" aria-modal="true" aria-label="Agent Run Log" class="ab-log-drawer svelte-2fanu9"><div class="ab-log-head svelte-2fanu9"><div class="ab-log-title-wrap svelte-2fanu9"><!> <div class="ab-log-title-col svelte-2fanu9"><h2 class="ab-log-title svelte-2fanu9"> </h2> <span class="ab-log-runid svelte-2fanu9"> </span></div> <!></div> <div class="ab-log-head-actions svelte-2fanu9"><div class="ab-log-seg svelte-2fanu9"><button type="button">Timeline</button> <button type="button">Raw</button></div> <button type="button" class="ab-log-icon-btn svelte-2fanu9" title="Copy raw log"><!></button> <button type="button" class="ab-log-icon-btn svelte-2fanu9" aria-label="Close log"><!></button></div></div> <div class="ab-log-body svelte-2fanu9"><!></div></aside></div>`);
+const $$css$15 = {
+	hash: "svelte-2fanu9",
+	code: ".ab-log-backdrop.svelte-2fanu9 {position:fixed;inset:0;z-index:75;display:flex;justify-content:flex-end;background:rgba(0, 0, 0, 0.45);}.ab-log-drawer.svelte-2fanu9 {width:min(560px, 94vw);height:100%;display:flex;flex-direction:column;border-left:1px solid var(--ab-border);background:var(--ab-surface-solid);color:var(--ab-text);box-shadow:-16px 0 48px rgba(0, 0, 0, 0.45);}.ab-log-head.svelte-2fanu9 {display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--ab-border-subtle);padding:12px 14px;flex-shrink:0;}.ab-log-title-wrap.svelte-2fanu9 {display:flex;align-items:center;gap:8px;min-width:0;}.ab-log-title-col.svelte-2fanu9 {display:flex;flex-direction:column;min-width:0;}.ab-log-title.svelte-2fanu9 {margin:0;font-size:12.5px;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-log-runid.svelte-2fanu9 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:var(--ab-text-subtle);}.ab-log-live-pill.svelte-2fanu9 {display:inline-flex;align-items:center;gap:5px;border-radius:9999px;background:rgba(16, 185, 129, 0.14);padding:2px 7px;font-size:10px;font-weight:600;color:#10b981;flex-shrink:0;}.ab-log-live-dot.svelte-2fanu9 {width:6px;height:6px;border-radius:9999px;background:#10b981;\n    animation: svelte-2fanu9-ab-pulse 1.4s ease-in-out infinite;}.ab-log-head-actions.svelte-2fanu9 {display:flex;align-items:center;gap:6px;flex-shrink:0;}.ab-log-seg.svelte-2fanu9 {display:inline-flex;border:1px solid var(--ab-border);border-radius:7px;background:var(--ab-input-bg);padding:2px;}.ab-log-seg-btn.svelte-2fanu9 {border:none;border-radius:5px;background:transparent;padding:3px 8px;font-size:10.5px;font-weight:600;color:var(--ab-text-muted);cursor:pointer;}.ab-log-seg-active.svelte-2fanu9 {background:var(--ab-pill-bg);color:var(--ab-text);}.ab-log-icon-btn.svelte-2fanu9 {display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:6px;background:transparent;padding:5px;color:var(--ab-text-muted);cursor:pointer;}.ab-log-icon-btn.svelte-2fanu9:hover:not(:disabled) {background:var(--ab-hover);color:var(--ab-text);}.ab-log-icon-btn.svelte-2fanu9:disabled {opacity:0.4;cursor:not-allowed;}.ab-log-body.svelte-2fanu9 {flex:1;overflow-y:auto;padding:12px 14px;}.ab-log-empty.svelte-2fanu9 {display:flex;align-items:center;justify-content:center;gap:8px;padding:40px 16px;font-size:12px;color:var(--ab-text-muted);}.ab-log-raw.svelte-2fanu9 {margin:0;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:11px;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:var(--ab-text);background:var(--ab-input-bg);border:1px solid var(--ab-border-subtle);border-radius:8px;padding:10px 12px;}.ab-log-timeline.svelte-2fanu9 {display:flex;flex-direction:column;gap:8px;}.ab-log-init.svelte-2fanu9 {display:flex;align-items:center;gap:6px;flex-wrap:wrap;border:1px solid var(--ab-border-subtle);border-radius:8px;background:var(--ab-input-bg);padding:6px 10px;font-size:11px;}.ab-log-badge.svelte-2fanu9 {border-radius:4px;background:rgba(99, 102, 241, 0.16);padding:1px 6px;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--ab-accent-text);}.ab-log-meta-code.svelte-2fanu9 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:11px;color:var(--ab-text);}.ab-log-meta-muted.svelte-2fanu9 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:var(--ab-text-subtle);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%;}.ab-log-msg.svelte-2fanu9 {border:1px solid var(--ab-border-subtle);border-radius:9px;background:var(--ab-input-bg);padding:8px 10px;}.ab-log-msg-head.svelte-2fanu9 {display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:600;color:var(--ab-text-muted);margin-bottom:4px;}.ab-log-msg-text.svelte-2fanu9 {margin:0;font-size:11.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:var(--ab-text);}.ab-log-pill.svelte-2fanu9 {border-radius:4px;background:var(--ab-pill-bg);padding:1px 5px;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:9.5px;font-weight:500;color:var(--ab-text-muted);}.ab-log-tool.svelte-2fanu9 {border:1px solid var(--ab-border-subtle);border-radius:8px;background:var(--ab-input-bg);overflow:hidden;}.ab-log-tool-head.svelte-2fanu9 {width:100%;display:flex;align-items:center;gap:6px;border:none;background:transparent;padding:7px 9px;text-align:left;color:var(--ab-text);cursor:pointer;font-size:11px;}.ab-log-tool-head.svelte-2fanu9:hover {background:var(--ab-hover);}.ab-log-tool-chev.svelte-2fanu9 {display:inline-flex;color:var(--ab-text-subtle);flex-shrink:0;}.ab-log-tool-name.svelte-2fanu9 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-weight:600;flex-shrink:0;}.ab-log-tool-summary.svelte-2fanu9 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10.5px;color:var(--ab-text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;}.ab-log-tool-dur.svelte-2fanu9 {margin-left:auto;flex-shrink:0;}.ab-log-tool-detail.svelte-2fanu9 {border-top:1px solid var(--ab-border-subtle);padding:8px 10px;display:flex;flex-direction:column;gap:8px;}.ab-log-detail-block.svelte-2fanu9 {display:flex;flex-direction:column;gap:3px;}.ab-log-detail-label.svelte-2fanu9 {font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.04em;color:var(--ab-text-subtle);}.ab-log-code.svelte-2fanu9 {margin:0;max-height:220px;overflow:auto;border-radius:6px;background:var(--ab-bg);padding:7px 9px;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10.5px;line-height:1.45;white-space:pre-wrap;word-break:break-word;color:var(--ab-text);}.ab-log-warning.svelte-2fanu9 {display:flex;align-items:flex-start;gap:8px;border:1px solid rgba(245, 158, 11, 0.35);border-radius:9px;background:rgba(245, 158, 11, 0.1);padding:9px 11px;font-size:11.5px;color:#f59e0b;}.ab-log-warning-err.svelte-2fanu9 {border-color:rgba(244, 63, 94, 0.4);background:rgba(244, 63, 94, 0.1);color:#fb7185;}.ab-log-warn-body.svelte-2fanu9 {display:flex;flex-direction:column;gap:6px;min-width:0;flex:1;}.ab-log-warn-text.svelte-2fanu9 {margin:0;line-height:1.45;word-break:break-word;}.ab-log-settings-btn.svelte-2fanu9 {align-self:flex-start;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--ab-border);border-radius:6px;background:var(--ab-surface-solid);padding:4px 8px;font-size:10.5px;font-weight:600;color:var(--ab-text);cursor:pointer;}.ab-log-settings-btn.svelte-2fanu9:hover {background:var(--ab-hover);}.ab-log-result.svelte-2fanu9 {border:1px solid var(--ab-border);border-radius:9px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;}.ab-log-result-ok.svelte-2fanu9 {border-color:rgba(16, 185, 129, 0.35);background:rgba(16, 185, 129, 0.08);}.ab-log-result-warn.svelte-2fanu9 {border-color:rgba(245, 158, 11, 0.4);background:rgba(245, 158, 11, 0.09);}.ab-log-result-head.svelte-2fanu9 {display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--ab-text);}.ab-log-result-text.svelte-2fanu9 {margin:0;font-size:11.5px;line-height:1.5;white-space:pre-wrap;word-break:break-word;color:var(--ab-text);}.ab-log-denied-row.svelte-2fanu9 {display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding-top:4px;border-top:1px solid var(--ab-border-subtle);}.ab-log-denied-label.svelte-2fanu9 {font-size:11px;font-weight:600;color:#f59e0b;}.ab-log-running-foot.svelte-2fanu9 {display:flex;align-items:center;gap:6px;padding:6px 4px;font-size:11px;color:var(--ab-text-muted);}.ab-spin.svelte-2fanu9 {display:inline-flex;\n    animation: svelte-2fanu9-ab-spin 1s linear infinite;}\n\n  @keyframes svelte-2fanu9-ab-spin {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }\n\n  @keyframes svelte-2fanu9-ab-pulse {\n    0%,\n    100% {\n      opacity: 1;\n    }\n    50% {\n      opacity: 0.35;\n    }\n  }"
+};
+function AgentLogDrawer($$anchor, $$props) {
+	$.push($$props, true);
+	$.append_styles($$anchor, $$css$15);
+	let title = $.prop($$props, "title", 3, "Agent Run Log");
+	let raw = $.state("");
+	let active = $.state(false);
+	let loading = $.state(false);
+	let error = $.state(null);
+	let viewMode = $.state("timeline");
+	let copied = $.state(false);
+	let scrollEl = $.state(null);
+	let pinnedToBottom = true;
+	const expandedTools = new SvelteSet();
+	const entries = $.derived(() => parseAgentLog($.get(raw)));
+	async function fetchLog(id, isInitial) {
+		if (isInitial) {
+			$.set(loading, true);
+			$.set(error, null);
+		}
+		try {
+			const res = await $$props.loadLog(id);
+			$.set(raw, res.raw, true);
+			$.set(active, res.active, true);
+			$.set(error, null);
+			if (pinnedToBottom) {
+				await tick();
+				if ($.get(scrollEl)) $.get(scrollEl).scrollTop = $.get(scrollEl).scrollHeight;
+			}
+		} catch (err) {
+			if (isInitial) $.set(error, err instanceof Error ? err.message : "Failed to load log", true);
+		} finally {
+			if (isInitial) $.set(loading, false);
+		}
+	}
+	$.user_effect(() => {
+		const id = $$props.runId;
+		if (!id) {
+			$.set(raw, "");
+			$.set(active, false);
+			$.set(error, null);
+			expandedTools.clear();
+			return;
+		}
+		pinnedToBottom = true;
+		fetchLog(id, true);
+		const onLogEvent = (event) => {
+			const detail = event.detail;
+			if (!detail?.runId || detail.runId === id) fetchLog(id, false);
+		};
+		const onAgentChanged = () => {
+			fetchLog(id, false);
+		};
+		const onKeyDown = (event) => {
+			if (event.key === "Escape") $$props.onclose();
+		};
+		window.addEventListener("artboard:agent-log", onLogEvent);
+		window.addEventListener("artboard:agent-changed", onAgentChanged);
+		window.addEventListener("keydown", onKeyDown);
+		return () => {
+			window.removeEventListener("artboard:agent-log", onLogEvent);
+			window.removeEventListener("artboard:agent-changed", onAgentChanged);
+			window.removeEventListener("keydown", onKeyDown);
+		};
+	});
+	function handleScroll() {
+		if (!$.get(scrollEl)) return;
+		pinnedToBottom = $.get(scrollEl).scrollHeight - $.get(scrollEl).scrollTop - $.get(scrollEl).clientHeight < 60;
+	}
+	function toggleTool(id) {
+		if (expandedTools.has(id)) expandedTools.delete(id);
+		else expandedTools.add(id);
+	}
+	async function handleCopy() {
+		try {
+			await navigator.clipboard.writeText($.get(raw));
+			$.set(copied, true);
+			setTimeout(() => {
+				$.set(copied, false);
+			}, 1500);
+		} catch {}
+	}
+	function formatDuration(seconds) {
+		if (seconds === void 0 || !Number.isFinite(seconds)) return null;
+		if (seconds < 1) return `${Math.round(seconds * 1e3)}ms`;
+		return `${seconds.toFixed(1)}s`;
+	}
+	function formatTokens(tokens) {
+		if (tokens === void 0 || !Number.isFinite(tokens) || tokens <= 0) return null;
+		if (tokens >= 1e3) return `${(tokens / 1e3).toFixed(1)}k tok`;
+		return `${tokens} tok`;
+	}
+	function summarizeToolParams(entry) {
+		const params = entry.parameters;
+		if (!params || typeof params !== "object" || Array.isArray(params)) return null;
+		const rec = params;
+		if (typeof rec.ServerName === "string" && typeof rec.ToolName === "string") return `${rec.ServerName}/${rec.ToolName}`;
+		for (const key of [
+			"Path",
+			"file_path",
+			"path",
+			"CommandLine",
+			"command",
+			"pattern",
+			"query"
+		]) if (typeof rec[key] === "string" && rec[key]) {
+			const val = rec[key];
+			return val.length > 72 ? `…${val.slice(-70)}` : val;
+		}
+		return null;
+	}
+	function formatJson(value) {
+		try {
+			return JSON.stringify(value, null, 2);
+		} catch {
+			return String(value);
+		}
+	}
+	var fragment = $.comment();
+	var node = $.first_child(fragment);
+	var consequent_31 = ($$anchor) => {
+		var div = root_28();
+		var aside = $.child(div);
+		var div_1 = $.child(aside);
+		var div_2 = $.child(div_1);
+		var node_1 = $.child(div_2);
+		Terminal(node_1, {
+			size: 15,
+			color: "#818cf8"
+		});
+		var div_3 = $.sibling(node_1, 2);
+		var h2 = $.child(div_3);
+		var text = $.only_child(h2, true);
+		var span = $.sibling(h2, 2);
+		var text_1 = $.only_child(span, true);
+		$.reset(div_3);
+		var node_2 = $.sibling(div_3, 2);
+		var consequent = ($$anchor) => {
+			var span_1 = root$15();
+			$.append($$anchor, span_1);
+		};
+		$.if(node_2, ($$render) => {
+			if ($.get(active)) $$render(consequent);
+		});
+		$.reset(div_2);
+		var div_4 = $.sibling(div_2, 2);
+		var div_5 = $.child(div_4);
+		var button = $.child(div_5);
+		let classes;
+		var button_1 = $.sibling(button, 2);
+		let classes_1;
+		$.reset(div_5);
+		var button_2 = $.sibling(div_5, 2);
+		var node_3 = $.child(button_2);
+		var consequent_1 = ($$anchor) => {
+			Check($$anchor, {
+				size: 14,
+				color: "#10b981"
+			});
+		};
+		var alternate = ($$anchor) => {
+			Copy($$anchor, { size: 14 });
+		};
+		$.if(node_3, ($$render) => {
+			if ($.get(copied)) $$render(consequent_1);
+			else $$render(alternate, -1);
+		});
+		$.reset(button_2);
+		var button_3 = $.sibling(button_2, 2);
+		X($.child(button_3), { size: 15 });
+		$.reset(button_3);
+		$.reset(div_4);
+		$.reset(div_1);
+		var div_6 = $.sibling(div_1, 2);
+		var node_5 = $.child(div_6);
+		var consequent_2 = ($$anchor) => {
+			var div_7 = root_1$12();
+			var span_2 = $.child(div_7);
+			Loader_circle($.child(span_2), {
+				size: 16,
+				color: "#818cf8"
+			});
+			$.reset(span_2);
+			$.next(2);
+			$.reset(div_7);
+			$.append($$anchor, div_7);
+		};
+		var consequent_3 = ($$anchor) => {
+			var div_8 = root_2$11();
+			var node_7 = $.child(div_8);
+			Circle_x(node_7, { size: 14 });
+			var span_3 = $.sibling(node_7, 2);
+			var text_2 = $.only_child(span_3, true);
+			$.reset(div_8);
+			$.template_effect(() => $.set_text(text_2, $.get(error)));
+			$.append($$anchor, div_8);
+		};
+		var consequent_5 = ($$anchor) => {
+			var div_9 = root_5$7();
+			var node_8 = $.child(div_9);
+			var consequent_4 = ($$anchor) => {
+				var fragment_3 = root_3$9();
+				var span_4 = $.first_child(fragment_3);
+				Loader_circle($.child(span_4), {
+					size: 16,
+					color: "#818cf8"
+				});
+				$.reset(span_4);
+				$.next(2);
+				$.append($$anchor, fragment_3);
+			};
+			var alternate_1 = ($$anchor) => {
+				var span_5 = root_4$8();
+				$.append($$anchor, span_5);
+			};
+			$.if(node_8, ($$render) => {
+				if ($.get(active)) $$render(consequent_4);
+				else $$render(alternate_1, -1);
+			});
+			$.reset(div_9);
+			$.append($$anchor, div_9);
+		};
+		var d = $.derived(() => !$.get(raw).trim());
+		var consequent_6 = ($$anchor) => {
+			var pre = root_6$7();
+			var text_3 = $.only_child(pre, true);
+			$.template_effect(() => $.set_text(text_3, $.get(raw)));
+			$.append($$anchor, pre);
+		};
+		var alternate_5 = ($$anchor) => {
+			var div_10 = root_27();
+			var node_10 = $.child(div_10);
+			$.each(node_10, 17, () => $.get(entries), (entry) => entry.id, ($$anchor, entry) => {
+				var fragment_4 = $.comment();
+				var node_11 = $.first_child(fragment_4);
+				var consequent_9 = ($$anchor) => {
+					var div_11 = root_9$2();
+					var span_6 = $.child(div_11);
+					var text_4 = $.only_child(span_6, true);
+					var node_12 = $.sibling(span_6, 2);
+					var consequent_7 = ($$anchor) => {
+						var span_7 = root_7$4();
+						var text_5 = $.only_child(span_7, true);
+						$.template_effect(() => $.set_text(text_5, $.get(entry).model));
+						$.append($$anchor, span_7);
+					};
+					$.if(node_12, ($$render) => {
+						if ($.get(entry).model) $$render(consequent_7);
+					});
+					var node_13 = $.sibling(node_12, 2);
+					var consequent_8 = ($$anchor) => {
+						var span_8 = root_8$3();
+						var text_6 = $.only_child(span_8, true);
+						$.template_effect(() => {
+							$.set_attribute(span_8, "title", $.get(entry).cwd);
+							$.set_text(text_6, $.get(entry).cwd);
+						});
+						$.append($$anchor, span_8);
+					};
+					$.if(node_13, ($$render) => {
+						if ($.get(entry).cwd) $$render(consequent_8);
+					});
+					$.reset(div_11);
+					$.template_effect(() => $.set_text(text_4, $.get(entry).provider ?? "agent"));
+					$.append($$anchor, div_11);
+				};
+				var consequent_12 = ($$anchor) => {
+					var div_12 = root_11$2();
+					var div_13 = $.child(div_12);
+					var node_14 = $.child(div_13);
+					Bot(node_14, {
+						size: 12,
+						color: "#818cf8"
+					});
+					var node_15 = $.sibling(node_14, 4);
+					var consequent_10 = ($$anchor) => {
+						var span_9 = root_10$2();
+						var text_7 = $.only_child(span_9, true);
+						$.template_effect(($0) => $.set_text(text_7, $0), [() => formatDuration($.get(entry).durationSeconds)]);
+						$.append($$anchor, span_9);
+					};
+					var d_1 = $.derived(() => formatDuration($.get(entry).durationSeconds));
+					$.if(node_15, ($$render) => {
+						if ($.get(d_1)) $$render(consequent_10);
+					});
+					var node_16 = $.sibling(node_15, 2);
+					var consequent_11 = ($$anchor) => {
+						var span_10 = root_10$2();
+						var text_8 = $.only_child(span_10, true);
+						$.template_effect(($0) => $.set_text(text_8, $0), [() => formatTokens($.get(entry).tokens)]);
+						$.append($$anchor, span_10);
+					};
+					var d_2 = $.derived(() => formatTokens($.get(entry).tokens));
+					$.if(node_16, ($$render) => {
+						if ($.get(d_2)) $$render(consequent_11);
+					});
+					$.reset(div_13);
+					var p = $.sibling(div_13, 2);
+					var text_9 = $.only_child(p, true);
+					$.reset(div_12);
+					$.template_effect(() => $.set_text(text_9, $.get(entry).text));
+					$.append($$anchor, div_12);
+				};
+				var consequent_21 = ($$anchor) => {
+					const isOpen = $.derived(() => expandedTools.has($.get(entry).id));
+					const summary = $.derived(() => summarizeToolParams($.get(entry)));
+					var div_14 = root_18();
+					var button_4 = $.child(div_14);
+					var span_11 = $.child(button_4);
+					var node_17 = $.child(span_11);
+					var consequent_13 = ($$anchor) => {
+						Chevron_down($$anchor, { size: 12 });
+					};
+					var alternate_2 = ($$anchor) => {
+						Chevron_right($$anchor, { size: 12 });
+					};
+					$.if(node_17, ($$render) => {
+						if ($.get(isOpen)) $$render(consequent_13);
+						else $$render(alternate_2, -1);
+					});
+					$.reset(span_11);
+					var node_18 = $.sibling(span_11, 2);
+					var consequent_14 = ($$anchor) => {
+						var span_12 = root_12$1();
+						Loader_circle($.child(span_12), {
+							size: 12,
+							color: "#818cf8"
+						});
+						$.reset(span_12);
+						$.append($$anchor, span_12);
+					};
+					var consequent_15 = ($$anchor) => {
+						Circle_x($$anchor, {
+							size: 12,
+							color: "#f43f5e"
+						});
+					};
+					var alternate_3 = ($$anchor) => {
+						Wrench($$anchor, {
+							size: 12,
+							color: "#10b981"
+						});
+					};
+					$.if(node_18, ($$render) => {
+						if ($.get(entry).status === "running") $$render(consequent_14);
+						else if ($.get(entry).status === "error") $$render(consequent_15, 1);
+						else $$render(alternate_3, -1);
+					});
+					var span_13 = $.sibling(node_18, 2);
+					var text_10 = $.only_child(span_13, true);
+					var node_20 = $.sibling(span_13, 2);
+					var consequent_16 = ($$anchor) => {
+						var span_14 = root_13$1();
+						var text_11 = $.only_child(span_14, true);
+						$.template_effect(() => {
+							$.set_attribute(span_14, "title", $.get(summary));
+							$.set_text(text_11, $.get(summary));
+						});
+						$.append($$anchor, span_14);
+					};
+					$.if(node_20, ($$render) => {
+						if ($.get(summary)) $$render(consequent_16);
+					});
+					var node_21 = $.sibling(node_20, 2);
+					var consequent_17 = ($$anchor) => {
+						var span_15 = root_14();
+						var text_12 = $.only_child(span_15, true);
+						$.template_effect(($0) => $.set_text(text_12, $0), [() => formatDuration($.get(entry).durationSeconds)]);
+						$.append($$anchor, span_15);
+					};
+					var d_3 = $.derived(() => formatDuration($.get(entry).durationSeconds));
+					$.if(node_21, ($$render) => {
+						if ($.get(d_3)) $$render(consequent_17);
+					});
+					$.reset(button_4);
+					var node_22 = $.sibling(button_4, 2);
+					var consequent_20 = ($$anchor) => {
+						var div_15 = root_17();
+						var node_23 = $.child(div_15);
+						var consequent_18 = ($$anchor) => {
+							var div_16 = root_15();
+							var pre_1 = $.sibling($.child(div_16), 2);
+							var text_13 = $.only_child(pre_1, true);
+							$.reset(div_16);
+							$.template_effect(($0) => $.set_text(text_13, $0), [() => formatJson($.get(entry).parameters)]);
+							$.append($$anchor, div_16);
+						};
+						$.if(node_23, ($$render) => {
+							if ($.get(entry).parameters !== void 0) $$render(consequent_18);
+						});
+						var node_24 = $.sibling(node_23, 2);
+						var consequent_19 = ($$anchor) => {
+							var div_17 = root_16();
+							var pre_2 = $.sibling($.child(div_17), 2);
+							var text_14 = $.only_child(pre_2, true);
+							$.reset(div_17);
+							$.template_effect(() => $.set_text(text_14, $.get(entry).output));
+							$.append($$anchor, div_17);
+						};
+						$.if(node_24, ($$render) => {
+							if ($.get(entry).output) $$render(consequent_19);
+						});
+						$.reset(div_15);
+						$.append($$anchor, div_15);
+					};
+					$.if(node_22, ($$render) => {
+						if ($.get(isOpen)) $$render(consequent_20);
+					});
+					$.reset(div_14);
+					$.template_effect(() => $.set_text(text_10, $.get(entry).name));
+					$.delegated("click", button_4, () => {
+						toggleTool($.get(entry).id);
+					});
+					$.append($$anchor, div_14);
+				};
+				var consequent_23 = ($$anchor) => {
+					var div_18 = root_20();
+					let classes_2;
+					var node_25 = $.child(div_18);
+					Triangle_exclamation_point(node_25, {
+						size: 14,
+						class: "ab-log-warn-icon"
+					});
+					var div_19 = $.sibling(node_25, 2);
+					var p_1 = $.child(div_19);
+					var text_15 = $.only_child(p_1, true);
+					var node_26 = $.sibling(p_1, 2);
+					var consequent_22 = ($$anchor) => {
+						var button_5 = root_19();
+						Settings($.child(button_5), { size: 11 });
+						$.next();
+						$.reset(button_5);
+						$.delegated("click", button_5, function(...$$args) {
+							$$props.onopensettings?.apply(this, $$args);
+						});
+						$.append($$anchor, button_5);
+					};
+					$.if(node_26, ($$render) => {
+						if ($.get(entry).isPermissionDenial) $$render(consequent_22);
+					});
+					$.reset(div_19);
+					$.reset(div_18);
+					$.template_effect(() => {
+						classes_2 = $.set_class(div_18, 1, "ab-log-warning svelte-2fanu9", null, classes_2, { "ab-log-warning-err": $.get(entry).isPermissionDenial });
+						$.set_text(text_15, $.get(entry).text);
+					});
+					$.append($$anchor, div_18);
+				};
+				var consequent_29 = ($$anchor) => {
+					var div_20 = root_25();
+					let classes_3;
+					var div_21 = $.child(div_20);
+					var node_28 = $.child(div_21);
+					var consequent_24 = ($$anchor) => {
+						var fragment_9 = root_21();
+						Circle_check($.first_child(fragment_9), {
+							size: 14,
+							color: "#10b981"
+						});
+						$.next(2);
+						$.append($$anchor, fragment_9);
+					};
+					var alternate_4 = ($$anchor) => {
+						var fragment_10 = root_22();
+						var node_30 = $.first_child(fragment_10);
+						Triangle_exclamation_point(node_30, {
+							size: 14,
+							color: "#f59e0b"
+						});
+						var span_16 = $.sibling(node_30, 2);
+						var text_16 = $.only_child(span_16, true);
+						$.template_effect(() => $.set_text(text_16, $.get(entry).denied.length > 0 ? "Finished with denied permissions" : "Finished"));
+						$.append($$anchor, fragment_10);
+					};
+					$.if(node_28, ($$render) => {
+						if ($.get(entry).ok && $.get(entry).denied.length === 0) $$render(consequent_24);
+						else $$render(alternate_4, -1);
+					});
+					var node_31 = $.sibling(node_28, 2);
+					var consequent_25 = ($$anchor) => {
+						var span_17 = root_10$2();
+						var text_17 = $.only_child(span_17, true);
+						$.template_effect(($0) => $.set_text(text_17, $0), [() => formatDuration($.get(entry).durationSeconds)]);
+						$.append($$anchor, span_17);
+					};
+					var d_4 = $.derived(() => formatDuration($.get(entry).durationSeconds));
+					$.if(node_31, ($$render) => {
+						if ($.get(d_4)) $$render(consequent_25);
+					});
+					var node_32 = $.sibling(node_31, 2);
+					var consequent_26 = ($$anchor) => {
+						var span_18 = root_10$2();
+						var text_18 = $.only_child(span_18, true);
+						$.template_effect(($0) => $.set_text(text_18, $0), [() => formatTokens($.get(entry).tokens)]);
+						$.append($$anchor, span_18);
+					};
+					var d_5 = $.derived(() => formatTokens($.get(entry).tokens));
+					$.if(node_32, ($$render) => {
+						if ($.get(d_5)) $$render(consequent_26);
+					});
+					$.reset(div_21);
+					var node_33 = $.sibling(div_21, 2);
+					var consequent_27 = ($$anchor) => {
+						var p_2 = root_23();
+						var text_19 = $.only_child(p_2, true);
+						$.template_effect(() => $.set_text(text_19, $.get(entry).text));
+						$.append($$anchor, p_2);
+					};
+					$.if(node_33, ($$render) => {
+						if ($.get(entry).text) $$render(consequent_27);
+					});
+					var node_34 = $.sibling(node_33, 2);
+					var consequent_28 = ($$anchor) => {
+						var div_22 = root_24();
+						var span_19 = $.child(div_22);
+						var text_20 = $.only_child(span_19);
+						var button_6 = $.sibling(span_19, 2);
+						Settings($.child(button_6), { size: 11 });
+						$.next();
+						$.reset(button_6);
+						$.reset(div_22);
+						$.template_effect(($0) => $.set_text(text_20, `Denied: ${$0 ?? ""}`), [() => $.get(entry).denied.join(", ")]);
+						$.delegated("click", button_6, function(...$$args) {
+							$$props.onopensettings?.apply(this, $$args);
+						});
+						$.append($$anchor, div_22);
+					};
+					$.if(node_34, ($$render) => {
+						if ($.get(entry).denied.length > 0) $$render(consequent_28);
+					});
+					$.reset(div_20);
+					$.template_effect(() => classes_3 = $.set_class(div_20, 1, "ab-log-result svelte-2fanu9", null, classes_3, {
+						"ab-log-result-ok": $.get(entry).ok && $.get(entry).denied.length === 0,
+						"ab-log-result-warn": !$.get(entry).ok || $.get(entry).denied.length > 0
+					}));
+					$.append($$anchor, div_20);
+				};
+				$.if(node_11, ($$render) => {
+					if ($.get(entry).kind === "init") $$render(consequent_9);
+					else if ($.get(entry).kind === "message") $$render(consequent_12, 1);
+					else if ($.get(entry).kind === "tool") $$render(consequent_21, 2);
+					else if ($.get(entry).kind === "warning") $$render(consequent_23, 3);
+					else if ($.get(entry).kind === "result") $$render(consequent_29, 4);
+				});
+				$.append($$anchor, fragment_4);
+			});
+			var node_36 = $.sibling(node_10, 2);
+			var consequent_30 = ($$anchor) => {
+				var div_23 = root_26();
+				var span_20 = $.child(div_23);
+				Loader_circle($.child(span_20), {
+					size: 12,
+					color: "#818cf8"
+				});
+				$.reset(span_20);
+				$.next(2);
+				$.reset(div_23);
+				$.append($$anchor, div_23);
+			};
+			$.if(node_36, ($$render) => {
+				if ($.get(active)) $$render(consequent_30);
+			});
+			$.reset(div_10);
+			$.append($$anchor, div_10);
+		};
+		$.if(node_5, ($$render) => {
+			if ($.get(loading)) $$render(consequent_2);
+			else if ($.get(error)) $$render(consequent_3, 1);
+			else if ($.get(d)) $$render(consequent_5, 2);
+			else if ($.get(viewMode) === "raw") $$render(consequent_6, 3);
+			else $$render(alternate_5, -1);
+		});
+		$.reset(div_6);
+		$.bind_this(div_6, ($$value) => $.set(scrollEl, $$value), () => $.get(scrollEl));
+		$.reset(aside);
+		$.reset(div);
+		$.template_effect(($0) => {
+			$.set_text(text, title());
+			$.set_text(text_1, $0);
+			classes = $.set_class(button, 1, "ab-log-seg-btn svelte-2fanu9", null, classes, { "ab-log-seg-active": $.get(viewMode) === "timeline" });
+			classes_1 = $.set_class(button_1, 1, "ab-log-seg-btn svelte-2fanu9", null, classes_1, { "ab-log-seg-active": $.get(viewMode) === "raw" });
+			button_2.disabled = !$.get(raw);
+		}, [() => $$props.runId.slice(0, 8)]);
+		$.delegated("click", div, function(...$$args) {
+			$$props.onclose?.apply(this, $$args);
+		});
+		$.delegated("click", aside, (e) => {
+			e.stopPropagation();
+		});
+		$.delegated("click", button, () => {
+			$.set(viewMode, "timeline");
+		});
+		$.delegated("click", button_1, () => {
+			$.set(viewMode, "raw");
+		});
+		$.delegated("click", button_2, () => {
+			handleCopy();
+		});
+		$.delegated("click", button_3, function(...$$args) {
+			$$props.onclose?.apply(this, $$args);
+		});
+		$.event("scroll", div_6, handleScroll);
+		$.append($$anchor, div);
+	};
+	$.if(node, ($$render) => {
+		if ($$props.runId) $$render(consequent_31);
+	});
+	$.append($$anchor, fragment);
+	$.pop();
+}
+$.delegate(["click"]);
 // src/client/ui/SelectDropdown.svelte
 var root$14 = $.from_html(`<span class="ab-dd-sub svelte-1nigtw5"> </span>`);
 var root_1$11 = $.from_html(`<div class="ab-dd-sep svelte-1nigtw5"></div>`);
@@ -1056,7 +2023,7 @@ var root_2$10 = $.from_html(`<div class="ab-dd-opt-lines svelte-1nigtw5"><span c
 var root_3$8 = $.from_html(`<span class="ab-dd-opt-label svelte-1nigtw5"> </span>`);
 var root_4$7 = $.from_html(`<!> <button type="button" role="option"><!> <!></button>`, 1);
 var root_5$6 = $.from_html(`<div role="listbox" class="ab-dd-menu svelte-1nigtw5"></div>`);
-var root_6$5 = $.from_html(`<div class="ab-dd-wrap svelte-1nigtw5"><button type="button" aria-haspopup="listbox" class="ab-dd-trigger svelte-1nigtw5"><div class="ab-dd-trigger-text svelte-1nigtw5"><span class="ab-dd-primary svelte-1nigtw5"> </span> <!></div> <span><!></span></button> <!></div>`);
+var root_6$6 = $.from_html(`<div class="ab-dd-wrap svelte-1nigtw5"><button type="button" aria-haspopup="listbox" class="ab-dd-trigger svelte-1nigtw5"><div class="ab-dd-trigger-text svelte-1nigtw5"><span class="ab-dd-primary svelte-1nigtw5"> </span> <!></div> <span><!></span></button> <!></div>`);
 const $$css$14 = {
 	hash: "svelte-1nigtw5",
 	code: ".ab-dd-wrap.svelte-1nigtw5 {position:relative;}.ab-dd-trigger.svelte-1nigtw5 {display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;min-height:38px;border:1px solid var(--ab-border);border-radius:8px;background:var(--ab-input-bg);padding:6px 10px;text-align:left;color:var(--ab-text);cursor:pointer;}.ab-dd-trigger.svelte-1nigtw5:hover {border-color:#6366f1;}.ab-dd-trigger-text.svelte-1nigtw5 {display:flex;flex-direction:column;gap:1px;min-width:0;}.ab-dd-primary.svelte-1nigtw5 {font-size:12px;font-weight:600;color:var(--ab-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-dd-sub.svelte-1nigtw5 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:var(--ab-text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-dd-chev.svelte-1nigtw5 {display:inline-flex;color:var(--ab-text-muted);flex-shrink:0;transition:transform 0.15s ease;}.ab-dd-chev-open.svelte-1nigtw5 {transform:rotate(180deg);}.ab-dd-menu.svelte-1nigtw5 {position:absolute;top:calc(100% + 6px);left:0;right:0;z-index:90;max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:2px;border-radius:10px;border:1px solid var(--ab-border);background:var(--ab-surface-solid);padding:4px;box-shadow:0 18px 40px rgba(0, 0, 0, 0.45);}.ab-dd-opt.svelte-1nigtw5 {display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;border:none;border-radius:7px;background:transparent;padding:7px 9px;text-align:left;color:var(--ab-text);cursor:pointer;}.ab-dd-opt.svelte-1nigtw5:hover {background:var(--ab-hover);}.ab-dd-opt-active.svelte-1nigtw5 {background:rgba(99, 102, 241, 0.16);color:var(--ab-accent-text);}.ab-dd-opt-lines.svelte-1nigtw5 {display:flex;flex-direction:column;gap:1px;min-width:0;}.ab-dd-opt-label.svelte-1nigtw5 {font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-dd-opt-id.svelte-1nigtw5 {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:var(--ab-text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-dd-sep.svelte-1nigtw5 {height:1px;margin:3px 4px;background:var(--ab-border-subtle);}"
@@ -1065,7 +2032,7 @@ function SelectDropdown($$anchor, $$props) {
 	$.push($$props, true);
 	$.append_styles($$anchor, $$css$14);
 	let disabled = $.prop($$props, "disabled", 3, false);
-	var div = root_6$5();
+	var div = root_6$6();
 	var button = $.child(div);
 	var div_1 = $.child(button);
 	var span = $.child(div_1);
@@ -1182,17 +2149,20 @@ const hasEffortSuffix = (model) => {
 		return model.endsWith(`-${level}`);
 	});
 };
+const McpRuleSchema = v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(200));
 v.object({
 	enabled: v.boolean(),
 	provider: v.picklist(PROVIDERS),
 	model: v.nullable(v.pipe(v.string(), v.maxLength(200))),
-	effort: v.nullable(v.picklist(EFFORT_LEVELS))
+	effort: v.nullable(v.picklist(EFFORT_LEVELS)),
+	allowedMcp: v.optional(v.array(McpRuleSchema), [])
 });
 v.strictObject({
 	enabled: v.optional(v.boolean()),
 	provider: v.optional(v.picklist(PROVIDERS)),
 	model: v.optional(v.nullable(v.pipe(v.string(), v.maxLength(200)))),
-	effort: v.optional(v.nullable(v.picklist(EFFORT_LEVELS)))
+	effort: v.optional(v.nullable(v.picklist(EFFORT_LEVELS))),
+	allowedMcp: v.optional(v.array(McpRuleSchema))
 });
 const CommentRunSchema = v.object({
 	commentId: v.string(),
@@ -1238,16 +2208,25 @@ var root_1$10 = $.from_html(`<button type="button" class="ab-cancel-btn svelte-y
 var root_2$9 = $.from_html(`<div class="ab-custom-row svelte-yfks5a"><input type="text" aria-label="Custom model id" placeholder="Model id (empty = CLI default)" class="ab-field-input svelte-yfks5a"/> <button type="button" class="ab-save-btn svelte-yfks5a">Save</button> <!></div>`);
 var root_3$7 = $.from_html(`<div class="ab-field svelte-yfks5a"><span class="ab-field-label svelte-yfks5a">Effort</span> <!></div>`);
 var root_4$6 = $.from_html(`<div class="ab-field svelte-yfks5a"><span class="ab-field-label svelte-yfks5a">Model</span> <!></div> <!>`, 1);
-var root_5$5 = $.from_html(`<div class="ab-modal-backdrop svelte-yfks5a"><div role="dialog" aria-modal="true" aria-label="Agent Runner Settings" class="ab-modal svelte-yfks5a"><div class="ab-modal-head svelte-yfks5a"><div class="ab-modal-title-wrap svelte-yfks5a"><!> <h2 class="ab-modal-title svelte-yfks5a">Agent Runner Settings</h2></div> <button type="button" aria-label="Close settings" class="ab-modal-close svelte-yfks5a"><!></button></div> <div class="ab-modal-body svelte-yfks5a"><label class="ab-toggle-row svelte-yfks5a"><div><p class="ab-field-label svelte-yfks5a">Enable Agent Runner</p> <p class="ab-field-hint svelte-yfks5a">Allow sending open comments to a local CLI (off by default).</p></div> <input type="checkbox" class="ab-modal-check svelte-yfks5a"/></label> <div class="ab-field svelte-yfks5a"><span class="ab-field-label svelte-yfks5a">Provider</span> <div class="ab-provider-grid svelte-yfks5a"><button type="button"><span>Claude Code</span> <span></span></button> <button type="button"><span>Antigravity (agy)</span> <span></span></button></div></div> <!></div></div></div>`);
+var root_5$5 = $.from_html(`<div class="ab-mcp-loading svelte-yfks5a"><span class="ab-spin svelte-yfks5a"><!></span> <span>Scanning MCP servers…</span></div>`);
+var root_6$5 = $.from_html(`<label class="ab-mcp-row svelte-yfks5a"><input type="checkbox" class="ab-modal-check svelte-yfks5a"/> <span class="ab-mcp-name svelte-yfks5a"> </span> <span class="ab-mcp-source svelte-yfks5a"> </span></label>`);
+var root_7$3 = $.from_html(`<div class="ab-mcp-list svelte-yfks5a"></div>`);
+var root_8$2 = $.from_html(`<p class="ab-mcp-empty svelte-yfks5a">No MCP servers detected for this provider.</p>`);
+var root_9$1 = $.from_html(`<span class="ab-mcp-chip svelte-yfks5a"><span> </span> <button type="button" class="ab-mcp-chip-del svelte-yfks5a"><!></button></span>`);
+var root_10$1 = $.from_html(`<div class="ab-mcp-chips svelte-yfks5a"></div>`);
+var root_11$1 = $.from_html(`<div class="ab-modal-backdrop svelte-yfks5a"><div role="dialog" aria-modal="true" aria-label="Agent Runner Settings" class="ab-modal svelte-yfks5a"><div class="ab-modal-head svelte-yfks5a"><div class="ab-modal-title-wrap svelte-yfks5a"><!> <h2 class="ab-modal-title svelte-yfks5a">Agent Runner Settings</h2></div> <button type="button" aria-label="Close settings" class="ab-modal-close svelte-yfks5a"><!></button></div> <div class="ab-modal-body svelte-yfks5a"><label class="ab-toggle-row svelte-yfks5a"><div><p class="ab-field-label svelte-yfks5a">Enable Agent Runner</p> <p class="ab-field-hint svelte-yfks5a">Allow sending open comments to a local CLI (off by default).</p></div> <input type="checkbox" class="ab-modal-check svelte-yfks5a"/></label> <div class="ab-field svelte-yfks5a"><span class="ab-field-label svelte-yfks5a">Provider</span> <div class="ab-provider-grid svelte-yfks5a"><button type="button"><span>Claude Code</span> <span></span></button> <button type="button"><span>Antigravity (agy)</span> <span></span></button></div></div> <!> <div class="ab-field ab-mcp-section svelte-yfks5a"><div><span class="ab-field-label svelte-yfks5a">MCP Permissions</span> <p class="ab-field-hint svelte-yfks5a">Allow headless agent runs to call selected MCP servers or tools.</p></div> <!> <!> <div class="ab-custom-row svelte-yfks5a"><input type="text" aria-label="Add MCP rule" placeholder="server, server:tool, or *" class="ab-field-input svelte-yfks5a"/> <button type="button" class="ab-save-btn ab-add-mcp-btn svelte-yfks5a"><!> Add</button></div></div></div></div></div>`);
 const $$css$13 = {
 	hash: "svelte-yfks5a",
-	code: ".ab-modal-backdrop.svelte-yfks5a {position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:rgba(0, 0, 0, 0.55);padding:16px;}.ab-modal.svelte-yfks5a {width:100%;max-width:420px;border-radius:14px;border:1px solid var(--ab-border);background:var(--ab-surface-solid);color:var(--ab-text);box-shadow:0 24px 60px rgba(0, 0, 0, 0.55);overflow:visible;}.ab-modal-head.svelte-yfks5a {display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ab-border-subtle);padding:14px 16px;}.ab-modal-title-wrap.svelte-yfks5a {display:flex;align-items:center;gap:8px;}.ab-modal-title.svelte-yfks5a {margin:0;font-size:13px;font-weight:700;}.ab-modal-close.svelte-yfks5a {display:inline-flex;border:none;border-radius:6px;background:transparent;padding:4px;color:var(--ab-text-muted);cursor:pointer;}.ab-modal-close.svelte-yfks5a:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-modal-body.svelte-yfks5a {padding:16px;display:flex;flex-direction:column;gap:14px;}.ab-toggle-row.svelte-yfks5a {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer;}.ab-field.svelte-yfks5a {display:flex;flex-direction:column;gap:6px;}.ab-field-label.svelte-yfks5a {margin:0;font-size:12px;font-weight:600;color:var(--ab-text);}.ab-field-hint.svelte-yfks5a {margin:2px 0 0;font-size:11px;color:var(--ab-text-muted);}.ab-modal-check.svelte-yfks5a {width:16px;height:16px;accent-color:#4f46e5;cursor:pointer;}.ab-provider-grid.svelte-yfks5a {display:grid;grid-template-columns:1fr 1fr;gap:8px;}.ab-provider-btn.svelte-yfks5a {display:flex;align-items:center;justify-content:space-between;gap:6px;border:1px solid var(--ab-border);border-radius:8px;background:var(--ab-input-bg);padding:8px 10px;font-size:11.5px;font-weight:500;color:var(--ab-text);cursor:pointer;}.ab-provider-active.svelte-yfks5a {border-color:#6366f1;background:rgba(99, 102, 241, 0.16);color:var(--ab-accent-text);}.ab-avail-dot.svelte-yfks5a {width:7px;height:7px;border-radius:9999px;background:#52525b;flex-shrink:0;}.ab-avail-ok.svelte-yfks5a {background:#10b981;}.ab-loading-block.svelte-yfks5a {display:flex;align-items:center;justify-content:center;gap:8px;min-height:92px;border-radius:10px;border:1px dashed var(--ab-border);background:var(--ab-input-bg);font-size:12px;color:var(--ab-text-muted);}.ab-field-input.svelte-yfks5a {box-sizing:border-box;flex:1;min-width:0;height:36px;border:1px solid var(--ab-border);border-radius:8px;background:var(--ab-input-bg);padding:0 10px;font-size:12px;color:var(--ab-text);}.ab-field-input.svelte-yfks5a:focus {outline:none;border-color:#6366f1;}.ab-custom-row.svelte-yfks5a {display:flex;gap:6px;}.ab-save-btn.svelte-yfks5a {border:none;border-radius:8px;background:#4f46e5;padding:0 12px;font-size:12px;font-weight:600;color:#ffffff;cursor:pointer;}.ab-cancel-btn.svelte-yfks5a {border:1px solid var(--ab-border);border-radius:8px;background:transparent;padding:0 10px;font-size:12px;font-weight:500;color:var(--ab-text-muted);cursor:pointer;}.ab-cancel-btn.svelte-yfks5a:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-spin.svelte-yfks5a {display:inline-flex;\n    animation: svelte-yfks5a-ab-spin 1s linear infinite;}\n\n  @keyframes svelte-yfks5a-ab-spin {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }"
+	code: ".ab-modal-backdrop.svelte-yfks5a {position:fixed;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;background:rgba(0, 0, 0, 0.55);padding:16px;}.ab-modal.svelte-yfks5a {width:100%;max-width:420px;border-radius:14px;border:1px solid var(--ab-border);background:var(--ab-surface-solid);color:var(--ab-text);box-shadow:0 24px 60px rgba(0, 0, 0, 0.55);overflow:visible;}.ab-modal-head.svelte-yfks5a {display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ab-border-subtle);padding:14px 16px;}.ab-modal-title-wrap.svelte-yfks5a {display:flex;align-items:center;gap:8px;}.ab-modal-title.svelte-yfks5a {margin:0;font-size:13px;font-weight:700;}.ab-modal-close.svelte-yfks5a {display:inline-flex;border:none;border-radius:6px;background:transparent;padding:4px;color:var(--ab-text-muted);cursor:pointer;}.ab-modal-close.svelte-yfks5a:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-modal-body.svelte-yfks5a {padding:16px;display:flex;flex-direction:column;gap:14px;max-height:75vh;overflow-y:auto;}.ab-toggle-row.svelte-yfks5a {display:flex;align-items:flex-start;justify-content:space-between;gap:12px;cursor:pointer;}.ab-field.svelte-yfks5a {display:flex;flex-direction:column;gap:6px;}.ab-field-label.svelte-yfks5a {margin:0;font-size:12px;font-weight:600;color:var(--ab-text);}.ab-field-hint.svelte-yfks5a {margin:2px 0 0;font-size:11px;color:var(--ab-text-muted);}.ab-modal-check.svelte-yfks5a {width:16px;height:16px;accent-color:#4f46e5;cursor:pointer;}.ab-provider-grid.svelte-yfks5a {display:grid;grid-template-columns:1fr 1fr;gap:8px;}.ab-provider-btn.svelte-yfks5a {display:flex;align-items:center;justify-content:space-between;gap:6px;border:1px solid var(--ab-border);border-radius:8px;background:var(--ab-input-bg);padding:8px 10px;font-size:11.5px;font-weight:500;color:var(--ab-text);cursor:pointer;}.ab-provider-active.svelte-yfks5a {border-color:#6366f1;background:rgba(99, 102, 241, 0.16);color:var(--ab-accent-text);}.ab-avail-dot.svelte-yfks5a {width:7px;height:7px;border-radius:9999px;background:#52525b;flex-shrink:0;}.ab-avail-ok.svelte-yfks5a {background:#10b981;}.ab-loading-block.svelte-yfks5a {display:flex;align-items:center;justify-content:center;gap:8px;min-height:92px;border-radius:10px;border:1px dashed var(--ab-border);background:var(--ab-input-bg);font-size:12px;color:var(--ab-text-muted);}.ab-field-input.svelte-yfks5a {box-sizing:border-box;flex:1;min-width:0;height:36px;border:1px solid var(--ab-border);border-radius:8px;background:var(--ab-input-bg);padding:0 10px;font-size:12px;color:var(--ab-text);}.ab-field-input.svelte-yfks5a:focus {outline:none;border-color:#6366f1;}.ab-custom-row.svelte-yfks5a {display:flex;gap:6px;}.ab-save-btn.svelte-yfks5a {border:none;border-radius:8px;background:#4f46e5;padding:0 12px;font-size:12px;font-weight:600;color:#ffffff;cursor:pointer;}.ab-cancel-btn.svelte-yfks5a {border:1px solid var(--ab-border);border-radius:8px;background:transparent;padding:0 10px;font-size:12px;font-weight:500;color:var(--ab-text-muted);cursor:pointer;}.ab-cancel-btn.svelte-yfks5a:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-mcp-section.svelte-yfks5a {border-top:1px solid var(--ab-border-subtle);padding-top:12px;gap:8px;}.ab-mcp-loading.svelte-yfks5a {display:flex;align-items:center;gap:6px;font-size:11px;color:var(--ab-text-muted);padding:4px 0;}.ab-mcp-list.svelte-yfks5a {display:flex;flex-direction:column;gap:4px;max-height:150px;overflow-y:auto;}.ab-mcp-row.svelte-yfks5a {display:flex;align-items:center;gap:8px;border:1px solid var(--ab-border-subtle);border-radius:7px;background:var(--ab-input-bg);padding:6px 9px;cursor:pointer;font-size:11.5px;}.ab-mcp-row.svelte-yfks5a:hover {border-color:var(--ab-border);}.ab-mcp-name.svelte-yfks5a {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:11.5px;color:var(--ab-text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-mcp-source.svelte-yfks5a {border-radius:4px;background:var(--ab-pill-bg);padding:1px 5px;font-size:9.5px;font-weight:600;color:var(--ab-text-muted);flex-shrink:0;}.ab-mcp-empty.svelte-yfks5a {margin:0;font-size:11px;color:var(--ab-text-subtle);}.ab-mcp-chips.svelte-yfks5a {display:flex;flex-wrap:wrap;gap:5px;}.ab-mcp-chip.svelte-yfks5a {display:inline-flex;align-items:center;gap:4px;border:1px solid rgba(99, 102, 241, 0.45);border-radius:6px;background:rgba(99, 102, 241, 0.14);padding:2px 6px 2px 8px;font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:11px;color:var(--ab-accent-text);}.ab-mcp-chip-del.svelte-yfks5a {display:inline-flex;align-items:center;justify-content:center;border:none;background:transparent;padding:1px;color:inherit;cursor:pointer;opacity:0.75;}.ab-mcp-chip-del.svelte-yfks5a:hover {opacity:1;}.ab-add-mcp-btn.svelte-yfks5a {display:inline-flex;align-items:center;gap:4px;}.ab-add-mcp-btn.svelte-yfks5a:disabled {opacity:0.45;cursor:not-allowed;}.ab-spin.svelte-yfks5a {display:inline-flex;\n    animation: svelte-yfks5a-ab-spin 1s linear infinite;}\n\n  @keyframes svelte-yfks5a-ab-spin {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }"
 };
 function AgentSettingsModal($$anchor, $$props) {
 	$.push($$props, true);
 	$.append_styles($$anchor, $$css$13);
 	let models = $.state(null);
 	let loadingModels = $.state(false);
+	let mcpServers = $.state($.proxy([]));
+	let loadingMcp = $.state(false);
+	let customMcpInput = $.state("");
 	let modelMenuOpen = $.state(false);
 	let effortMenuOpen = $.state(false);
 	let customModelMode = $.state(false);
@@ -1256,6 +2235,12 @@ function AgentSettingsModal($$anchor, $$props) {
 	const settings = $.derived(() => $$props.agentInfo?.settings);
 	const available = $.derived(() => $$props.agentInfo?.available);
 	const showEffort = $.derived(() => !hasEffortSuffix($.get(settings)?.model));
+	const allowedMcp = $.derived(() => $.get(settings)?.allowedMcp ?? []);
+	const customMcpRules = $.derived(() => $.get(allowedMcp).filter((rule) => {
+		return !$.get(mcpServers).some((server) => {
+			return server.name === rule;
+		});
+	}));
 	const selectedModelOption = $.derived(() => {
 		const id = $.get(settings)?.model;
 		if (!id) return null;
@@ -1303,6 +2288,7 @@ function AgentSettingsModal($$anchor, $$props) {
 		const provider = $.get(settings).provider;
 		let active = true;
 		$.set(loadingModels, true);
+		$.set(loadingMcp, true);
 		$.set(modelMenuOpen, false);
 		$.set(effortMenuOpen, false);
 		$$props.loadModels(provider).then((list) => {
@@ -1318,6 +2304,13 @@ function AgentSettingsModal($$anchor, $$props) {
 		}).finally(() => {
 			if (active) $.set(loadingModels, false);
 		});
+		$$props.loadMcpServers(provider).then((servers) => {
+			if (active) $.set(mcpServers, servers, true);
+		}).catch(() => {
+			if (active) $.set(mcpServers, [], true);
+		}).finally(() => {
+			if (active) $.set(loadingMcp, false);
+		});
 		return () => {
 			active = false;
 		};
@@ -1329,6 +2322,18 @@ function AgentSettingsModal($$anchor, $$props) {
 		} finally {
 			$.set(saving, false);
 		}
+	}
+	function handleToggleMcp(rule) {
+		applyPatch({ allowedMcp: $.get(allowedMcp).includes(rule) ? $.get(allowedMcp).filter((item) => {
+			return item !== rule;
+		}) : [...$.get(allowedMcp), rule] });
+	}
+	async function handleAddCustomMcp() {
+		const trimmed = $.get(customMcpInput).trim();
+		if (!trimmed) return;
+		$.set(customMcpInput, "");
+		if ($.get(allowedMcp).includes(trimmed)) return;
+		await applyPatch({ allowedMcp: [...$.get(allowedMcp), trimmed] });
 	}
 	function handleSelectModel(val) {
 		$.set(modelMenuOpen, false);
@@ -1351,8 +2356,8 @@ function AgentSettingsModal($$anchor, $$props) {
 	}
 	var fragment = $.comment();
 	var node = $.first_child(fragment);
-	var consequent_4 = ($$anchor) => {
-		var div = root_5$5();
+	var consequent_7 = ($$anchor) => {
+		var div = root_11$1();
 		var div_1 = $.child(div);
 		var div_2 = $.child(div_1);
 		var div_3 = $.child(div_2);
@@ -1515,10 +2520,94 @@ function AgentSettingsModal($$anchor, $$props) {
 			if ($.get(loadingModels)) $$render(consequent);
 			else $$render(alternate_1, -1);
 		});
+		var div_11 = $.sibling(node_3, 2);
+		var node_9 = $.sibling($.child(div_11), 2);
+		var consequent_4 = ($$anchor) => {
+			var div_12 = root_5$5();
+			var span_3 = $.child(div_12);
+			Loader_circle($.child(span_3), {
+				size: 13,
+				color: "#818cf8"
+			});
+			$.reset(span_3);
+			$.next(2);
+			$.reset(div_12);
+			$.append($$anchor, div_12);
+		};
+		var consequent_5 = ($$anchor) => {
+			var div_13 = root_7$3();
+			$.each(div_13, 21, () => $.get(mcpServers), (server) => server.name, ($$anchor, server) => {
+				var label_1 = root_6$5();
+				var input_2 = $.child(label_1);
+				$.remove_input_defaults(input_2);
+				var span_4 = $.sibling(input_2, 2);
+				var text = $.only_child(span_4, true);
+				var span_5 = $.sibling(span_4, 2);
+				var text_1 = $.only_child(span_5, true);
+				$.reset(label_1);
+				$.template_effect(($0) => {
+					$.set_checked(input_2, $0);
+					input_2.disabled = $.get(saving);
+					$.set_text(text, $.get(server).name);
+					$.set_text(text_1, $.get(server).source);
+				}, [() => $.get(allowedMcp).includes($.get(server).name)]);
+				$.delegated("change", input_2, () => {
+					handleToggleMcp($.get(server).name);
+				});
+				$.append($$anchor, label_1);
+			});
+			$.reset(div_13);
+			$.append($$anchor, div_13);
+		};
+		var alternate_2 = ($$anchor) => {
+			var p = root_8$2();
+			$.append($$anchor, p);
+		};
+		$.if(node_9, ($$render) => {
+			if ($.get(loadingMcp)) $$render(consequent_4);
+			else if ($.get(mcpServers).length > 0) $$render(consequent_5, 1);
+			else $$render(alternate_2, -1);
+		});
+		var node_11 = $.sibling(node_9, 2);
+		var consequent_6 = ($$anchor) => {
+			var div_14 = root_10$1();
+			$.each(div_14, 20, () => $.get(customMcpRules), (rule) => rule, ($$anchor, rule) => {
+				var span_6 = root_9$1();
+				var span_7 = $.child(span_6);
+				var text_2 = $.only_child(span_7, true);
+				var button_5 = $.sibling(span_7, 2);
+				X($.child(button_5), { size: 11 });
+				$.reset(button_5);
+				$.reset(span_6);
+				$.template_effect(() => {
+					$.set_text(text_2, rule);
+					$.set_attribute(button_5, "aria-label", `Remove ${rule ?? ""}`);
+					button_5.disabled = $.get(saving);
+				});
+				$.delegated("click", button_5, () => {
+					handleToggleMcp(rule);
+				});
+				$.append($$anchor, span_6);
+			});
+			$.reset(div_14);
+			$.append($$anchor, div_14);
+		};
+		$.if(node_11, ($$render) => {
+			if ($.get(customMcpRules).length > 0) $$render(consequent_6);
+		});
+		var div_15 = $.sibling(node_11, 2);
+		var input_3 = $.child(div_15);
+		$.remove_input_defaults(input_3);
+		var button_6 = $.sibling(input_3, 2);
+		Plus($.child(button_6), { size: 13 });
+		$.next();
+		$.reset(button_6);
+		$.reset(div_15);
+		$.reset(div_11);
 		$.reset(div_4);
 		$.reset(div_1);
 		$.reset(div);
-		$.template_effect(() => {
+		$.template_effect(($0) => {
 			$.set_checked(input, $.get(settings).enabled);
 			input.disabled = $.get(saving);
 			classes = $.set_class(button_1, 1, "ab-provider-btn svelte-yfks5a", null, classes, { "ab-provider-active": $.get(settings).provider === "claude" });
@@ -1529,7 +2618,8 @@ function AgentSettingsModal($$anchor, $$props) {
 			button_2.disabled = $.get(saving);
 			classes_3 = $.set_class(span_1, 1, "ab-avail-dot svelte-yfks5a", null, classes_3, { "ab-avail-ok": $.get(available)?.antigravity });
 			$.set_attribute(span_1, "title", $.get(available)?.antigravity ? "Installed" : "CLI not found");
-		});
+			button_6.disabled = $0;
+		}, [() => $.get(saving) || !$.get(customMcpInput).trim()]);
 		$.delegated("click", div, function(...$$args) {
 			$$props.onclose?.apply(this, $$args);
 		});
@@ -1550,10 +2640,20 @@ function AgentSettingsModal($$anchor, $$props) {
 		$.delegated("click", button_2, () => {
 			applyPatch({ provider: "antigravity" });
 		});
+		$.delegated("keydown", input_3, (e) => {
+			if (e.key === "Enter") {
+				e.preventDefault();
+				handleAddCustomMcp();
+			}
+		});
+		$.bind_value(input_3, () => $.get(customMcpInput), ($$value) => $.set(customMcpInput, $$value));
+		$.delegated("click", button_6, () => {
+			handleAddCustomMcp();
+		});
 		$.append($$anchor, div);
 	};
 	$.if(node, ($$render) => {
-		if ($$props.open && $.get(settings)) $$render(consequent_4);
+		if ($$props.open && $.get(settings)) $$render(consequent_7);
 	});
 	$.append($$anchor, fragment);
 	$.pop();
@@ -1609,6 +2709,12 @@ const createApiClient = (apiBase) => {
 		},
 		getAgentModels: async (provider) => {
 			return (await requestJson(`${base}/agent/models?provider=${encodeURIComponent(provider)}`)).models;
+		},
+		getAgentMcpServers: async (provider) => {
+			return (await requestJson(`${base}/agent/mcp-servers?provider=${encodeURIComponent(provider)}`)).servers;
+		},
+		getAgentLog: async (runId) => {
+			return requestJson(`${base}/agent/logs/${encodeURIComponent(runId)}`);
 		},
 		updateAgentSettings: async (patch) => {
 			return (await requestJson(`${base}/agent/settings`, {
@@ -3185,20 +4291,23 @@ var root_4$1 = $.from_html(`<span class="ab-spin svelte-ivty9b"><!></span> <span
 var root_5$1 = $.from_html(`<!> <span>Resolved by agent</span>`, 1);
 var root_6$1 = $.from_html(`<!> <span>Needs attention</span>`, 1);
 var root_7$1 = $.from_html(`<!> <span>Failed</span>`, 1);
-var root_8 = $.from_html(`<span>Cancelled</span>`);
+var root_8$1 = $.from_html(`<span>Cancelled</span>`);
 var root_9 = $.from_html(`<span class="ab-cp-protected-warn svelte-ivty9b">⚠ protected</span>`);
-var root_10 = $.from_html(`<div class="ab-cp-run-row svelte-ivty9b"><!> <!></div>`);
-var root_11 = $.from_html(`<div class="ab-cp-card svelte-ivty9b"><div class="ab-cp-card-top svelte-ivty9b"><!> <button type="button" class="ab-cp-card-link svelte-ivty9b"><span class="ab-cp-board-title svelte-ivty9b"> </span> <!></button> <div class="ab-cp-card-btns svelte-ivty9b"><button type="button" class="ab-cp-icon-btn svelte-ivty9b"><!></button> <button type="button" title="Delete comment" class="ab-cp-icon-btn ab-cp-icon-del svelte-ivty9b"><!></button></div></div> <!> <button type="button" class="ab-cp-card-body svelte-ivty9b"><p class="ab-cp-text svelte-ivty9b"> </p> <!></button> <!></div>`);
+var root_10 = $.from_html(`<button type="button" class="ab-cp-log-btn svelte-ivty9b" title="View agent log"><!> Log</button>`);
+var root_11 = $.from_html(`<p> </p>`);
+var root_12 = $.from_html(`<div class="ab-cp-run-row svelte-ivty9b"><!> <!> <!></div> <!>`, 1);
+var root_13 = $.from_html(`<div class="ab-cp-card svelte-ivty9b"><div class="ab-cp-card-top svelte-ivty9b"><!> <button type="button" class="ab-cp-card-link svelte-ivty9b"><span class="ab-cp-board-title svelte-ivty9b"> </span> <!></button> <div class="ab-cp-card-btns svelte-ivty9b"><button type="button" class="ab-cp-icon-btn svelte-ivty9b"><!></button> <button type="button" title="Delete comment" class="ab-cp-icon-btn ab-cp-icon-del svelte-ivty9b"><!></button></div></div> <!> <button type="button" class="ab-cp-card-body svelte-ivty9b"><p class="ab-cp-text svelte-ivty9b"> </p> <!></button> <!></div>`);
 const $$css$3 = {
 	hash: "svelte-ivty9b",
-	code: ".ab-cp-card.svelte-ivty9b {border:1px solid var(--ab-border-subtle);border-radius:9px;background:var(--ab-input-bg);padding:8px;}.ab-cp-card-top.svelte-ivty9b {display:flex;align-items:center;gap:6px;}.ab-cp-check.svelte-ivty9b {accent-color:#6366f1;cursor:pointer;margin:0;}.ab-cp-card-link.svelte-ivty9b {flex:1;min-width:0;border:none;background:transparent;padding:0;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:1px;}.ab-cp-board-title.svelte-ivty9b {font-size:11px;font-weight:600;color:var(--ab-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-cp-source.svelte-ivty9b {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:var(--ab-accent-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-cp-card-btns.svelte-ivty9b {display:flex;gap:2px;flex-shrink:0;}.ab-cp-icon-btn.svelte-ivty9b {display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:4px;background:transparent;padding:4px;color:var(--ab-text-muted);cursor:pointer;}.ab-cp-icon-btn.svelte-ivty9b:hover:not(:disabled) {background:var(--ab-hover);color:var(--ab-text);}.ab-cp-icon-btn.svelte-ivty9b:disabled {opacity:0.35;cursor:not-allowed;}.ab-cp-icon-del.svelte-ivty9b:hover:not(:disabled) {color:#f43f5e;}.ab-cp-card-body.svelte-ivty9b {width:100%;border:none;background:transparent;padding:0;margin-top:6px;text-align:left;cursor:pointer;}.ab-cp-text.svelte-ivty9b {margin:0;font-size:11.5px;line-height:1.45;color:var(--ab-text);word-break:break-word;}.ab-cp-resolution.svelte-ivty9b {margin:4px 0 0;font-size:10.5px;line-height:1.4;color:#10b981;}.ab-cp-run-row.svelte-ivty9b {margin-top:6px;padding-top:5px;border-top:1px solid var(--ab-border-subtle);display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ab-text-muted);}.ab-cp-protected-warn.svelte-ivty9b {margin-left:auto;color:#f59e0b;font-weight:600;}.ab-spin.svelte-ivty9b {display:inline-flex;\n    animation: svelte-ivty9b-ab-spin 1s linear infinite;}\n\n  @keyframes svelte-ivty9b-ab-spin {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }"
+	code: ".ab-cp-card.svelte-ivty9b {border:1px solid var(--ab-border-subtle);border-radius:9px;background:var(--ab-input-bg);padding:8px;}.ab-cp-card-top.svelte-ivty9b {display:flex;align-items:center;gap:6px;}.ab-cp-check.svelte-ivty9b {accent-color:#6366f1;cursor:pointer;margin:0;}.ab-cp-card-link.svelte-ivty9b {flex:1;min-width:0;border:none;background:transparent;padding:0;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:1px;}.ab-cp-board-title.svelte-ivty9b {font-size:11px;font-weight:600;color:var(--ab-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-cp-source.svelte-ivty9b {font-family:ui-monospace, SFMono-Regular, Menlo, monospace;font-size:10px;color:var(--ab-accent-text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}.ab-cp-card-btns.svelte-ivty9b {display:flex;gap:2px;flex-shrink:0;}.ab-cp-icon-btn.svelte-ivty9b {display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:4px;background:transparent;padding:4px;color:var(--ab-text-muted);cursor:pointer;}.ab-cp-icon-btn.svelte-ivty9b:hover:not(:disabled) {background:var(--ab-hover);color:var(--ab-text);}.ab-cp-icon-btn.svelte-ivty9b:disabled {opacity:0.35;cursor:not-allowed;}.ab-cp-icon-del.svelte-ivty9b:hover:not(:disabled) {color:#f43f5e;}.ab-cp-card-body.svelte-ivty9b {width:100%;border:none;background:transparent;padding:0;margin-top:6px;text-align:left;cursor:pointer;}.ab-cp-text.svelte-ivty9b {margin:0;font-size:11.5px;line-height:1.45;color:var(--ab-text);word-break:break-word;}.ab-cp-resolution.svelte-ivty9b {margin:4px 0 0;font-size:10.5px;line-height:1.4;color:#10b981;}.ab-cp-run-row.svelte-ivty9b {margin-top:6px;padding-top:5px;border-top:1px solid var(--ab-border-subtle);display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ab-text-muted);}.ab-cp-protected-warn.svelte-ivty9b {color:#f59e0b;font-weight:600;}.ab-cp-log-btn.svelte-ivty9b {margin-left:auto;display:inline-flex;align-items:center;gap:3px;border:1px solid var(--ab-border);border-radius:4px;background:transparent;padding:1px 5px;font-size:9.5px;font-weight:600;color:var(--ab-text-muted);cursor:pointer;}.ab-cp-log-btn.svelte-ivty9b:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-cp-run-note.svelte-ivty9b {margin:4px 0 0;font-size:10px;line-height:1.4;color:#f59e0b;word-break:break-word;display:-webkit-box;-webkit-line-clamp:2;line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}.ab-cp-run-note-err.svelte-ivty9b {color:#f43f5e;}.ab-spin.svelte-ivty9b {display:inline-flex;\n    animation: svelte-ivty9b-ab-spin 1s linear infinite;}\n\n  @keyframes svelte-ivty9b-ab-spin {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }"
 };
 function CommentCard($$anchor, $$props) {
 	$.push($$props, true);
 	$.append_styles($$anchor, $$css$3);
 	const running = $.derived(() => $$props.run?.status === "running");
 	const sourceBadge = $.derived(() => formatSourceBadge($$props.item.target.source));
-	var div = root_11();
+	const runNote = $.derived(() => $$props.run?.error ?? ($$props.run?.status !== "done" ? $$props.run?.summary : null) ?? null);
+	var div = root_13();
 	var div_1 = $.child(div);
 	var node = $.child(div_1);
 	var consequent = ($$anchor) => {
@@ -3280,58 +4389,59 @@ function CommentCard($$anchor, $$props) {
 	});
 	$.reset(button_3);
 	var node_6 = $.sibling(button_3, 2);
-	var consequent_11 = ($$anchor) => {
-		var div_3 = root_10();
+	var consequent_13 = ($$anchor) => {
+		var fragment_3 = root_12();
+		var div_3 = $.first_child(fragment_3);
 		var node_7 = $.child(div_3);
 		var consequent_5 = ($$anchor) => {
-			var fragment_3 = root_3$1();
-			Clock($.first_child(fragment_3), {
+			var fragment_4 = root_3$1();
+			Clock($.first_child(fragment_4), {
 				size: 11,
 				color: "#94a3b8"
 			});
 			$.next(2);
-			$.append($$anchor, fragment_3);
+			$.append($$anchor, fragment_4);
 		};
 		var consequent_6 = ($$anchor) => {
-			var fragment_4 = root_4$1();
-			var span_2 = $.first_child(fragment_4);
+			var fragment_5 = root_4$1();
+			var span_2 = $.first_child(fragment_5);
 			Loader_circle($.child(span_2), {
 				size: 11,
 				color: "#818cf8"
 			});
 			$.reset(span_2);
 			$.next(2);
-			$.append($$anchor, fragment_4);
+			$.append($$anchor, fragment_5);
 		};
 		var consequent_7 = ($$anchor) => {
-			var fragment_5 = root_5$1();
-			Circle_check($.first_child(fragment_5), {
+			var fragment_6 = root_5$1();
+			Circle_check($.first_child(fragment_6), {
 				size: 11,
 				color: "#10b981"
 			});
 			$.next(2);
-			$.append($$anchor, fragment_5);
+			$.append($$anchor, fragment_6);
 		};
 		var consequent_8 = ($$anchor) => {
-			var fragment_6 = root_6$1();
-			Triangle_exclamation_point($.first_child(fragment_6), {
+			var fragment_7 = root_6$1();
+			Triangle_exclamation_point($.first_child(fragment_7), {
 				size: 11,
 				color: "#f59e0b"
 			});
 			$.next(2);
-			$.append($$anchor, fragment_6);
+			$.append($$anchor, fragment_7);
 		};
 		var consequent_9 = ($$anchor) => {
-			var fragment_7 = root_7$1();
-			Circle_x($.first_child(fragment_7), {
+			var fragment_8 = root_7$1();
+			Circle_x($.first_child(fragment_8), {
 				size: 11,
 				color: "#f43f5e"
 			});
 			$.next(2);
-			$.append($$anchor, fragment_7);
+			$.append($$anchor, fragment_8);
 		};
 		var alternate_1 = ($$anchor) => {
-			var span_3 = root_8();
+			var span_3 = root_8$1();
 			$.append($$anchor, span_3);
 		};
 		$.if(node_7, ($$render) => {
@@ -3351,12 +4461,40 @@ function CommentCard($$anchor, $$props) {
 		$.if(node_13, ($$render) => {
 			if ($$props.run.protectedTouched.length > 0) $$render(consequent_10);
 		});
+		var node_14 = $.sibling(node_13, 2);
+		var consequent_11 = ($$anchor) => {
+			var button_4 = root_10();
+			Terminal($.child(button_4), { size: 10 });
+			$.next();
+			$.reset(button_4);
+			$.delegated("click", button_4, () => {
+				$$props.onopenlog($$props.run.runId);
+			});
+			$.append($$anchor, button_4);
+		};
+		$.if(node_14, ($$render) => {
+			if ($$props.run.status !== "queued") $$render(consequent_11);
+		});
 		$.reset(div_3);
+		var node_16 = $.sibling(div_3, 2);
+		var consequent_12 = ($$anchor) => {
+			var p_2 = root_11();
+			let classes;
+			var text_4 = $.only_child(p_2, true);
+			$.template_effect(() => {
+				classes = $.set_class(p_2, 1, "ab-cp-run-note svelte-ivty9b", null, classes, { "ab-cp-run-note-err": $$props.run.status === "failed" });
+				$.set_text(text_4, $.get(runNote));
+			});
+			$.append($$anchor, p_2);
+		};
+		$.if(node_16, ($$render) => {
+			if ($.get(runNote)) $$render(consequent_12);
+		});
 		$.template_effect(() => $.set_attribute(div_3, "title", $$props.run.error ?? $$props.run.summary ?? $$props.run.status));
-		$.append($$anchor, div_3);
+		$.append($$anchor, fragment_3);
 	};
 	$.if(node_6, ($$render) => {
-		if ($$props.run) $$render(consequent_11);
+		if ($$props.run) $$render(consequent_13);
 	});
 	$.reset(div);
 	$.template_effect(() => {
@@ -3384,13 +4522,14 @@ function CommentCard($$anchor, $$props) {
 $.delegate(["change", "click"]);
 // src/client/sidebar/CommentsPanel.svelte
 var root$2 = $.from_html(`<div class="ab-cp-banner ab-cp-banner-warn svelte-16y1sok"><div class="ab-cp-banner-text svelte-16y1sok"><!> <span> </span></div> <div class="ab-cp-banner-actions svelte-16y1sok"><button type="button" class="ab-cp-mini-btn ab-cp-mini-primary svelte-16y1sok"><!> Resume</button> <button type="button" class="ab-cp-mini-btn svelte-16y1sok"><!> Stop</button></div></div>`);
-var root_1$1 = $.from_html(`<div class="ab-cp-banner ab-cp-banner-run svelte-16y1sok"><div class="ab-cp-banner-text svelte-16y1sok"><span class="ab-spin svelte-16y1sok"><!></span> <span> </span></div> <button type="button" class="ab-cp-mini-btn ab-cp-mini-danger svelte-16y1sok"><!> Stop</button></div>`);
-var root_2$1 = $.from_html(`<button type="button" class="ab-cp-action-btn ab-cp-action-primary svelte-16y1sok"><!> </button> <button type="button" class="ab-cp-action-btn svelte-16y1sok"><!> </button>`, 1);
-var root_3 = $.from_html(`<button type="button" class="ab-cp-action-btn ab-cp-action-full svelte-16y1sok"><!> Enable Agent Runner…</button>`);
-var root_4 = $.from_html(`<div class="ab-cp-bar svelte-16y1sok"><!></div>`);
-var root_5 = $.from_html(`<button type="button" class="ab-cp-action-btn ab-cp-action-full svelte-16y1sok"><!> </button>`);
-var root_6 = $.from_html(`<p class="ab-cp-empty svelte-16y1sok"> </p>`);
-var root_7 = $.from_html(`<div class="ab-cp-root svelte-16y1sok"><div class="ab-cp-tabs svelte-16y1sok"><div class="ab-cp-tab-group svelte-16y1sok"><button type="button"> </button> <button type="button"> </button></div> <button type="button" aria-label="Agent settings" title="Agent Runner Settings"><!></button></div> <!> <!> <div class="ab-cp-list svelte-16y1sok"><!></div></div>`);
+var root_1$1 = $.from_html(`<button type="button" class="ab-cp-mini-btn svelte-16y1sok"><!> Log</button>`);
+var root_2$1 = $.from_html(`<div class="ab-cp-banner ab-cp-banner-run svelte-16y1sok"><div class="ab-cp-banner-text svelte-16y1sok"><span class="ab-spin svelte-16y1sok"><!></span> <span> </span></div> <div class="ab-cp-banner-actions svelte-16y1sok"><!> <button type="button" class="ab-cp-mini-btn ab-cp-mini-danger svelte-16y1sok"><!> Stop</button></div></div>`);
+var root_3 = $.from_html(`<button type="button" class="ab-cp-action-btn ab-cp-action-primary svelte-16y1sok"><!> </button> <button type="button" class="ab-cp-action-btn svelte-16y1sok"><!> </button>`, 1);
+var root_4 = $.from_html(`<button type="button" class="ab-cp-action-btn ab-cp-action-full svelte-16y1sok"><!> Enable Agent Runner…</button>`);
+var root_5 = $.from_html(`<div class="ab-cp-bar svelte-16y1sok"><!></div>`);
+var root_6 = $.from_html(`<button type="button" class="ab-cp-action-btn ab-cp-action-full svelte-16y1sok"><!> </button>`);
+var root_7 = $.from_html(`<p class="ab-cp-empty svelte-16y1sok"> </p>`);
+var root_8 = $.from_html(`<div class="ab-cp-root svelte-16y1sok"><div class="ab-cp-tabs svelte-16y1sok"><div class="ab-cp-tab-group svelte-16y1sok"><button type="button"> </button> <button type="button"> </button></div> <button type="button" aria-label="Agent settings" title="Agent Runner Settings"><!></button></div> <!> <!> <div class="ab-cp-list svelte-16y1sok"><!></div></div>`);
 const $$css$2 = {
 	hash: "svelte-16y1sok",
 	code: ".ab-cp-root.svelte-16y1sok {display:flex;flex-direction:column;flex:1;min-height:0;}.ab-cp-tabs.svelte-16y1sok {display:flex;align-items:center;justify-content:space-between;gap:6px;border-bottom:1px solid var(--ab-border-subtle);padding:8px 10px;}.ab-cp-tab-group.svelte-16y1sok {display:flex;gap:4px;}.ab-cp-tab.svelte-16y1sok {border:none;border-radius:6px;background:transparent;padding:4px 8px;font-size:11px;font-weight:500;color:var(--ab-text-muted);cursor:pointer;}.ab-cp-tab.svelte-16y1sok:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-cp-tab-active.svelte-16y1sok {background:var(--ab-pill-bg);color:var(--ab-text);font-weight:600;}.ab-cp-gear.svelte-16y1sok {display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--ab-border);border-radius:6px;background:transparent;padding:5px;color:var(--ab-text-muted);cursor:pointer;}.ab-cp-gear.svelte-16y1sok:hover {background:var(--ab-hover);color:var(--ab-text);}.ab-cp-gear-on.svelte-16y1sok {border-color:rgba(16, 185, 129, 0.5);color:#10b981;}.ab-cp-banner.svelte-16y1sok {display:flex;flex-direction:column;gap:6px;border-bottom:1px solid var(--ab-border-subtle);padding:8px 10px;font-size:11px;}.ab-cp-banner-warn.svelte-16y1sok {background:rgba(245, 158, 11, 0.12);color:#f59e0b;}.ab-cp-banner-run.svelte-16y1sok {background:rgba(99, 102, 241, 0.14);color:var(--ab-accent-text);flex-direction:row;align-items:center;justify-content:space-between;}.ab-cp-banner-text.svelte-16y1sok {display:flex;align-items:center;gap:6px;min-width:0;}.ab-cp-banner-actions.svelte-16y1sok {display:flex;gap:6px;}.ab-cp-mini-btn.svelte-16y1sok {display:inline-flex;align-items:center;gap:4px;border:1px solid var(--ab-border);border-radius:5px;background:var(--ab-surface-solid);padding:3px 7px;font-size:10px;font-weight:600;color:var(--ab-text);cursor:pointer;}.ab-cp-mini-primary.svelte-16y1sok {border-color:#4f46e5;background:#4f46e5;color:#ffffff;}.ab-cp-mini-danger.svelte-16y1sok {border-color:rgba(244, 63, 94, 0.5);color:#f43f5e;}.ab-cp-bar.svelte-16y1sok {display:flex;gap:6px;border-bottom:1px solid var(--ab-border-subtle);padding:8px 10px;}.ab-cp-action-btn.svelte-16y1sok {flex:1;display:inline-flex;align-items:center;justify-content:center;gap:5px;border:1px solid var(--ab-border);border-radius:7px;background:var(--ab-input-bg);padding:6px 8px;font-size:11px;font-weight:600;color:var(--ab-text);cursor:pointer;}.ab-cp-action-btn.svelte-16y1sok:disabled {opacity:0.45;cursor:not-allowed;}.ab-cp-action-primary.svelte-16y1sok {border-color:#4f46e5;background:#4f46e5;color:#ffffff;}.ab-cp-action-full.svelte-16y1sok {width:100%;}.ab-cp-list.svelte-16y1sok {flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:6px;}.ab-cp-empty.svelte-16y1sok {margin:24px 12px;text-align:center;font-size:11px;line-height:1.5;color:var(--ab-text-subtle);}.ab-spin.svelte-16y1sok {display:inline-flex;\n    animation: svelte-16y1sok-ab-spin 1s linear infinite;}\n\n  @keyframes svelte-16y1sok-ab-spin {\n    from {\n      transform: rotate(0deg);\n    }\n    to {\n      transform: rotate(360deg);\n    }\n  }"
@@ -3436,7 +4575,7 @@ function CommentsPanel($$anchor, $$props) {
 		$$props.onsendtoagent([...$.get(sendableOpenIds)]);
 		selectedIds.clear();
 	}
-	var div = root_7();
+	var div = root_8();
 	var div_1 = $.child(div);
 	var div_2 = $.child(div_1);
 	var button = $.child(div_2);
@@ -3480,8 +4619,8 @@ function CommentsPanel($$anchor, $$props) {
 		});
 		$.append($$anchor, div_3);
 	};
-	var consequent_1 = ($$anchor) => {
-		var div_6 = root_1$1();
+	var consequent_2 = ($$anchor) => {
+		var div_6 = root_2$1();
 		var div_7 = $.child(div_6);
 		var span_1 = $.child(div_7);
 		Loader_circle($.child(span_1), { size: 13 });
@@ -3489,68 +4628,84 @@ function CommentsPanel($$anchor, $$props) {
 		var span_2 = $.sibling(span_1, 2);
 		var text_3 = $.only_child(span_2);
 		$.reset(div_7);
-		var button_5 = $.sibling(div_7, 2);
-		Square($.child(button_5), { size: 11 });
+		var div_8 = $.sibling(div_7, 2);
+		var node_6 = $.child(div_8);
+		var consequent_1 = ($$anchor) => {
+			var button_5 = root_1$1();
+			Terminal($.child(button_5), { size: 11 });
+			$.next();
+			$.reset(button_5);
+			$.delegated("click", button_5, () => {
+				if ($$props.agentInfo?.state.activeRunId) $$props.onopenlog($$props.agentInfo.state.activeRunId, "Active Agent Run");
+			});
+			$.append($$anchor, button_5);
+		};
+		$.if(node_6, ($$render) => {
+			if ($$props.agentInfo?.state.activeRunId) $$render(consequent_1);
+		});
+		var button_6 = $.sibling(node_6, 2);
+		Square($.child(button_6), { size: 11 });
 		$.next();
-		$.reset(button_5);
+		$.reset(button_6);
+		$.reset(div_8);
 		$.reset(div_6);
 		$.template_effect(() => $.set_text(text_3, `Agent resolving (${$$props.agentInfo?.state.activeCommentIds.length ?? 0 ?? ""})…`));
-		$.delegated("click", button_5, function(...$$args) {
+		$.delegated("click", button_6, function(...$$args) {
 			$$props.oncancelagent?.apply(this, $$args);
 		});
 		$.append($$anchor, div_6);
 	};
 	$.if(node_1, ($$render) => {
 		if ($.get(agentPaused)) $$render(consequent);
-		else if ($.get(agentWorking)) $$render(consequent_1, 1);
+		else if ($.get(agentWorking)) $$render(consequent_2, 1);
 	});
-	var node_7 = $.sibling(node_1, 2);
-	var consequent_3 = ($$anchor) => {
-		var div_8 = root_4();
-		var node_8 = $.child(div_8);
-		var consequent_2 = ($$anchor) => {
-			var fragment = root_2$1();
-			var button_6 = $.first_child(fragment);
-			var node_9 = $.child(button_6);
-			Send(node_9, { size: 12 });
-			var text_4 = $.sibling(node_9);
-			$.reset(button_6);
-			var button_7 = $.sibling(button_6, 2);
-			var node_10 = $.child(button_7);
-			Bot(node_10, { size: 12 });
-			var text_5 = $.sibling(node_10);
+	var node_9 = $.sibling(node_1, 2);
+	var consequent_4 = ($$anchor) => {
+		var div_9 = root_5();
+		var node_10 = $.child(div_9);
+		var consequent_3 = ($$anchor) => {
+			var fragment = root_3();
+			var button_7 = $.first_child(fragment);
+			var node_11 = $.child(button_7);
+			Send(node_11, { size: 12 });
+			var text_4 = $.sibling(node_11);
 			$.reset(button_7);
+			var button_8 = $.sibling(button_7, 2);
+			var node_12 = $.child(button_8);
+			Bot(node_12, { size: 12 });
+			var text_5 = $.sibling(node_12);
+			$.reset(button_8);
 			$.template_effect(($0, $1) => {
-				button_6.disabled = $0;
+				button_7.disabled = $0;
 				$.set_text(text_4, ` Send (${$.get(selectedSendableIds).length ?? ""})`);
-				button_7.disabled = $1;
+				button_8.disabled = $1;
 				$.set_text(text_5, ` Send all (${$.get(sendableOpenIds).length ?? ""})`);
 			}, [() => $.get(selectedSendableIds).length === 0 || Boolean($.get(agentPaused)), () => $.get(sendableOpenIds).length === 0 || Boolean($.get(agentPaused))]);
-			$.delegated("click", button_6, handleSendSelected);
-			$.delegated("click", button_7, handleSendAll);
+			$.delegated("click", button_7, handleSendSelected);
+			$.delegated("click", button_8, handleSendAll);
 			$.append($$anchor, fragment);
 		};
 		var alternate = ($$anchor) => {
-			var button_8 = root_3();
-			Bot($.child(button_8), { size: 12 });
+			var button_9 = root_4();
+			Bot($.child(button_9), { size: 12 });
 			$.next();
-			$.reset(button_8);
-			$.delegated("click", button_8, function(...$$args) {
+			$.reset(button_9);
+			$.delegated("click", button_9, function(...$$args) {
 				$$props.onopenagentsettings?.apply(this, $$args);
 			});
-			$.append($$anchor, button_8);
+			$.append($$anchor, button_9);
 		};
-		$.if(node_8, ($$render) => {
-			if ($.get(agentEnabled)) $$render(consequent_2);
+		$.if(node_10, ($$render) => {
+			if ($.get(agentEnabled)) $$render(consequent_3);
 			else $$render(alternate, -1);
 		});
-		$.reset(div_8);
-		$.append($$anchor, div_8);
+		$.reset(div_9);
+		$.append($$anchor, div_9);
 	};
-	var consequent_5 = ($$anchor) => {
-		var div_9 = root_4();
-		var node_12 = $.child(div_9);
-		var consequent_4 = ($$anchor) => {
+	var consequent_6 = ($$anchor) => {
+		var div_10 = root_5();
+		var node_14 = $.child(div_10);
+		var consequent_5 = ($$anchor) => {
 			ConfirmBar($$anchor, {
 				get message() {
 					return `Clear all ${$.get(resolvedComments).length ?? ""} resolved?`;
@@ -3567,40 +4722,40 @@ function CommentsPanel($$anchor, $$props) {
 			});
 		};
 		var alternate_1 = ($$anchor) => {
-			var button_9 = root_5();
-			var node_13 = $.child(button_9);
-			Trash(node_13, { size: 12 });
-			var text_6 = $.sibling(node_13);
-			$.reset(button_9);
+			var button_10 = root_6();
+			var node_15 = $.child(button_10);
+			Trash(node_15, { size: 12 });
+			var text_6 = $.sibling(node_15);
+			$.reset(button_10);
 			$.template_effect(() => $.set_text(text_6, ` Clear resolved (${$.get(resolvedComments).length ?? ""})`));
-			$.delegated("click", button_9, () => {
+			$.delegated("click", button_10, () => {
 				$.set(confirmingClearResolved, true);
 			});
-			$.append($$anchor, button_9);
+			$.append($$anchor, button_10);
 		};
-		$.if(node_12, ($$render) => {
-			if ($.get(confirmingClearResolved)) $$render(consequent_4);
+		$.if(node_14, ($$render) => {
+			if ($.get(confirmingClearResolved)) $$render(consequent_5);
 			else $$render(alternate_1, -1);
 		});
-		$.reset(div_9);
-		$.append($$anchor, div_9);
+		$.reset(div_10);
+		$.append($$anchor, div_10);
 	};
-	$.if(node_7, ($$render) => {
-		if ($.get(activeTab) === "open" && $.get(openComments).length > 0) $$render(consequent_3);
-		else if ($.get(activeTab) === "resolved" && $.get(resolvedComments).length > 0) $$render(consequent_5, 1);
+	$.if(node_9, ($$render) => {
+		if ($.get(activeTab) === "open" && $.get(openComments).length > 0) $$render(consequent_4);
+		else if ($.get(activeTab) === "resolved" && $.get(resolvedComments).length > 0) $$render(consequent_6, 1);
 	});
-	var div_10 = $.sibling(node_7, 2);
-	var node_14 = $.child(div_10);
-	var consequent_6 = ($$anchor) => {
-		var p = root_6();
+	var div_11 = $.sibling(node_9, 2);
+	var node_16 = $.child(div_11);
+	var consequent_7 = ($$anchor) => {
+		var p = root_7();
 		var text_7 = $.only_child(p, true);
 		$.template_effect(() => $.set_text(text_7, $.get(activeTab) === "open" ? "No open comments. Switch to Comment mode (C) and click any element on an artboard." : "No resolved comments yet."));
 		$.append($$anchor, p);
 	};
 	var alternate_2 = ($$anchor) => {
 		var fragment_2 = $.comment();
-		var node_15 = $.first_child(fragment_2);
-		$.each(node_15, 17, () => $.get(visibleComments), (item) => item.id, ($$anchor, item) => {
+		var node_17 = $.first_child(fragment_2);
+		$.each(node_17, 17, () => $.get(visibleComments), (item) => item.id, ($$anchor, item) => {
 			{
 				let $0 = $.derived(() => $.get(activeTab) === "open" && $.get(agentEnabled));
 				let $1 = $.derived(() => selectedIds.has($.get(item).id));
@@ -3639,17 +4794,20 @@ function CommentsPanel($$anchor, $$props) {
 					},
 					oncanceldelete: () => {
 						$.set(confirmingDeleteId, null);
+					},
+					onopenlog: (runId) => {
+						$$props.onopenlog(runId, $.get(item).artboard.boardTitle);
 					}
 				});
 			}
 		});
 		$.append($$anchor, fragment_2);
 	};
-	$.if(node_14, ($$render) => {
-		if ($.get(visibleComments).length === 0) $$render(consequent_6);
+	$.if(node_16, ($$render) => {
+		if ($.get(visibleComments).length === 0) $$render(consequent_7);
 		else $$render(alternate_2, -1);
 	});
-	$.reset(div_10);
+	$.reset(div_11);
 	$.reset(div);
 	$.template_effect(() => {
 		classes = $.set_class(button, 1, "ab-cp-tab svelte-16y1sok", null, classes, { "ab-cp-tab-active": $.get(activeTab) === "open" });
@@ -3757,6 +4915,9 @@ function StudioSidebar($$anchor, $$props) {
 			},
 			get onopenagentsettings() {
 				return $$props.onopenagentsettings;
+			},
+			get onopenlog() {
+				return $$props.onopenlog;
 			}
 		});
 	};
@@ -3794,7 +4955,7 @@ $.delegate(["click"]);
 // src/client/ArtboardApp.svelte
 var root = $.from_html(`<p class="ab-section-sub svelte-eeo971"> </p>`);
 var root_1 = $.from_html(`<div class="ab-section-head svelte-eeo971"><h2 class="ab-section-title svelte-eeo971"> </h2> <!></div>`);
-var root_2 = $.from_html(`<div class="ab-root svelte-eeo971"><!> <div class="ab-main svelte-eeo971"><!> <div role="application" aria-label="Artboard Infinite Canvas"><div class="ab-world svelte-eeo971"><!> <!></div></div> <!></div> <!></div>`);
+var root_2 = $.from_html(`<div class="ab-root svelte-eeo971"><!> <div class="ab-main svelte-eeo971"><!> <div role="application" aria-label="Artboard Infinite Canvas"><div class="ab-world svelte-eeo971"><!> <!></div></div> <!></div> <!> <!></div>`);
 const $$css = {
 	hash: "svelte-eeo971",
 	code: ".ab-root.svelte-eeo971 {--ab-bg: #09090b;--ab-surface: rgba(24, 24, 27, 0.94);--ab-surface-solid: #18181b;--ab-input-bg: #09090b;--ab-pill-bg: #27272a;--ab-hover: #27272a;--ab-border: rgba(63, 63, 70, 0.85);--ab-border-subtle: #27272a;--ab-text: #f4f4f5;--ab-text-muted: #a1a1aa;--ab-text-subtle: #71717a;--ab-accent-text: #a5b4fc;--ab-dot-idle: #52525b;--ab-canvas-dot: rgba(148, 163, 184, 0.22);--ab-frame-border: rgba(63, 63, 70, 0.85);--ab-frame-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55);--ab-placeholder-bg: rgba(24, 24, 27, 0.95);--ab-chrome-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);display:flex;width:100vw;height:100vh;overflow:hidden;background:var(--ab-bg);color:var(--ab-text);font-family:'Inter',\n      -apple-system,\n      BlinkMacSystemFont,\n      'Segoe UI',\n      Roboto,\n      sans-serif;}.ab-root[data-studio-theme='light'].svelte-eeo971 {--ab-bg: #f1f5f9;--ab-surface: rgba(255, 255, 255, 0.94);--ab-surface-solid: #ffffff;--ab-input-bg: #f8fafc;--ab-pill-bg: #e2e8f0;--ab-hover: #f1f5f9;--ab-border: #cbd5e1;--ab-border-subtle: #e2e8f0;--ab-text: #0f172a;--ab-text-muted: #475569;--ab-text-subtle: #64748b;--ab-accent-text: #4f46e5;--ab-dot-idle: #94a3b8;--ab-canvas-dot: rgba(100, 116, 139, 0.28);--ab-frame-border: #cbd5e1;--ab-frame-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.16);--ab-placeholder-bg: #e2e8f0;--ab-chrome-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);}.ab-main.svelte-eeo971 {position:relative;flex:1;overflow:hidden;}.ab-canvas.svelte-eeo971 {width:100%;height:100%;overflow:hidden;touch-action:none;background-image:radial-gradient(circle, var(--ab-canvas-dot) 1px, transparent 1px);background-size:24px 24px;}.ab-canvas-grab.svelte-eeo971 {cursor:grab;}.ab-canvas-grabbing.svelte-eeo971 {cursor:grabbing;}.ab-world.svelte-eeo971 {transform-origin:0 0;}.ab-section-head.svelte-eeo971 {position:absolute;user-select:none;}.ab-section-title.svelte-eeo971 {margin:0;font-size:20px;font-weight:700;letter-spacing:-0.02em;color:var(--ab-text);}.ab-section-sub.svelte-eeo971 {margin:2px 0 0;font-size:12px;color:var(--ab-text-muted);}"
@@ -3820,6 +4981,7 @@ function ArtboardApp($$anchor, $$props) {
 	let sidebarOpen = $.state(true);
 	let sidebarTab = $.state("boards");
 	let agentModalOpen = $.state(false);
+	let activeLog = $.state(null);
 	let selectedCommentId = $.state(null);
 	let highlightedBoardId = $.state(null);
 	const api = createApiClient(defaults.apiBase);
@@ -4241,6 +5403,12 @@ function ArtboardApp($$anchor, $$props) {
 			onresumeagent: handleResumeAgent,
 			onopenagentsettings: () => {
 				$.set(agentModalOpen, true);
+			},
+			onopenlog: (runId, title) => {
+				$.set(activeLog, {
+					runId,
+					title
+				}, true);
 			}
 		});
 	};
@@ -4419,7 +5587,8 @@ function ArtboardApp($$anchor, $$props) {
 		if ($.get(showDebug)) $$render(consequent_2);
 	});
 	$.reset(div_1);
-	AgentSettingsModal($.sibling(div_1, 2), {
+	var node_6 = $.sibling(div_1, 2);
+	AgentSettingsModal(node_6, {
 		get open() {
 			return $.get(agentModalOpen);
 		},
@@ -4429,11 +5598,36 @@ function ArtboardApp($$anchor, $$props) {
 		loadModels: (provider) => {
 			return api.getAgentModels(provider);
 		},
+		loadMcpServers: (provider) => {
+			return api.getAgentMcpServers(provider);
+		},
 		onupdate: handleUpdateAgentSettings,
 		onclose: () => {
 			$.set(agentModalOpen, false);
 		}
 	});
+	var node_7 = $.sibling(node_6, 2);
+	{
+		let $0 = $.derived(() => $.get(activeLog)?.runId ?? null);
+		let $1 = $.derived(() => $.get(activeLog)?.title);
+		AgentLogDrawer(node_7, {
+			get runId() {
+				return $.get($0);
+			},
+			get title() {
+				return $.get($1);
+			},
+			loadLog: (runId) => {
+				return api.getAgentLog(runId);
+			},
+			onclose: () => {
+				$.set(activeLog, null);
+			},
+			onopensettings: () => {
+				$.set(agentModalOpen, true);
+			}
+		});
+	}
 	$.reset(div);
 	$.template_effect(() => {
 		$.set_attribute(div, "data-studio-theme", $.get(resolvedStudioTheme));

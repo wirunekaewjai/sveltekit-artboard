@@ -14,6 +14,7 @@ import type {
   AgentSettingsPatch,
   AgentState,
   CommentRun,
+  McpServerOption,
   Provider,
 } from '#src/core/agent-state.ts';
 import type { Result } from '#src/core/result.ts';
@@ -30,6 +31,8 @@ import type { SettingsStore } from '#src/server/agent/settings.ts';
 import { AgentStateSchema, emptyAgentState, PROVIDERS } from '#src/core/agent-state.ts';
 import { writeFileAtomic } from '#src/core/atomic-write.ts';
 import { err, ok } from '#src/core/result.ts';
+import { COMMENT_ID_PATTERN } from '#src/core/schema.ts';
+import { discoverMcpServers } from '#src/server/agent/mcp.ts';
 import { createModelCatalog } from '#src/server/agent/models.ts';
 import { buildInvocation, parseLine, resolveCommand } from '#src/server/agent/providers.ts';
 
@@ -49,17 +52,21 @@ export type AgentRunnerOptions = {
   settings: SettingsStore;
   policy: AgentPolicy;
   onChange: () => void;
+  onLog?: (runId: string) => void;
   warn?: (message: string) => void;
   now?: () => string;
   invoke?: (context: InvokeContext) => Invocation;
   isAvailable?: (provider: Provider) => Promise<boolean>;
   models?: (provider: Provider) => Promise<ModelOption[] | null>;
+  mcpServers?: (provider: Provider) => Promise<McpServerOption[]>;
 };
 
 export type AgentRunner = {
   init: () => Promise<void>;
   info: () => Promise<AgentInfo>;
   models: (provider: Provider) => Promise<ModelOption[] | null>;
+  mcpServers: (provider: Provider) => Promise<McpServerOption[]>;
+  readLog: (runId: string) => Promise<{ raw: string; active: boolean } | null>;
   run: (ids: string[]) => Promise<Result<RunAccepted, RunFailure>>;
   cancel: () => Promise<void>;
   resume: () => Promise<Result<null, 'not_paused' | 'disabled'>>;
@@ -287,6 +294,7 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
       files,
       model: settings.model,
       effort: settings.effort,
+      allowedMcp: settings.allowedMcp,
       policy: options.policy,
     });
 
@@ -324,6 +332,7 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
     const outcome = await new Promise<RoundOutcome>((resolve) => {
       let lineBuf = '';
       let timer: ReturnType<typeof setTimeout> | undefined;
+      let logNotifyTimer: ReturnType<typeof setTimeout> | undefined;
       let rateLimited: { resetsAt: number | null; status: string } | null = null;
       let lastResult: Extract<ParsedEvent, { kind: 'result' }> | null = null;
       let stderrTail = '';
@@ -331,8 +340,22 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
       let spawnError: string | null = null;
       let exitCode: number | null = null;
 
+      const scheduleLogNotify = (): void => {
+        if (!options.onLog || logNotifyTimer) {
+          return;
+        }
+        logNotifyTimer = setTimeout(() => {
+          logNotifyTimer = undefined;
+          options.onLog?.(runId);
+        }, 250);
+      };
+
       const finish = (): void => {
         clearTimeout(timer);
+        if (logNotifyTimer) {
+          clearTimeout(logNotifyTimer);
+          logNotifyTimer = undefined;
+        }
         activeChild = null;
         resolve({ rateLimited, lastResult, stderrTail, timedOut, spawnError, exitCode });
       };
@@ -359,6 +382,7 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
         child.stdout.on('data', (chunk: Buffer) => {
           const text = chunk.toString('utf8');
           logStream.write(text);
+          scheduleLogNotify();
           lineBuf += text;
           const lines = lineBuf.split(/\r?\n/);
           lineBuf = lines.pop() ?? '';
@@ -378,6 +402,7 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
         child.stderr.on('data', (chunk: Buffer) => {
           const text = chunk.toString('utf8');
           logStream.write(text);
+          scheduleLogNotify();
           stderrTail = (stderrTail + text).slice(-2000);
         });
 
@@ -404,7 +429,12 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
 
     const { rateLimited, lastResult, stderrTail, timedOut, spawnError, exitCode } = outcome;
 
-    logStream.end();
+    await new Promise<void>((resolve) => {
+      logStream.end(() => {
+        resolve();
+      });
+    });
+    options.onLog?.(runId);
     await pruneLogs();
     await options.store.repairAll();
 
@@ -535,6 +565,26 @@ export const createAgentRunner = (options: AgentRunnerOptions): AgentRunner => {
     },
     models: async (provider: Provider): Promise<ModelOption[] | null> => {
       return catalog(provider);
+    },
+    mcpServers: async (provider: Provider): Promise<McpServerOption[]> => {
+      if (options.mcpServers) {
+        return options.mcpServers(provider);
+      }
+      return discoverMcpServers(provider, options.root);
+    },
+    readLog: async (runId: string): Promise<{ raw: string; active: boolean } | null> => {
+      if (!COMMENT_ID_PATTERN.test(runId)) {
+        return null;
+      }
+      try {
+        const raw = await fs.readFile(path.join(logsDir, `${runId}.log`), 'utf8');
+        return { raw, active: state.activeRunId === runId };
+      } catch {
+        if (state.activeRunId === runId) {
+          return { raw: '', active: true };
+        }
+        return null;
+      }
     },
     run: async (ids: string[]): Promise<Result<RunAccepted, RunFailure>> => {
       const settings = await options.settings.read();

@@ -15,11 +15,14 @@ export const hasEffortSuffix = (model: string | null | undefined): boolean => {
   });
 };
 
+const McpRuleSchema = v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(200));
+
 export const AgentSettingsSchema = v.object({
   enabled: v.boolean(),
   provider: v.picklist(PROVIDERS),
   model: v.nullable(v.pipe(v.string(), v.maxLength(200))),
   effort: v.nullable(v.picklist(EFFORT_LEVELS)),
+  allowedMcp: v.optional(v.array(McpRuleSchema), []),
 });
 
 export const AgentSettingsPatchSchema = v.strictObject({
@@ -27,16 +30,23 @@ export const AgentSettingsPatchSchema = v.strictObject({
   provider: v.optional(v.picklist(PROVIDERS)),
   model: v.optional(v.nullable(v.pipe(v.string(), v.maxLength(200)))),
   effort: v.optional(v.nullable(v.picklist(EFFORT_LEVELS))),
+  allowedMcp: v.optional(v.array(McpRuleSchema)),
 });
 
 export type AgentSettings = v.InferOutput<typeof AgentSettingsSchema>;
 export type AgentSettingsPatch = v.InferOutput<typeof AgentSettingsPatchSchema>;
+
+export type McpServerOption = {
+  name: string;
+  source: string;
+};
 
 export const DEFAULT_AGENT_SETTINGS: AgentSettings = {
   enabled: false,
   provider: 'claude',
   model: null,
   effort: null,
+  allowedMcp: [],
 };
 
 export const COMMENT_RUN_STATUSES = [

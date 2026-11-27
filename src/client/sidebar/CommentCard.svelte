@@ -6,6 +6,7 @@
     Clock,
     Loader2,
     RotateCcw,
+    Terminal,
     Trash2,
     XCircle,
   } from '@lucide/svelte';
@@ -28,6 +29,7 @@
     onrequestdelete: () => void;
     onconfirmdelete: () => void;
     oncanceldelete: () => void;
+    onopenlog: (runId: string) => void;
   };
 
   let {
@@ -42,10 +44,12 @@
     onrequestdelete,
     onconfirmdelete,
     oncanceldelete,
+    onopenlog,
   }: Props = $props();
 
   const running = $derived(run?.status === 'running');
   const sourceBadge = $derived(formatSourceBadge(item.target.source));
+  const runNote = $derived(run?.error ?? (run?.status !== 'done' ? run?.summary : null) ?? null);
 </script>
 
 <div class="ab-cp-card">
@@ -139,7 +143,27 @@
           ⚠ protected
         </span>
       {/if}
+
+      {#if run.status !== 'queued'}
+        <button
+          type="button"
+          class="ab-cp-log-btn"
+          title="View agent log"
+          onclick={() => {
+            onopenlog(run.runId);
+          }}
+        >
+          <Terminal size={10} />
+          Log
+        </button>
+      {/if}
     </div>
+
+    {#if runNote}
+      <p class="ab-cp-run-note" class:ab-cp-run-note-err={run.status === 'failed'}>
+        {runNote}
+      </p>
+    {/if}
   {/if}
 </div>
 
@@ -263,9 +287,45 @@
   }
 
   .ab-cp-protected-warn {
-    margin-left: auto;
     color: #f59e0b;
     font-weight: 600;
+  }
+
+  .ab-cp-log-btn {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    border: 1px solid var(--ab-border);
+    border-radius: 4px;
+    background: transparent;
+    padding: 1px 5px;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--ab-text-muted);
+    cursor: pointer;
+  }
+
+  .ab-cp-log-btn:hover {
+    background: var(--ab-hover);
+    color: var(--ab-text);
+  }
+
+  .ab-cp-run-note {
+    margin: 4px 0 0;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #f59e0b;
+    word-break: break-word;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ab-cp-run-note-err {
+    color: #f43f5e;
   }
 
   .ab-spin {

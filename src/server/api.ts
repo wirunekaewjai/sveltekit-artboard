@@ -162,6 +162,27 @@ export const createApiApp = (store: CommentStore, options: ApiHandlerOptions): H
     return c.json({ models });
   });
 
+  app.get('/agent/mcp-servers', async (c) => {
+    const parsed = v.safeParse(ProviderQuerySchema, c.req.query('provider'));
+    if (!parsed.success) {
+      return c.json({ error: 'invalid_provider' }, 400);
+    }
+    const servers = await options.agent.mcpServers(parsed.output);
+    return c.json({ servers });
+  });
+
+  app.get('/agent/logs/:runId', async (c) => {
+    const runId = c.req.param('runId');
+    if (!COMMENT_ID_PATTERN.test(runId)) {
+      return c.json({ error: 'invalid_run_id' }, 400);
+    }
+    const log = await options.agent.readLog(runId);
+    if (!log) {
+      return c.json({ error: 'not_found' }, 404);
+    }
+    return c.json({ runId, raw: log.raw, active: log.active });
+  });
+
   app.put('/agent/settings', async (c) => {
     const parsed = await parseJsonBody(c, AgentSettingsPatchSchema);
     if (!parsed.ok) {

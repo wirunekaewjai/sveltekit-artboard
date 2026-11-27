@@ -6,6 +6,7 @@ import { v7 } from "uuid";
 import * as v from "valibot";
 import { createHash, randomBytes } from "node:crypto";
 import { spawn } from "node:child_process";
+import os from "node:os";
 import { getRequestListener } from "@hono/node-server";
 import { Hono } from "hono";
 import { bodyLimit } from "hono/body-limit";
@@ -389,23 +390,27 @@ const hasEffortSuffix = (model) => {
 		return model.endsWith(`-${level}`);
 	});
 };
+const McpRuleSchema = v.pipe(v.string(), v.trim(), v.minLength(1), v.maxLength(200));
 const AgentSettingsSchema = v.object({
 	enabled: v.boolean(),
 	provider: v.picklist(PROVIDERS),
 	model: v.nullable(v.pipe(v.string(), v.maxLength(200))),
-	effort: v.nullable(v.picklist(EFFORT_LEVELS))
+	effort: v.nullable(v.picklist(EFFORT_LEVELS)),
+	allowedMcp: v.optional(v.array(McpRuleSchema), [])
 });
 const AgentSettingsPatchSchema = v.strictObject({
 	enabled: v.optional(v.boolean()),
 	provider: v.optional(v.picklist(PROVIDERS)),
 	model: v.optional(v.nullable(v.pipe(v.string(), v.maxLength(200)))),
-	effort: v.optional(v.nullable(v.picklist(EFFORT_LEVELS)))
+	effort: v.optional(v.nullable(v.picklist(EFFORT_LEVELS))),
+	allowedMcp: v.optional(v.array(McpRuleSchema))
 });
 const DEFAULT_AGENT_SETTINGS = {
 	enabled: false,
 	provider: "claude",
 	model: null,
-	effort: null
+	effort: null,
+	allowedMcp: []
 };
 const CommentRunSchema = v.object({
 	commentId: v.string(),
@@ -507,6 +512,56 @@ const defaultCommand = (provider) => {
 const resolveCommand = (provider, policy) => {
 	return policy.commands[provider] ?? defaultCommand(provider);
 };
+const parseMcpRule = (rule) => {
+	const trimmed = rule.trim();
+	if (!trimmed) return null;
+	if (trimmed === "*") return {
+		wildcard: true,
+		server: "*",
+		tool: null
+	};
+	const sepIndex = trimmed.search(/[:/]/);
+	if (sepIndex === -1) return {
+		wildcard: false,
+		server: trimmed,
+		tool: null
+	};
+	const server = trimmed.slice(0, sepIndex).trim();
+	const tool = trimmed.slice(sepIndex + 1).trim();
+	if (!server) return null;
+	if (!tool || tool === "*") return {
+		wildcard: false,
+		server,
+		tool: null
+	};
+	return {
+		wildcard: false,
+		server,
+		tool
+	};
+};
+const claudeMcpRules = (allowedMcp = []) => {
+	const rules = [];
+	for (const raw of allowedMcp) {
+		const parsed = parseMcpRule(raw);
+		if (!parsed) continue;
+		if (parsed.wildcard) rules.push("mcp__*");
+		else if (parsed.tool) rules.push(`mcp__${parsed.server}__${parsed.tool}`);
+		else rules.push(`mcp__${parsed.server}__*`);
+	}
+	return [...new Set(rules)];
+};
+const antigravityMcpRules = (allowedMcp = []) => {
+	const rules = [];
+	for (const raw of allowedMcp) {
+		const parsed = parseMcpRule(raw);
+		if (!parsed) continue;
+		if (parsed.wildcard) rules.push("mcp(*)");
+		else if (parsed.tool) rules.push(`mcp(${parsed.server}/${parsed.tool})`);
+		else rules.push(`mcp(${parsed.server})`, `mcp(${parsed.server}/*)`);
+	}
+	return [...new Set(rules)];
+};
 const claudeArgs = (context) => {
 	const { policy } = context;
 	const args = [
@@ -526,21 +581,21 @@ const claudeArgs = (context) => {
 	});
 	args.push("--allowedTools", "Read", "Edit", "Write", "Grep", "Glob", ...policy.allowedCommands.map((cmd) => {
 		return `Bash(${cmd})`;
-	}), "--disallowedTools", ...denied);
+	}), ...claudeMcpRules(context.allowedMcp), "--disallowedTools", ...denied);
 	return args;
 };
 const withCmdExtension = (command) => {
 	return command.replace(/^(\S+)/, "$1.cmd");
 };
-const antigravityAllowRules = (commands) => {
-	return commands.flatMap((command) => {
+const antigravityAllowRules = (commands, allowedMcp = []) => {
+	return [...commands.flatMap((command) => {
 		return process.platform === "win32" ? [command, withCmdExtension(command)] : [command];
 	}).map((command) => {
 		return `command(${command})`;
-	});
+	}), ...antigravityMcpRules(allowedMcp)];
 };
 const antigravityArgs = (context) => {
-	const settings = JSON.stringify({ permissions: { allow: antigravityAllowRules(context.policy.allowedCommands) } });
+	const settings = JSON.stringify({ permissions: { allow: antigravityAllowRules(context.policy.allowedCommands, context.allowedMcp) } });
 	const args = [
 		"-p",
 		context.prompt,
@@ -568,7 +623,7 @@ const buildInvocation = (context) => {
 		stdin: null
 	};
 };
-const asRecord = (value) => {
+const asRecord$1 = (value) => {
 	return value && typeof value === "object" && !Array.isArray(value) ? value : null;
 };
 const asString = (value) => {
@@ -578,9 +633,9 @@ const asNumber = (value) => {
 	return typeof value === "number" && Number.isFinite(value) ? value : null;
 };
 const describeDenial = (denial) => {
-	const record = asRecord(denial);
+	const record = asRecord$1(denial);
 	const name = asString(record?.tool_name) ?? "tool";
-	const input = asRecord(record?.tool_input);
+	const input = asRecord$1(record?.tool_input);
 	const target = asString(input?.file_path) ?? asString(input?.command);
 	return target ? `${name}: ${target}` : name;
 };
@@ -589,15 +644,15 @@ const parseLine = (line) => {
 	if (!trimmed.startsWith("{")) return null;
 	let parsed;
 	try {
-		parsed = asRecord(JSON.parse(trimmed));
+		parsed = asRecord$1(JSON.parse(trimmed));
 	} catch {
 		return null;
 	}
 	if (!parsed) return null;
 	if (parsed.type === "rate_limit_event") {
-		const info = asRecord(parsed.rate_limit_info);
-		const windows = asRecord(info?.unifiedWindows);
-		const fiveHour = asRecord(windows?.five_hour);
+		const info = asRecord$1(parsed.rate_limit_info);
+		const windows = asRecord$1(info?.unifiedWindows);
+		const fiveHour = asRecord$1(windows?.five_hour);
 		return {
 			kind: "rate_limit",
 			status: asString(info?.status) ?? "unknown",
@@ -615,14 +670,14 @@ const parseLine = (line) => {
 		};
 	}
 	if (parsed.event === "result") {
-		const result = asRecord(parsed.result);
+		const result = asRecord$1(parsed.result);
 		const denied = Array.isArray(result?.denied_actions) ? result.denied_actions : [];
 		return {
 			kind: "result",
 			ok: result?.status === "SUCCESS",
 			text: asString(result?.response) ?? "",
 			denied: denied.map((action) => {
-				const record = asRecord(action);
+				const record = asRecord$1(action);
 				return asString(record?.display_name) ?? asString(record?.action) ?? "action";
 			})
 		};
@@ -641,6 +696,87 @@ const err = (error) => {
 		ok: false,
 		error
 	};
+};
+// src/server/agent/mcp.ts
+const asRecord = (value) => {
+	return value && typeof value === "object" && !Array.isArray(value) ? value : null;
+};
+const readJsonFile = async (filePath) => {
+	try {
+		const raw = await promises.readFile(filePath, "utf8");
+		return asRecord(JSON.parse(raw));
+	} catch {
+		return null;
+	}
+};
+const collectServerKeys = (record, source, target) => {
+	const servers = asRecord(record?.mcpServers);
+	if (!servers) return;
+	for (const name of Object.keys(servers)) {
+		const trimmed = name.trim();
+		if (trimmed && !target.has(trimmed)) target.set(trimmed, {
+			name: trimmed,
+			source
+		});
+	}
+};
+const collectDirNames = async (dirPath, source, target) => {
+	try {
+		const entries = await promises.readdir(dirPath, { withFileTypes: true });
+		for (const entry of entries) if (entry.isDirectory() && entry.name.trim() && !target.has(entry.name)) target.set(entry.name, {
+			name: entry.name,
+			source
+		});
+	} catch {}
+};
+const normalizeFsPath = (value) => {
+	const resolved = path.resolve(value).replaceAll("\\", "/");
+	return process.platform === "win32" ? resolved.toLowerCase() : resolved;
+};
+const discoverMcpServers = async (provider, root) => {
+	const home = os.homedir();
+	const found = /* @__PURE__ */ new Map();
+	if (provider === "antigravity") {
+		const configCandidates = [
+			{
+				file: path.join(root, ".agents", "mcp_config.json"),
+				source: "project"
+			},
+			{
+				file: path.join(home, ".gemini", "antigravity-cli", "mcp_config.json"),
+				source: "cli"
+			},
+			{
+				file: path.join(home, ".gemini", "antigravity", "mcp_config.json"),
+				source: "global"
+			},
+			{
+				file: path.join(home, ".gemini", "config", "mcp_config.json"),
+				source: "global"
+			}
+		];
+		for (const candidate of configCandidates) {
+			const json = await readJsonFile(candidate.file);
+			collectServerKeys(json, candidate.source, found);
+		}
+		await collectDirNames(path.join(home, ".gemini", "antigravity-cli", "mcp"), "cli", found);
+		await collectDirNames(path.join(home, ".gemini", "antigravity", "mcp"), "global", found);
+	} else {
+		const projectMcp = await readJsonFile(path.join(root, ".mcp.json"));
+		collectServerKeys(projectMcp, "project", found);
+		const claudeJson = await readJsonFile(path.join(home, ".claude.json"));
+		const projects = asRecord(claudeJson?.projects);
+		if (projects) {
+			const normalizedRoot = normalizeFsPath(root);
+			for (const [projPath, projConfig] of Object.entries(projects)) if (normalizeFsPath(projPath) === normalizedRoot) collectServerKeys(asRecord(projConfig), "project", found);
+		}
+		collectServerKeys(claudeJson, "global", found);
+		const claudeSettings = await readJsonFile(path.join(home, ".claude", "settings.json"));
+		collectServerKeys(claudeSettings, "global", found);
+	}
+	return [...found.values()].sort((a, b) => {
+		return a.name.localeCompare(b.name);
+	});
 };
 // src/server/agent/models.ts
 const CLAUDE_MODELS = [
@@ -914,6 +1050,7 @@ const createAgentRunner = (options) => {
 			files,
 			model: settings.model,
 			effort: settings.effort,
+			allowedMcp: settings.allowedMcp,
 			policy: options.policy
 		});
 		state.activeRunId = runId;
@@ -936,14 +1073,26 @@ const createAgentRunner = (options) => {
 		const { rateLimited, lastResult, stderrTail, timedOut, spawnError, exitCode } = await new Promise((resolve) => {
 			let lineBuf = "";
 			let timer;
+			let logNotifyTimer;
 			let rateLimited = null;
 			let lastResult = null;
 			let stderrTail = "";
 			let timedOut = false;
 			let spawnError = null;
 			let exitCode = null;
+			const scheduleLogNotify = () => {
+				if (!options.onLog || logNotifyTimer) return;
+				logNotifyTimer = setTimeout(() => {
+					logNotifyTimer = void 0;
+					options.onLog?.(runId);
+				}, 250);
+			};
 			const finish = () => {
 				clearTimeout(timer);
+				if (logNotifyTimer) {
+					clearTimeout(logNotifyTimer);
+					logNotifyTimer = void 0;
+				}
 				activeChild = null;
 				resolve({
 					rateLimited,
@@ -971,6 +1120,7 @@ const createAgentRunner = (options) => {
 				child.stdout.on("data", (chunk) => {
 					const text = chunk.toString("utf8");
 					logStream.write(text);
+					scheduleLogNotify();
 					lineBuf += text;
 					const lines = lineBuf.split(/\r?\n/);
 					lineBuf = lines.pop() ?? "";
@@ -987,6 +1137,7 @@ const createAgentRunner = (options) => {
 				child.stderr.on("data", (chunk) => {
 					const text = chunk.toString("utf8");
 					logStream.write(text);
+					scheduleLogNotify();
 					stderrTail = (stderrTail + text).slice(-2e3);
 				});
 				child.on("error", (error) => {
@@ -1006,7 +1157,12 @@ const createAgentRunner = (options) => {
 				finish();
 			}
 		});
-		logStream.end();
+		await new Promise((resolve) => {
+			logStream.end(() => {
+				resolve();
+			});
+		});
+		options.onLog?.(runId);
 		await pruneLogs();
 		await options.store.repairAll();
 		const protectedAfter = await snapshotProtected(options.root, options.policy.protectedFiles);
@@ -1104,6 +1260,25 @@ const createAgentRunner = (options) => {
 		},
 		models: async (provider) => {
 			return catalog(provider);
+		},
+		mcpServers: async (provider) => {
+			if (options.mcpServers) return options.mcpServers(provider);
+			return discoverMcpServers(provider, options.root);
+		},
+		readLog: async (runId) => {
+			if (!COMMENT_ID_PATTERN.test(runId)) return null;
+			try {
+				return {
+					raw: await promises.readFile(path.join(logsDir, `${runId}.log`), "utf8"),
+					active: state.activeRunId === runId
+				};
+			} catch {
+				if (state.activeRunId === runId) return {
+					raw: "",
+					active: true
+				};
+				return null;
+			}
 		},
 		run: async (ids) => {
 			const settings = await options.settings.read();
@@ -1273,11 +1448,17 @@ const createSettingsStore = (dir) => {
 		let nextModel = current.model;
 		if (providerChanged) nextModel = null;
 		else if (patch.model !== void 0) nextModel = patch.model;
+		const nextAllowedMcp = patch.allowedMcp !== void 0 ? [...new Set(patch.allowedMcp.map((rule) => {
+			return rule.trim();
+		}).filter((rule) => {
+			return rule.length > 0;
+		}))] : current.allowedMcp;
 		const next = {
 			enabled: patch.enabled ?? current.enabled,
 			provider: patch.provider ?? current.provider,
 			model: nextModel,
-			effort: patch.effort !== void 0 ? patch.effort : current.effort
+			effort: patch.effort !== void 0 ? patch.effort : current.effort,
+			allowedMcp: nextAllowedMcp
 		};
 		await writeFileAtomic(filePath, `${JSON.stringify(next, null, 2)}\n`);
 		return next;
@@ -1428,6 +1609,23 @@ const createApiApp = (store, options) => {
 		const models = await options.agent.models(parsed.output);
 		return c.json({ models });
 	});
+	app.get("/agent/mcp-servers", async (c) => {
+		const parsed = v.safeParse(ProviderQuerySchema, c.req.query("provider"));
+		if (!parsed.success) return c.json({ error: "invalid_provider" }, 400);
+		const servers = await options.agent.mcpServers(parsed.output);
+		return c.json({ servers });
+	});
+	app.get("/agent/logs/:runId", async (c) => {
+		const runId = c.req.param("runId");
+		if (!COMMENT_ID_PATTERN.test(runId)) return c.json({ error: "invalid_run_id" }, 400);
+		const log = await options.agent.readLog(runId);
+		if (!log) return c.json({ error: "not_found" }, 404);
+		return c.json({
+			runId,
+			raw: log.raw,
+			active: log.active
+		});
+	});
 	app.put("/agent/settings", async (c) => {
 		const parsed = await parseJsonBody(c, AgentSettingsPatchSchema);
 		if (!parsed.ok) return parsed.response;
@@ -1462,6 +1660,7 @@ const createApiHandler = (store, options) => {
 // src/plugin.ts
 const COMMENTS_CHANGED_EVENT = "artboard:comments-changed";
 const AGENT_CHANGED_EVENT = "artboard:agent-changed";
+const AGENT_LOG_EVENT = "artboard:agent-log";
 const VIRTUAL_ENTRY_ID = "virtual:sveltekit-artboard-entry";
 const RESOLVED_VIRTUAL_ENTRY_ID = `\0${VIRTUAL_ENTRY_ID}`;
 const STUDIO_ENTRY = fileURLToPath(new URL(import.meta.url.endsWith(".ts") ? "./client/studio.ts" : "./studio.js", import.meta.url)).replaceAll("\\", "/");
@@ -1537,6 +1736,9 @@ if (import.meta.hot) {
   import.meta.hot.on(${JSON.stringify(AGENT_CHANGED_EVENT)}, () => {
     window.dispatchEvent(new CustomEvent(${JSON.stringify(AGENT_CHANGED_EVENT)}));
   });
+  import.meta.hot.on(${JSON.stringify(AGENT_LOG_EVENT)}, (data) => {
+    window.dispatchEvent(new CustomEvent(${JSON.stringify(AGENT_LOG_EVENT)}, { detail: data }));
+  });
 }
 
 const target = document.getElementById('artboard-root');
@@ -1569,6 +1771,13 @@ if (target) {
 						type: "custom",
 						event: AGENT_CHANGED_EVENT,
 						data: {}
+					});
+				},
+				onLog: (runId) => {
+					server.ws.send({
+						type: "custom",
+						event: AGENT_LOG_EVENT,
+						data: { runId }
 					});
 				}
 			});

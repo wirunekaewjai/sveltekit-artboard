@@ -38,11 +38,27 @@ export const createSettingsStore = (dir: string): SettingsStore => {
       nextModel = patch.model;
     }
 
+    const nextAllowedMcp =
+      patch.allowedMcp !== undefined
+        ? [
+            ...new Set(
+              patch.allowedMcp
+                .map((rule) => {
+                  return rule.trim();
+                })
+                .filter((rule) => {
+                  return rule.length > 0;
+                }),
+            ),
+          ]
+        : current.allowedMcp;
+
     const next: AgentSettings = {
       enabled: patch.enabled ?? current.enabled,
       provider: patch.provider ?? current.provider,
       model: nextModel,
       effort: patch.effort !== undefined ? patch.effort : current.effort,
+      allowedMcp: nextAllowedMcp,
     };
 
     await writeFileAtomic(filePath, `${JSON.stringify(next, null, 2)}\n`);

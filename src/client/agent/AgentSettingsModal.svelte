@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Bot, Loader2, X } from '@lucide/svelte';
+  import { Bot, Loader2, Plus, X } from '@lucide/svelte';
 
   import type { ModelOption } from '#src/client/api-client.ts';
   import type { DropdownOption } from '#src/client/ui/SelectDropdown.svelte';
@@ -7,6 +7,7 @@
     AgentInfo,
     AgentSettingsPatch,
     EffortLevel,
+    McpServerOption,
     Provider,
   } from '#src/core/agent-state.ts';
 
@@ -17,14 +18,18 @@
     open: boolean;
     agentInfo: AgentInfo | null;
     loadModels: (provider: Provider) => Promise<ModelOption[] | null>;
+    loadMcpServers: (provider: Provider) => Promise<McpServerOption[]>;
     onupdate: (patch: AgentSettingsPatch) => Promise<void>;
     onclose: () => void;
   };
 
-  let { open, agentInfo, loadModels, onupdate, onclose }: Props = $props();
+  let { open, agentInfo, loadModels, loadMcpServers, onupdate, onclose }: Props = $props();
 
   let models = $state<ModelOption[] | null>(null);
   let loadingModels = $state(false);
+  let mcpServers = $state<McpServerOption[]>([]);
+  let loadingMcp = $state(false);
+  let customMcpInput = $state('');
   let modelMenuOpen = $state(false);
   let effortMenuOpen = $state(false);
   let customModelMode = $state(false);
@@ -34,6 +39,15 @@
   const settings = $derived(agentInfo?.settings);
   const available = $derived(agentInfo?.available);
   const showEffort = $derived(!hasEffortSuffix(settings?.model));
+  const allowedMcp = $derived(settings?.allowedMcp ?? []);
+
+  const customMcpRules = $derived(
+    allowedMcp.filter((rule) => {
+      return !mcpServers.some((server) => {
+        return server.name === rule;
+      });
+    }),
+  );
 
   const selectedModelOption = $derived.by((): ModelOption | null => {
     const id = settings?.model;
@@ -78,6 +92,7 @@
     const provider = settings.provider;
     let active = true;
     loadingModels = true;
+    loadingMcp = true;
     modelMenuOpen = false;
     effortMenuOpen = false;
 
@@ -107,6 +122,23 @@
         }
       });
 
+    void loadMcpServers(provider)
+      .then((servers) => {
+        if (active) {
+          mcpServers = servers;
+        }
+      })
+      .catch(() => {
+        if (active) {
+          mcpServers = [];
+        }
+      })
+      .finally(() => {
+        if (active) {
+          loadingMcp = false;
+        }
+      });
+
     return () => {
       active = false;
     };
@@ -119,6 +151,27 @@
     } finally {
       saving = false;
     }
+  }
+
+  function handleToggleMcp(rule: string): void {
+    const next = allowedMcp.includes(rule)
+      ? allowedMcp.filter((item) => {
+          return item !== rule;
+        })
+      : [...allowedMcp, rule];
+    void applyPatch({ allowedMcp: next });
+  }
+
+  async function handleAddCustomMcp(): Promise<void> {
+    const trimmed = customMcpInput.trim();
+    if (!trimmed) {
+      return;
+    }
+    customMcpInput = '';
+    if (allowedMcp.includes(trimmed)) {
+      return;
+    }
+    await applyPatch({ allowedMcp: [...allowedMcp, trimmed] });
   }
 
   function handleSelectModel(val: string | null): void {
@@ -316,6 +369,90 @@
             </div>
           {/if}
         {/if}
+
+        <div class="ab-field ab-mcp-section">
+          <div>
+            <span class="ab-field-label">MCP Permissions</span>
+            <p class="ab-field-hint">
+              Allow headless agent runs to call selected MCP servers or tools.
+            </p>
+          </div>
+
+          {#if loadingMcp}
+            <div class="ab-mcp-loading">
+              <span class="ab-spin"><Loader2 size={13} color="#818cf8" /></span>
+              <span>Scanning MCP servers…</span>
+            </div>
+          {:else if mcpServers.length > 0}
+            <div class="ab-mcp-list">
+              {#each mcpServers as server (server.name)}
+                <label class="ab-mcp-row">
+                  <input
+                    type="checkbox"
+                    checked={allowedMcp.includes(server.name)}
+                    disabled={saving}
+                    onchange={() => {
+                      handleToggleMcp(server.name);
+                    }}
+                    class="ab-modal-check"
+                  />
+                  <span class="ab-mcp-name">{server.name}</span>
+                  <span class="ab-mcp-source">{server.source}</span>
+                </label>
+              {/each}
+            </div>
+          {:else}
+            <p class="ab-mcp-empty">No MCP servers detected for this provider.</p>
+          {/if}
+
+          {#if customMcpRules.length > 0}
+            <div class="ab-mcp-chips">
+              {#each customMcpRules as rule (rule)}
+                <span class="ab-mcp-chip">
+                  <span>{rule}</span>
+                  <button
+                    type="button"
+                    aria-label="Remove {rule}"
+                    class="ab-mcp-chip-del"
+                    disabled={saving}
+                    onclick={() => {
+                      handleToggleMcp(rule);
+                    }}
+                  >
+                    <X size={11} />
+                  </button>
+                </span>
+              {/each}
+            </div>
+          {/if}
+
+          <div class="ab-custom-row">
+            <input
+              type="text"
+              aria-label="Add MCP rule"
+              bind:value={customMcpInput}
+              placeholder="server, server:tool, or *"
+              onkeydown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  void handleAddCustomMcp();
+                }
+              }}
+              class="ab-field-input"
+            />
+            <button
+              type="button"
+              class="ab-save-btn ab-add-mcp-btn"
+              disabled={saving || !customMcpInput.trim()}
+              onclick={() => {
+                void handleAddCustomMcp();
+              }}
+            >
+              <Plus size={13} />
+              Add
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -384,6 +521,8 @@
     display: flex;
     flex-direction: column;
     gap: 14px;
+    max-height: 75vh;
+    overflow-y: auto;
   }
 
   .ab-toggle-row {
@@ -520,6 +659,118 @@
   .ab-cancel-btn:hover {
     background: var(--ab-hover);
     color: var(--ab-text);
+  }
+
+  .ab-mcp-section {
+    border-top: 1px solid var(--ab-border-subtle);
+    padding-top: 12px;
+    gap: 8px;
+  }
+
+  .ab-mcp-loading {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--ab-text-muted);
+    padding: 4px 0;
+  }
+
+  .ab-mcp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 150px;
+    overflow-y: auto;
+  }
+
+  .ab-mcp-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid var(--ab-border-subtle);
+    border-radius: 7px;
+    background: var(--ab-input-bg);
+    padding: 6px 9px;
+    cursor: pointer;
+    font-size: 11.5px;
+  }
+
+  .ab-mcp-row:hover {
+    border-color: var(--ab-border);
+  }
+
+  .ab-mcp-name {
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11.5px;
+    color: var(--ab-text);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ab-mcp-source {
+    border-radius: 4px;
+    background: var(--ab-pill-bg);
+    padding: 1px 5px;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--ab-text-muted);
+    flex-shrink: 0;
+  }
+
+  .ab-mcp-empty {
+    margin: 0;
+    font-size: 11px;
+    color: var(--ab-text-subtle);
+  }
+
+  .ab-mcp-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  .ab-mcp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid rgba(99, 102, 241, 0.45);
+    border-radius: 6px;
+    background: rgba(99, 102, 241, 0.14);
+    padding: 2px 6px 2px 8px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 11px;
+    color: var(--ab-accent-text);
+  }
+
+  .ab-mcp-chip-del {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    padding: 1px;
+    color: inherit;
+    cursor: pointer;
+    opacity: 0.75;
+  }
+
+  .ab-mcp-chip-del:hover {
+    opacity: 1;
+  }
+
+  .ab-add-mcp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .ab-add-mcp-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 
   .ab-spin {

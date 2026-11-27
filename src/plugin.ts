@@ -76,6 +76,7 @@ export type ArtboardPluginOptions = {
 
 export const COMMENTS_CHANGED_EVENT = 'artboard:comments-changed';
 export const AGENT_CHANGED_EVENT = 'artboard:agent-changed';
+export const AGENT_LOG_EVENT = 'artboard:agent-log';
 
 const VIRTUAL_ENTRY_ID = 'virtual:sveltekit-artboard-entry';
 const RESOLVED_VIRTUAL_ENTRY_ID = `\0${VIRTUAL_ENTRY_ID}`;
@@ -174,6 +175,9 @@ if (import.meta.hot) {
   import.meta.hot.on(${JSON.stringify(AGENT_CHANGED_EVENT)}, () => {
     window.dispatchEvent(new CustomEvent(${JSON.stringify(AGENT_CHANGED_EVENT)}));
   });
+  import.meta.hot.on(${JSON.stringify(AGENT_LOG_EVENT)}, (data) => {
+    window.dispatchEvent(new CustomEvent(${JSON.stringify(AGENT_LOG_EVENT)}, { detail: data }));
+  });
 }
 
 const target = document.getElementById('artboard-root');
@@ -201,6 +205,9 @@ if (target) {
         warn,
         onChange: () => {
           server.ws.send({ type: 'custom', event: AGENT_CHANGED_EVENT, data: {} });
+        },
+        onLog: (runId) => {
+          server.ws.send({ type: 'custom', event: AGENT_LOG_EVENT, data: { runId } });
         },
       });
 
